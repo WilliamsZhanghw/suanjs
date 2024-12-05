@@ -1,0 +1,47 @@
+<!DOCTYPE HTML>
+<html lang="en-US">
+<head>
+	<title>Egret - HTML5 landing page</title>
+	<meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="css/bootstrap.css" />
+	<link rel="stylesheet" href="css/font-awesome.min.css" />
+	<link rel="stylesheet" href="css/linea-icon.css" />
+	<link rel="stylesheet" href="css/fancy-buttons.css" />
+	<link rel="stylesheet" href="css/style.css" />
+	<link rel="stylesheet" href="css/responsive.css" />
+	<link rel="stylesheet" id="scheme-source" href="css/schemes/gray.css" />
+</head>
+<body>
+	<div id="header" class="header-section">
+		<div id="section-home" class="home-section-wrap center">
+			<div class="section-overlay"></div>
+			<div class="container home">
+				<div class="row">
+					<h1 class="well-come">趋 吉 避 凶</h1>
+					<div class="col-md-8 col-md-offset-2">
+						<p class="intro-message">Ji Xiong is just there！</p>
+						<div class="home-buttons">
+							<input class="fancy-button button-line button-white vertical" name="suan1" type="submit" id="suan1" value="一日一卦" onclick="calculateJiXiong('single');" />
+							<input class="fancy-button button-line button-white vertical" name="suan2" type="submit" id="suan2" value="一日多占" onclick="calculateJiXiong('multiple');" />
+						</div>
+					</div>
+				</div>
+				<div id="resultSingle" style="display: none;">
+					<h2>一日一卦结果：</h2>
+					<p id="resultTextSingle"></p>
+				</div>
+				<div id="resultMultiple" style="display: none;">
+					<h2>一日多占结果：</h2>
+					<p id="resultTextMultiple"></p>
+				</div>
+			</div>
+		</div>
+	</div>
+
+	<script type="text/javascript" src="js/qigua.js"></script>
+	<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
+	<script type="text/javascript" src="js/bootstrap.min.js"></script>
+	<script type="text/javascript" src="js/custom.js"></script>
+</body>
+</html>
