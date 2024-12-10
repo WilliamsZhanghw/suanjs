@@ -4,9 +4,10 @@
 import wixData from 'wix-data';
 import wixUsers from 'wix-users';
 
-
+console.log("Debug message:");
 let user = wixUsers.currentUser;
 console.log("Debug message:", user.FullData.firstName);
+
 
 function calculateJiXiong(mode) {
     var result;
