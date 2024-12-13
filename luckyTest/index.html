@@ -42,6 +42,7 @@
         // 确保 DOM 加载完成后运行代码
         document.addEventListener("DOMContentLoaded", function() {
             // 找到按钮并添加点击事件监听器
+	    console.error("进入dom监控：");
             const button = document.getElementById("resultSingle");
             if (button) {
                 button.addEventListener("click", function() {
