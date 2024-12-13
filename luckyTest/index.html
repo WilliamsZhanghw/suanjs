@@ -38,7 +38,22 @@
 			</div>
 		</div>
 	</div>
-
+	<script>
+        // 确保 DOM 加载完成后运行代码
+        document.addEventListener("DOMContentLoaded", function() {
+            // 找到按钮并添加点击事件监听器
+            const button = document.getElementById("resultSingle");
+            if (button) {
+                button.addEventListener("click", function() {
+                    // 发送消息到父窗口
+                    window.parent.postMessage({ event: "buttonClick", data: "按钮已被点击" }, "*");
+                });
+            } else {
+                console.error("按钮未找到，请检查 ID 是否正确");
+            }
+        });
+    </script>
+	
 	<script type="text/javascript" src="js/qigua.js"></script>
 	<script type="text/javascript" src="js/jquery-1.11.1.min.js"></script>
 	<script type="text/javascript" src="js/bootstrap.min.js"></script>
