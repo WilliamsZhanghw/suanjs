@@ -27,9 +27,10 @@
 						</div>
 					</div>
 				</div>
-				<button id="resultSingle" style="display: none;">
-    					一日一卦结果
-				</button>
+				<div id="resultSingle" style="display: none;">
+					<h2>一日一占结果：</h2>
+					<p id="resultTextMultiple"></p>
+				</div>
 
 				<div id="resultMultiple" style="display: none;">
 					<h2>一日多占结果：</h2>
@@ -43,7 +44,7 @@
         document.addEventListener("DOMContentLoaded", function() {
             // 找到按钮并添加点击事件监听器
 	    console.log("进入dom监控：");
-            const button = document.getElementById("resultSingle");
+            const button = document.getElementById("suan1");
 		
             if (button) {
 		console.log("找到了button：",button);  
