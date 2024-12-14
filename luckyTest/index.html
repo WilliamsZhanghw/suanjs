@@ -53,7 +53,7 @@
                 button.addEventListener("click", function() {
                     // 发送消息到父窗口
 		    debugger
-                    window.parent.postMessage({ event: "buttonClick", data: "按钮已被点击" }, "https://havenzhw.wixstudio.com/suan/");
+                    window.parent.postMessage({ event: "buttonClick", data: "buttonClick" }, "https://havenzhw.wixstudio.com/suan/");
 		    console.log("发送了消息："); 
                 });
 		}catch(e){
