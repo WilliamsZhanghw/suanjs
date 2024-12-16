@@ -22,7 +22,7 @@
 					<div class="col-md-8 col-md-offset-2">
 						<p class="intro-message">Ji Xiong is just there！</p>
 						<div class="home-buttons">
-							<input class="fancy-button button-line button-white vertical" name="suan1" type="submit" id="suan1" value="一日一卦" onclick="calculateJiXiong('single');" />
+							<input class="fancy-button button-line button-white vertical" name="suan1" type="submit" id="suan1" value="一日一卦"  />
 							<input class="fancy-button button-line button-white vertical" name="suan2" type="submit" id="suan2" value="一日多占" onclick="calculateJiXiong('multiple');" />
 						</div>
 					</div>
@@ -67,6 +67,7 @@
 	window.addEventListener("message",function(event){
 		if(event.data.event === "execFuntion"){
 			alert(" exec ok!");
+			calculateJiXiong('single');
 			console.log("message from main page is ok");
 		}
 	});
