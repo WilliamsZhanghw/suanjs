@@ -12,7 +12,7 @@
             <h1>Domain Fortune Score</h1>
             <p>Enter your domain name below to discover its score: </p>
             <input type="text" id="domainInput" placeholder="Enter your domain name and press Enter to get result, e.g.: www.google.com">
-            <button onclick="calculateFortune()">Get Fortune Score</button>
+            <button onclick="calculateFortune()">Get Fortune Score (1 Point)</button>
         </div>
         <div class="output-area">
             <div id="result" class="result-container"></div>
@@ -27,10 +27,19 @@
             </p>
             <h2>How It Works</h2>
             <p>
-                Simply enter your desired domain name in the input field above and click on "Get Fortune Score". The tool will calculate and give out a message based on the the domain name and provide a fortune rating. Try it NOW!!
+                Simply enter your desired domain name in the input field above and click on "Get Fortune Score". The tool will calculate and give out a message based on the domain name and provide a fortune rating. Please note that each attempt to calculate a fortune score will deduct <strong>1 point</strong> from your account. Make sure you have enough points to continue!
+            </p>
+        </div>
+
+        <!-- Disclaimer -->
+        <div class="disclaimer">
+            <h2>Disclaimer</h2>
+            <p>
+                The Domain Fortune Score is for entertainment purposes only. The score provided is based on a simplified numerology system and should not be used as a serious indicator for business or personal decisions. The creators of this tool are not responsible for any actions taken based on the results.
             </p>
         </div>
     </div>
+
     <script src="script.js"></script>
 </body>
 </html>
