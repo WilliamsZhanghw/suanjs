@@ -62,13 +62,24 @@
 
             // 监听来自父页面的消息
             window.addEventListener("message", function (event) {
-                console.log("Iframe received event:", event.data.event);
-                if (event.data.event === "execFunction") {
-                    const resultType = event.data.data === "single" ? "Single" : "Multiple";
-                    alert(`Received execFunction message for ${resultType} divination`);
-                    calculateJiXiong(resultType);
-                }
-            });
+    console.log("Iframe received event:", event.data);
+
+    if (event.data.event === "execFunction") {
+        const resultType = event.data.data;
+
+        // 调用相应的函数
+        if (resultType === "single") {
+            calculateJiXiong("single");
+        } else if (resultType === "multiple") {
+            calculateJiXiong("multiple");
+        } else {
+            console.log("Unknown result type:", resultType);
+        }
+    } else {
+        console.log("Unknown event received:", event.data);
+    }
+});
+
         });
     </script>
     <script type="text/javascript" src="js/qigua.js"></script>
