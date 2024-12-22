@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html lang="en-US">
 <head>
-    <title>Egret - HTML5 landing page</title>
+    <title>Luck Divination - Discover Your Fortune</title>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <link rel="stylesheet" href="css/bootstrap.css" />
@@ -18,72 +18,99 @@
             <div class="section-overlay"></div>
             <div class="container home">
                 <div class="row">
-                    <h1 class="well-come">趋 吉 避 凶</h1>
+                    <h1 class="well-come">Luck Divination</h1>
                     <div class="col-md-8 col-md-offset-2">
-                        <p class="intro-message">Ji Xiong is just there!</p>
+                        <p class="intro-message">Unveil the mysteries of your luck today!</p>
+                        
+                        <!-- User Points Display -->
+                        <div class="points-display">
+                            <p>Your Points: <span id="userPoints">Loading...</span></p>
+                        </div>
+
+                        <!-- Buttons -->
                         <div class="home-buttons">
-                            <input class="fancy-button button-line button-white vertical" name="suan1" type="submit" id="suan1" value="一日一卦" />
-                            <input class="fancy-button button-line button-white vertical" name="suan2" type="submit" id="suan2" value="一日多占" />
+                            <input class="fancy-button button-line button-white vertical" 
+                                   name="singleDivination" 
+                                   type="submit" 
+                                   id="singleDivination" 
+                                   value="Daily Luck Reading (1 Point)" />
+                            <input class="fancy-button button-line button-white vertical" 
+                                   name="multipleDivination" 
+                                   type="submit" 
+                                   id="multipleDivination" 
+                                   value="Multiple Luck Insights (1 Point)" 
+                                   onclick="calculateJiXiong('multiple');" />
                         </div>
                     </div>
                 </div>
+
+                <!-- Feature description section -->
+                <div class="feature-description">
+                    <h3>About Luck Divination</h3>
+                    <p>
+                        Luck Divination is your personal guide to understanding how celestial movements influence your daily fortune. 
+                        By analyzing cosmic patterns, this tool provides insights into your luck for the day.
+                    </p>
+                    <p>
+                        <strong>How It Works:</strong> The five major planets—Mercury, Venus, Mars, Jupiter, and Saturn—exert dynamic gravitational 
+                        and energetic effects on Earth. These shifts impact human activities, decisions, and outcomes. With this tool, you can 
+                        interpret these influences and harness them to maximize your luck.
+                    </p>
+                    <p>
+                        Each divination deducts <strong>1 point</strong> from your balance. Ensure you have enough points to proceed. 
+                        Earn more points through activities or top-ups!
+                    </p>
+                </div>
+
+                <!-- Result display sections -->
                 <div id="resultSingle" style="display: none;">
-                    <h2>一日一占结果：</h2>
+                    <h2>Your Luck Reading:</h2>
                     <p id="resultTextSingle"></p>
                 </div>
+
                 <div id="resultMultiple" style="display: none;">
-                    <h2>一日多占结果：</h2>
+                    <h2>Your Multiple Luck Insights:</h2>
                     <p id="resultTextMultiple"></p>
                 </div>
             </div>
         </div>
     </div>
+
     <script>
-        document.addEventListener("DOMContentLoaded", function () {
-            console.log("Iframe DOM is ready");
+        document.addEventListener("DOMContentLoaded", function() {
+            const button = document.getElementById("singleDivination");
 
-            // 单次占卜按钮
-            const singleButton = document.getElementById("suan1");
-            if (singleButton) {
-                singleButton.addEventListener("click", function () {
-                    console.log("Single divination button clicked");
-                    window.parent.postMessage({ event: "buttonClick", data: "single" }, "*");
+            if (button) {
+                button.addEventListener("click", function() {
+                    // Inform parent window about the button click
+                    window.parent.postMessage({ event: "buttonClick", data: "buttonClick" }, "*");
                 });
+            } else {
+                console.log("Button not found. Check ID.");
             }
 
-            // 多次占卜按钮
-            const multipleButton = document.getElementById("suan2");
-            if (multipleButton) {
-                multipleButton.addEventListener("click", function () {
-                    console.log("Multiple divination button clicked");
-                    window.parent.postMessage({ event: "buttonClick", data: "multiple" }, "*");
-                });
-            }
-
-            // 监听来自父页面的消息
-            window.addEventListener("message", function (event) {
-    console.log("Iframe received event.data.event:", event.data.event);
-
-    if (event.data.event === "execFunction") {
-        const resultType = event.data.data;
-         console.log("Iframe received event resultType:", resultType);
-        // 调用相应的函数
-        if (resultType === "single") {
-            calculateJiXiong("single");
-            console.log("Iframe executed event resultType:", resultType);
-        } else if (resultType === "multiple") {
-            calculateJiXiong("multiple");
-            console.log("Iframe executed event resultType:", resultType);
-        } else {
-            console.log("Unknown result type:", resultType);
-        }
-    } else {
-        console.log("Unknown event received:", event.data);
-    }
-});
-
+            // Load initial points
+            updateUserPoints();
         });
+
+        window.addEventListener("message", function(event) {
+            if (event.data.event === "execFunction") {
+                calculateJiXiong('single');
+                updateUserPoints(); // Refresh points after divination
+            }
+        });
+
+        function updateUserPoints() {
+            // Simulate fetching user points from backend
+            const mockPoints = 5; // Replace with actual API call
+            const pointsElement = document.getElementById("userPoints");
+
+            if (pointsElement) {
+                pointsElement.textContent = mockPoints; // Update points on the page
+            }
+        }
     </script>
+
     <script type="text/javascript" src="js/qigua.js"></script>
 </body>
 </html>
