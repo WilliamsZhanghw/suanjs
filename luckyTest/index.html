@@ -66,6 +66,7 @@
                 if (event.data.event === "execFunction") {
                     const resultType = event.data.data === "single" ? "Single" : "Multiple";
                     alert(`Received execFunction message for ${resultType} divination`);
+                    calculateJiXiong(resultType);
                 }
             });
         });
