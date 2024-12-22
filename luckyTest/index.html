@@ -21,10 +21,16 @@
                     <h1 class="well-come">Luck Divination</h1>
                     <div class="col-md-8 col-md-offset-2">
                         <p class="intro-message">Unveil the mysteries of your luck today!</p>
-                        
-                        <!-- User Points Display -->
-                        <div class="points-display">
-                            <p>Your Points: <span id="userPoints">Loading...</span></p>
+
+                        <!-- Result display sections -->
+                        <div id="resultSingle" style="display: none;">
+                            <h2>Your Luck Reading:</h2>
+                            <p id="resultTextSingle"></p>
+                        </div>
+
+                        <div id="resultMultiple" style="display: none;">
+                            <h2>Your Multiple Luck Insights:</h2>
+                            <p id="resultTextMultiple"></p>
                         </div>
 
                         <!-- Buttons -->
@@ -38,79 +44,4 @@
                                    name="multipleDivination" 
                                    type="submit" 
                                    id="multipleDivination" 
-                                   value="Multiple Luck Insights (1 Point)" 
-                                   onclick="calculateJiXiong('multiple');" />
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Feature description section -->
-                <div class="feature-description">
-                    <h3>About Luck Divination</h3>
-                    <p>
-                        Luck Divination is your personal guide to understanding how celestial movements influence your daily fortune. 
-                        By analyzing cosmic patterns, this tool provides insights into your luck for the day.
-                    </p>
-                    <p>
-                        <strong>How It Works:</strong> The five major planets—Mercury, Venus, Mars, Jupiter, and Saturn—exert dynamic gravitational 
-                        and energetic effects on Earth. These shifts impact human activities, decisions, and outcomes. With this tool, you can 
-                        interpret these influences and harness them to maximize your luck.
-                    </p>
-                    <p>
-                        Each divination deducts <strong>1 point</strong> from your balance. Ensure you have enough points to proceed. 
-                        Earn more points through activities or top-ups!
-                    </p>
-                </div>
-
-                <!-- Result display sections -->
-                <div id="resultSingle" style="display: none;">
-                    <h2>Your Luck Reading:</h2>
-                    <p id="resultTextSingle"></p>
-                </div>
-
-                <div id="resultMultiple" style="display: none;">
-                    <h2>Your Multiple Luck Insights:</h2>
-                    <p id="resultTextMultiple"></p>
-                </div>
-            </div>
-        </div>
-    </div>
-
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            const button = document.getElementById("singleDivination");
-
-            if (button) {
-                button.addEventListener("click", function() {
-                    // Inform parent window about the button click
-                    window.parent.postMessage({ event: "buttonClick", data: "buttonClick" }, "*");
-                });
-            } else {
-                console.log("Button not found. Check ID.");
-            }
-
-            // Load initial points
-            updateUserPoints();
-        });
-
-        window.addEventListener("message", function(event) {
-            if (event.data.event === "execFunction") {
-                calculateJiXiong('single');
-                updateUserPoints(); // Refresh points after divination
-            }
-        });
-
-        function updateUserPoints() {
-            // Simulate fetching user points from backend
-            const mockPoints = 5; // Replace with actual API call
-            const pointsElement = document.getElementById("userPoints");
-
-            if (pointsElement) {
-                pointsElement.textContent = mockPoints; // Update points on the page
-            }
-        }
-    </script>
-
-    <script type="text/javascript" src="js/qigua.js"></script>
-</body>
-</html>
+                                   value="Multipl
