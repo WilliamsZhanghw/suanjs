@@ -65,6 +65,8 @@
             }
         });
 	window.addEventListener("message",function(event){
+		debugger
+                console.log("iframe received event:", event.data.event);
 		if(event.data.event === "execFuntion"){
 			alert(" exec ok!");
 			calculateJiXiong('single');
