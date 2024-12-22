@@ -66,12 +66,14 @@
 
     if (event.data.event === "execFunction") {
         const resultType = event.data.data;
-
+         console.log("Iframe received event resultType:", resultType);
         // 调用相应的函数
         if (resultType === "single") {
             calculateJiXiong("single");
+            console.log("Iframe executed event resultType:", resultType);
         } else if (resultType === "multiple") {
             calculateJiXiong("multiple");
+            console.log("Iframe executed event resultType:", resultType);
         } else {
             console.log("Unknown result type:", resultType);
         }
