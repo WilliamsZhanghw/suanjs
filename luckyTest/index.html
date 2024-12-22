@@ -62,7 +62,7 @@
 
             // 监听来自父页面的消息
             window.addEventListener("message", function (event) {
-    console.log("Iframe received event:", event.data);
+    console.log("Iframe received event.data.event:", event.data.event);
 
     if (event.data.event === "execFunction") {
         const resultType = event.data.data;
