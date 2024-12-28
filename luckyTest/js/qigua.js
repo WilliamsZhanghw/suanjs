@@ -769,7 +769,7 @@ function initGuaJie(){
 
                                     ];
 
-                                guaJie["32"]= 
+                                guaJie["42"]= 
                                 [
                                         "雷泽归妹",
                                         "有人相助，出行吉利",
