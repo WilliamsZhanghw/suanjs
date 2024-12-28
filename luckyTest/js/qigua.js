@@ -174,6 +174,8 @@ function getMultiJixiongPerDay(){
                                 var pretext = "";
                                 pretext =  "秒："+mm+" "+ss+" " + shangGuaShu +" "+xiaGuaShu+" "+ dongYao +" ";       
                                 result= pretext+guaJie[shangGuaShu.toString()+xiaGuaShu.toString()][0]+" "+ guaJie[shangGuaShu.toString()+xiaGuaShu.toString()][dongYao];
+
+                                result= guaJie[shangGuaShu.toString()+xiaGuaShu.toString()][dongYao];
                                 
                                 return result;
 }
