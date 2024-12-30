@@ -185,186 +185,160 @@ var guaJie = [[[""],[""]],[[""],[""]]];
 
                                 
 function initGuaJie(){
-                                guaJie["11"]= 
-                                [
-                                        "乾卦",
-                                        "不可用，无法施展",//初爻
-                                        "利于见面",
-                                        "勤勉，处于艰难，但终究没有灾难",
-                                        "可以有所作为而没有灾难",
-                                        "大有所为",
-                                        "夕阳无限好，只是近黄昏"
-                                    ];
-                                guaJie["88"]= 
-                                [
-                                        "坤卦",
-                                        "一叶知秋，冬天将至",
-                                        "可以去",
-                                        "还算称心，没有取得战绩但有好的结局",
-                                        "谨言慎行，不好不坏",
-                                        "黄色，大吉大利",
-                                        "争斗，到了穷困的境地"
-                                        
-                                    ];
-                                    
-                                guaJie["64"]= 
-                                [
-                                        "屯卦",
-                                        
-                                        "徘徊不前，利居住",
-                                        "女子久怀不孕",
-                                        "得不到指引，没有信心，不如放弃",
-                                        "可以去，吉利",
-                                        "问小事则吉，问大事则凶",
-                                        "哭泣无声，滴泪涟涟"
-                                    ];
-                                guaJie["76"]= 
-                                [
-                                        "蒙",
-                                        "不能放过敌人",
-                                        "这是吉兆，尤其利婚姻",
-                                        "不利婚姻",
-                                        "不宜远离社会独居",
-                                        "柔顺服从则吉",
-                                        "获得众人支持，必能胜利"
-                                    ];
-                                guaJie["61"]= 
-                                [
-                                        "需",
-                                        "应该照旧等待下去，没有危险",
-                                        "将有延误事机之失，这过失在自身，虽然稍微有过错，最后的结果还是好的",
-                                        "环境险恶，灾难就在附近。由自己招致了强盗，但郑重谨慎，随机应变，就可不受损伤",
-                                        "起初在血泊中滞留，后来从凶险的陷阱中逃脱出来",
-                                        "在酒宴上等待，吉，处境优容，升腾待时",
-                                        "不速之客来，敬之，终吉。虽有不当，没有大问题"
-
-                                    ];
-                                guaJie["16"]= 
-                                [
-                                        "讼",
-                                        "事情不会一直这样下去，稍有过错，最后还是吉利的。官司不可能长久打下去。虽然稍有过错，但争讼双方的是非曲直终将辨别清楚。",
-                                        "讼事失败，逃窜回家，这是躲避反讼。小官与大官争讼，败讼而归，势在必然。幸好灾难没有进一步扩大。",
-                                        "靠祖上福泽，虽险终吉，但谋求利禄不会成功",
-                                        "讼事失败，败讼回家，服从判决。卜问平安，得吉利之兆。",
-                                        "争讼，大吉大利",
-                                        "德不配位，暂时胜利"
-                                    ];
-                                guaJie["86"]= 
-                                [
-                                        "师",
-                                        "整军出战全凭纪律，不遵守纪律就会有凶险",
-                                        "主帅身在军中指挥，吉利，没有灾难。君王三次颁命嘉奖",
-                                        "军队出征，有人载尸而归，会吃败仗，这是凶险之兆 ",
-                                        "根据形势进行判断，没有危险。 ",
-                                        "差遣不当",
-                                        "论功行赏，但不要重用无才无德的小人"
-                                    ];
-                                guaJie["68"]= 
-                                [
-                                        "水地比",
-                                        "捕获俘虏，安抚他们，没有灾难",
-                                        "内部和睦团结，吉兆",
-                                        "跟败类狼狈为奸，可悲",
-                                        "跟邦联盟亲善，吉兆 ",
-                                        "守中正之道，吉",
-                                        "勾心斗角，无法形成一个团结的中心，凶"
-                                    ];
-                                guaJie["51"]= 
-                                [
-                                        "风天小畜",
-                                        "由原路返回，吉",
-                                        "牵引着返回，吉利",
-                                        "车子坏了一个轮子。夫妻互相口角",
-                                        "忧患虽去，但仍须保持警惕",
-                                        "共享成果则吉",
-                                        "久雨新停，未误农时，当能丰登满载。男子离家出行有凶险，因为对充满危险的旅途缺乏了解。妇女占得此爻则凶险"
-                                    ];
-                                guaJie["12"]= 
-                                [
-                                        "天泽履",
-                                        "以朴素坦白的态度处世，没有灾害",
-                                        "秉性中正，不被世俗所惑，吉",
-                                        "勉为其难，凶",
-                                        "遇险知惧，最后仍吉利",
-                                        "行为急躁莽撞；行事有危险之象",
-                                        "行为审慎，遇事周密面反复地考虑，大吉"
-                                    ];
-
-                                guaJie["81"]= 
-                                [
-                                        "地天泰",
-                                        "连根拨掉茅草，及其同类。征伐敌人，吉利",
-                                        "钱币丢失了，在半路上得到别人的帮助",
-                                        "必能渡过难关，不要担心被人虏去，而且在饮食上尚有口福",
-                                        "巧言欺人，将给邻邑带来灾难；不加警戒，即将遇难被虏。",
-                                        "嫁女，得福，大吉大利",
-                                        "半途而废，不祥之兆"
-                                    ];
-                                guaJie["18"]= 
-                                [
-                                        "天地否",
-                                        "连根拔掉茅草，占得此爻吉利，比喻其志在清理君侧，为国尽忠",
-                                        "厨中有肉，这对老百姓来说是吉利，对贵族来说并不是通泰的表现",
-                                        "心怀羞愧，因为才德不称其位。",
-                                        "君王论功行赏，臣下尽职效力，各行其志",
-                                        "警戒覆亡，危险",
-                                        "短暂的恶运，先遇恶运后交好运"
-                                    ];
-                                guaJie["13"]= 
-                                [
-                                        "天火同人",
-                                        "聚集大众，将行大事，没有灾祸",
-                                        "聚同族于宗庙，卜祷凶吉，因为面临艰难",
-                                        "将军队隐蔽在深山密林，并且占领了制高点，但长时期不能取胜",
-                                        "爬上了敌人的城墙，城还没有攻下来，继续攻打才能获胜",
-                                        "聚集起来的大众先哭号后欢笑，因为大军及时增援，大获胜仗",
-                                        "聚众祭神，祝贺胜利，无悔"
-
-                                    ];
-                                guaJie["31"]= 
-                                [
-                                        "火天大有",
-                                        "不要彼此侵害，即没有灾祸",
-                                        "用大车装物载人，有明确的目的地，没有灾祸",
-                                        "天子宴请公侯，小人不能参与，因为小人参与国政，将是国家的祸害。",
-                                        "反对坏人坏事没有灾祸，因为明于考察辨析",
-                                        "众人敬畏，则能平安而不困惫",
-                                        "上天保祐，吉利，无所不顺利"
-                                    ];
-                                guaJie["87"]= 
-                                [
-                                        "地山谦",
-                                        "具有谦让的品德，即使冒险涉水过河，也是吉利的",
-                                        "明智而谦让，心正而吉利",
-                                        "勤劳而谦让，这样的人将有好结果，凡事吉利 ",
-                                        "无所不利，只要奋勇直前而又谦虚谨慎",
-                                        "贫穷是由于敌国的侵掠，应该对之讨伐，无所不利",
-                                        "明智而谦让，尚不能感化邑国得行其志，就可以出兵征讨邑国"
-
-                                    ];
-
-                                guaJie["48"]= 
-                                [
-                                        "雷地豫",
-                                        "津津乐道于荒淫享乐，凶险",
-                                        "夹在石缝中，幸而不到一天就被人救出。卜问得吉兆。 ",
-                                        "懒散游乐，将招致后悔；再加上懈怠大意，那就后悔莫及。",
-                                        "田猎取乐，大获鸟兽。筮遇此爻，勿疑友人多嘴而谗己。",
-                                        "卜问疾病，长时间内不会死去。",
-                                        "末日将至尚且享乐，已成之事也将毁败。"
-
-                                    ];
-                                guaJie["24"]= 
-                                [
-                                        "泽雷随",
-                                        "不失正道，则出门同行都得好处",
-                                        "抓住了小的，跑了大的，意思是两者不能兼得",
-                                        "抓大放小，志在抓大的；占问居住则吉利",
-                                        "追名逐利，贪多务获，卜问得凶兆。",
-                                        "押送俘虏上路，明于约束，没有灾难。 俘虏了不少嘉人，吉利",
-                                        "被捆绑拘禁，像人处于穷困之境地。"
-
-                                    ];
+                                guaJie["11"] = [
+        "Qian Hexagram",
+        "Cannot be used, no opportunity to act",
+        "Good for meetings",
+        "Diligent, in difficulty, but ultimately no disaster",
+        "Able to act without disaster",
+        "Great accomplishments",
+        "Beautiful sunset, but close to twilight"
+    ];
+    guaJie["88"] = [
+        "Kun Hexagram",
+        "Autumn's arrival foretells winter",
+        "Safe to proceed",
+        "Fairly satisfying, no achievement but a good ending",
+        "Cautious behavior, neither good nor bad",
+        "Yellow, great fortune",
+        "Conflict leads to poverty"
+    ];
+    guaJie["64"] = [
+        "Tun Hexagram",
+        "Hesitation and indecision, suitable for settling down",
+        "A woman remains barren for a long time",
+        "Lacking guidance and confidence, it's better to give up",
+        "Proceeding is auspicious",
+        "Asking about small matters brings good fortune; asking about big matters brings misfortune",
+        "Silent weeping, tears flowing"
+    ];
+    guaJie["76"] = [
+        "Meng Hexagram",
+        "Do not let the enemy go",
+        "This is a good omen, especially for marriage",
+        "Not favorable for marriage",
+        "Living alone away from society is not advisable",
+        "Gentle obedience brings good fortune",
+        "With the support of many, victory is certain"
+    ];
+    guaJie["61"] = [
+        "Xu Hexagram",
+        "Patience and perseverance lead to safety",
+        "Delays may lead to lost opportunities, but the outcome is still positive",
+        "Dangerous environment, disaster is near. Caution and adaptability will avoid loss",
+        "Initially stranded in blood but eventually escaping danger",
+        "Waiting at a feast, favorable conditions await",
+        "An uninvited guest comes; treating them with respect brings good fortune"
+    ];
+    guaJie["16"] = [
+        "Song Hexagram",
+        "Things will not remain as they are; small mistakes lead to favorable outcomes",
+        "Failure in lawsuits, retreating home is inevitable",
+        "Fortunes rely on ancestral blessings",
+        "Failure in litigation, submission to judgment",
+        "Legal disputes bring great fortune",
+        "Virtue mismatch brings temporary victory"
+    ];
+    guaJie["86"] = [
+        "Shi Hexagram",
+        "Victory relies on discipline, disobedience brings danger",
+        "Commanders lead the troops effectively, auspicious without disaster",
+        "Defeat in battle, casualties returning. Ominous sign",
+        "Judgment based on circumstances avoids danger",
+        "Inappropriate assignments",
+        "Recognize achievements but avoid promoting unworthy individuals"
+    ];
+    guaJie["68"] = [
+        "Bi Hexagram",
+        "Capture prisoners and pacify them, no disasters",
+        "Harmony within leads to prosperity",
+        "Associating with vile characters is regrettable",
+        "Form alliances and friendships, auspicious",
+        "Maintaining a balanced approach brings fortune",
+        "Conflicts prevent unity, ominous"
+    ];
+    guaJie["51"] = [
+        "Xiao Xu Hexagram",
+        "Return on the original path, auspicious",
+        "Guidance brings fortune",
+        "A broken wheel, strife between spouses",
+        "Concerns diminish but vigilance is required",
+        "Sharing resources brings fortune",
+        "After long rain, fields flourish"
+    ];
+    guaJie["12"] = [
+        "Tian Ze Lü Hexagram",
+        "Acting with simplicity avoids disaster",
+        "Integrity and sincerity bring fortune",
+        "Struggles bring danger",
+        "Overcoming risks leads to fortune",
+        "Impatience leads to peril",
+        "Caution and thoroughness yield great fortune"
+    ];
+    guaJie["81"] = [
+        "Tai Hexagram",
+        "Uprooting troubles leads to fortune",
+        "Lost wealth restored through others' help",
+        "Overcome challenges without fear of loss",
+        "Deceit invites calamity",
+        "Marriage brings blessings, auspicious",
+        "Half-hearted efforts bring misfortune"
+    ];
+    guaJie["18"] = [
+        "Pi Hexagram",
+        "Cleaning corruption brings fortune",
+        "Household harmony reflects contentment",
+        "Shame reflects misalignment of virtue",
+        "Rewards bring harmony",
+        "Vigilance prevents destruction",
+        "Bad fortune turns to good with persistence"
+    ];
+    guaJie["13"] = [
+        "Tong Ren Hexagram",
+        "Unity brings great achievements",
+        "Seeking guidance during challenges",
+        "Patience secures favorable outcomes",
+        "Boldness achieves victory",
+        "Strengthening bonds results in success",
+        "Celebrations for victories, no regrets"
+    ];
+    guaJie["31"] = [
+        "Da You Hexagram",
+        "Avoid harm to others, no misfortune",
+        "Carrying goods to a clear destination, no harm",
+        "Royal feasts for the worthy, excluding the unworthy",
+        "Fighting evil brings safety",
+        "Inspiring awe ensures peace",
+        "Heaven’s blessings bring great success"
+    ];
+    guaJie["87"] = [
+        "Qian Hexagram",
+        "Humble virtues lead to prosperity",
+        "Wisdom and humility bring fortune",
+        "Diligence ensures good outcomes",
+        "Everything favorable through courage and caution",
+        "Poverty inspires action against invaders",
+        "Wisdom leads to successful conquests"
+    ];
+    guaJie["48"] = [
+        "Yu Hexagram",
+        "Indulgence invites misfortune",
+        "Saved from calamity through intervention",
+        "Idleness brings regret",
+        "Hunting yields great success",
+        "Longevity despite prolonged illness",
+        "Pleasure amidst impending doom"
+    ];
+    guaJie["24"] = [
+        "Sui Hexagram",
+        "Following principles brings shared success",
+        "Catching small gains, losing bigger opportunities",
+        "Focus on greater achievements, auspicious",
+        "Greed invites misfortune",
+        "Securing prisoners brings peace",
+        "Entrapment signifies hardship"
+    ];
+                            
                                 guaJie[" 75"]= 
                                 [
                                         "山风蛊",
