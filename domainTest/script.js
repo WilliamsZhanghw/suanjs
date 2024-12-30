@@ -248,8 +248,22 @@ function getFortuneMessage(score) {
             return "Ambitious but Lacking Talent Divination(Fair). Grand ambitions but lacking in ability. This number has authority and weight, but ambitions outweigh abilities.";
         case 74:
             return "Sinking and Harmful Divination(Unfavorable). Lack of intelligence, leading a fruitless life. Unable to achieve due to lack of effort, like drifting with the wind, leading to the collapse of the family.";
+        case 75:
+            return "Wise and Retiring Divination(Unfavorable). Safety in retreat. Women are beautiful, and men are handsome, but lacking in great masculine energy, not conducive to major achievements. Only suitable for retreating and protecting oneself, enjoying one's own body, and not being restless.";
+        case 76:
+            return "Illness and Danger Divination(Unfavorable). Life full of difficulties and challenges. Facing danger and challenges, life is fraught with uncertainty. While fleeting moments of glory may occur, they are overshadowed by hardship.";
+        case 77:
+            return "Half Sorrow, Half Joy Divination(Fair). Hard work in the early stages, followed by happiness in later years. Family prosperity, but the possibility of loneliness later. This number is a blend of joy and sorrow, with talents and arrogance intertwined.";
+        case 78:
+            return "Diligent and Wise Divination(Unfavorable). Early life is ideal, but loneliness creeps in later years. This number is filled with talent and wisdom but lacks long-term achievements. Success is often fleeting and accompanied by struggles.";
+        case 79:
+            return "Internal and External Details Divination(Unfavorable). Courage without strategy, leading to an imbalance. While temporary prosperity may arise, old patterns and arrogance prevent true accomplishments. Loneliness often follows.";
+        case 80:
+            return "Surging Waves Divination(Unfavorable). A turbulent life filled with hardship. This number suggests ongoing struggles, with failures and calamities overshadowing attempts at progress. Longevity is often undermined by adversity.";
+        case 81:
+            return "Spring Breeze Divination(Great). A delightful number representing great honor and wealth. This number symbolizes the pinnacle of success, with blessings of fortune, prosperity, and thriving descendants.";
         default:
-            return "Unknown Domain name:Please try another one.";
+            return "Unknown Domain name, please try another one.";
     }
 }
 
