@@ -1,3 +1,7 @@
+const userInteraction = {
+    birthday: null, // Store the user's birthday
+};
+
 document.addEventListener('DOMContentLoaded', () => {
     window.parent.postMessage({ action: 'fetchBirthday' }, '*'); // Request user's birthday from the main page
 
@@ -18,12 +22,23 @@ document.addEventListener('DOMContentLoaded', () => {
             appendMessage('System error. Please try again later.', 'bot');
         }
     });
+
+    const categories = Object.keys(questions);
+    const optionsDiv = document.getElementById('options');
+    categories.forEach((category) => {
+        const button = document.createElement('button');
+        button.textContent = `Select ${category}`;
+        button.onclick = () => loadQuestions(category);
+        optionsDiv.appendChild(button);
+    });
 });
 
 // Save user's birthday to the main page
-async function saveUserBirthday(birthday) {
+function saveUserBirthday(birthday) {
     window.parent.postMessage({ action: 'saveBirthday', birthday }, '*');
 }
+
+// Questions and their handlers
 const questions = {
     category1: [
         { id: 'marriage', text: 'How many marriages will I have?', handler: handleMarriageQuestion },
@@ -55,6 +70,7 @@ function handleQuestion(handler) {
         handler();
     }
 }
+
 function handleMarriageQuestion() {
     const fiveElements = generateFiveElements(userInteraction.birthday);
     const response = `Based on your Five Elements balance, here are the characteristics of your marriages... (Insert analysis here).`;
@@ -76,6 +92,7 @@ function handleBaziQuestion() {
 function handleFortuneQuestion() {
     window.open('/domainTest/index.html', '_blank');
 }
+
 function sendMessage(event) {
     if (event.type === 'click' || event.key === 'Enter') {
         const birthdayInput = document.getElementById('birthday-input');
@@ -92,29 +109,48 @@ function sendMessage(event) {
     }
 }
 
-document.addEventListener('DOMContentLoaded', () => {
-    const categories = Object.keys(questions);
-    const optionsDiv = document.getElementById('options');
-    categories.forEach((category) => {
-        const button = document.createElement('button');
-        button.textContent = `Select ${category}`;
-        button.onclick = () => loadQuestions(category);
-        optionsDiv.appendChild(button);
-    });
-});
-
 function appendMessage(text, sender) {
     const messageElement = document.createElement('div');
-    messageElement.className = `message ${sender}`; // Use template literal for dynamic class assignment
-    messageElement.textContent = text; // Set the message text
+    messageElement.className = `message ${sender}`;
+    messageElement.textContent = text;
     document.getElementById('chat-box').appendChild(messageElement);
 
-    // Ensure the chat box scrolls to the latest message
+    // Scroll chat box to the latest message
     const chatBox = document.getElementById('chat-box');
     if (chatBox) {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 }
 
+function generateFiveElements(birthday) {
+    // Example logic to calculate five elements based on the birthday
+    const date = new Date(birthday);
+    const wood = (date.getMonth() % 5) * 20 + 20;
+    const fire = (date.getDate() % 5) * 20 + 20;
+    const earth = (date.getFullYear() % 5) * 20 + 20;
+    const metal = (100 - wood - fire - earth) / 2;
+    const water = 100 - wood - fire - earth - metal;
 
+    return { wood, fire, earth, metal, water };
+}
 
+function displayResponseGradually(response) {
+    const chatBox = document.getElementById('chat-box');
+    const message = document.createElement('div');
+    message.classList.add('message', 'bot');
+    chatBox.appendChild(message);
+
+    let index = 0;
+    const interval = setInterval(() => {
+        message.innerHTML = `<p>${response.slice(0, index)}</p>`;
+        chatBox.scrollTop = chatBox.scrollHeight;
+        index++;
+        if (index > response.length) clearInterval(interval);
+    }, 50);
+}
+
+function showInputGroup() {
+    const inputGroup = document.getElementById('input-group');
+    inputGroup.style.display = 'flex';
+    document.getElementById('birthday-input').focus();
+}
