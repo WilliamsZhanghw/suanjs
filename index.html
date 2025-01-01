@@ -7,78 +7,75 @@
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
-            background-image: url('background.webp');
-            background-size: cover;
-            background-position: center;
-            background-repeat: no-repeat;
+            background-color: #f7f7f7;
+            font-family: Arial, sans-serif;
             margin: 0;
             padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
             height: 100vh;
-            width: 100vw;
-        }
-
-        #overlay {
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background-color: rgba(255, 255, 255, 0.5);
-            z-index: 1;
         }
 
         #chat-container {
-            position: relative;
-            z-index: 2;
-            background-color: rgba(255, 255, 255, 0.9);
-            padding: 20px;
-            max-width: 600px;
-            margin: auto;
-            border-radius: 8px;
+            background: white;
+            border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+            width: 400px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
         }
 
         #chat-box {
-            max-height: 300px;
+            height: 200px;
             overflow-y: auto;
-            margin-bottom: 20px;
-            padding: 10px;
             border: 1px solid #ddd;
+            padding: 10px;
             border-radius: 5px;
-            background-color: #f9f9f9;
+            margin-bottom: 20px;
+            background: #f9f9f9;
         }
 
         #input-group {
-            display: none;
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
             margin-bottom: 20px;
         }
 
-        #options button {
-            display: block;
-            width: 100%;
-            margin-bottom: 10px;
+        #options {
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+        }
+
+        .message {
+            margin: 5px 0;
             padding: 10px;
-            font-size: 16px;
-            cursor: pointer;
+            border-radius: 5px;
+            max-width: 80%;
+        }
+
+        .message.bot {
+            background-color: #e6f7ff;
+            align-self: flex-start;
+        }
+
+        .message.user {
+            background-color: #d9fdd3;
+            align-self: flex-end;
         }
     </style>
 </head>
 <body>
-    <div id="overlay"></div>
     <div id="chat-container">
-        <!-- Chat messages -->
         <div id="chat-box"></div>
-
-        <!-- Birthday input -->
         <div id="input-group">
             <input type="datetime-local" id="birthday-input" placeholder="Enter your date and time of birth">
             <button id="send-button">Submit</button>
         </div>
-
-        <!-- Question categories and options -->
-        <div id="options">
-            <!-- Categories and questions will be dynamically loaded here -->
-        </div>
+        <div id="options"></div>
     </div>
     <script src="script.js"></script>
 </body>
