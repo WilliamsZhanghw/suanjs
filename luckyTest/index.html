@@ -83,7 +83,7 @@
 
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            const button = document.getElementById("singleDivination");
+            const button = document.getElementById("multipleDivination");
 
             if (button) {
                 button.addEventListener("click", function() {
@@ -97,7 +97,7 @@
 
         window.addEventListener("message", function(event) {
             if (event.data.event === "execFunction") {
-                calculateJiXiong('single');
+                calculateJiXiong('multiple');
             }
         });
     </script>
