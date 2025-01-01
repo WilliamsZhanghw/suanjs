@@ -1,5 +1,6 @@
 const userInteraction = {
-    birthday: null, // Stores the user's birthday
+    birthday: null, // Store the user's birthday
+    currentCategory: null, // Track the current category
 };
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -16,7 +17,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 userInteraction.birthday = userBirthday;
                 appendMessage(`Welcome back! Your birthday is detected as: ${userBirthday}`, 'bot');
-                loadQuestions('category1');
+                loadCategories();
             }
         } else if (event.data.action === 'saveBirthdayResult') {
             console.log('Birthday successfully saved to the main page database.');
@@ -34,16 +35,6 @@ document.addEventListener('DOMContentLoaded', () => {
             sendMessage(e);
         }
     });
-
-    // Load question categories
-    const categories = Object.keys(questions);
-    const optionsDiv = document.getElementById('options');
-    categories.forEach((category) => {
-        const button = document.createElement('button');
-        button.textContent = `Select ${category}`;
-        button.onclick = () => loadQuestions(category);
-        optionsDiv.appendChild(button);
-    });
 });
 
 // Save user's birthday to the main page
@@ -51,28 +42,59 @@ function saveUserBirthday(birthday) {
     window.parent.postMessage({ action: 'saveBirthday', birthday }, '*');
 }
 
-// Questions and handlers
-const questions = {
-    category1: [
+// Define categories and questions
+const categories = {
+    Self: [
         { id: 'marriage', text: 'How many marriages will I have?', handler: handleMarriageQuestion },
         { id: 'partner', text: 'What will my partner look like?', handler: handlePartnerQuestion }
     ],
-    category2: [
-        { id: 'bazi', text: 'What is my Bazi?', handler: handleBaziQuestion },
-        { id: 'fortune', text: 'Domain fortune analysis', handler: handleFortuneQuestion }
-    ]
+    Love: [
+        { id: 'compatibility', text: 'How compatible are we?', handler: handleCompatibilityQuestion },
+        { id: 'love-future', text: 'What is my love future?', handler: handleLoveFutureQuestion }
+    ],
+    Work: [
+        { id: 'career-path', text: 'What is my career path?', handler: handleCareerPathQuestion },
+        { id: 'success', text: 'What will bring me success?', handler: handleSuccessQuestion }
+    ],
 };
 
-function loadQuestions(category) {
+// Load categories
+function loadCategories() {
     const optionsDiv = document.getElementById('options');
     optionsDiv.innerHTML = ''; // Clear existing buttons
 
-    questions[category].forEach((question) => {
+    Object.keys(categories).forEach((category) => {
+        const button = document.createElement('button');
+        button.textContent = category;
+        button.onclick = () => loadQuestions(category);
+        optionsDiv.appendChild(button);
+    });
+
+    // Add Modify Birthday button
+    const modifyButton = document.createElement('button');
+    modifyButton.textContent = 'Modify Birthday';
+    modifyButton.onclick = showInputGroup;
+    optionsDiv.appendChild(modifyButton);
+}
+
+// Load questions for a selected category
+function loadQuestions(category) {
+    userInteraction.currentCategory = category;
+    const optionsDiv = document.getElementById('options');
+    optionsDiv.innerHTML = ''; // Clear existing buttons
+
+    categories[category].forEach((question) => {
         const button = document.createElement('button');
         button.textContent = question.text;
         button.onclick = () => handleQuestion(question.handler);
         optionsDiv.appendChild(button);
     });
+
+    // Add Back button to return to categories
+    const backButton = document.createElement('button');
+    backButton.textContent = 'Back to Categories';
+    backButton.onclick = loadCategories;
+    optionsDiv.appendChild(backButton);
 }
 
 function handleQuestion(handler) {
@@ -85,25 +107,33 @@ function handleQuestion(handler) {
 }
 
 function handleMarriageQuestion() {
-    const fiveElements = generateFiveElements(userInteraction.birthday);
-    const response = `Based on your Five Elements balance, here are the characteristics of your marriages... (Insert analysis here).`;
+    const response = `Based on your Five Elements balance, here are the characteristics of your marriages...`;
     displayResponseGradually(response);
 }
 
 function handlePartnerQuestion() {
-    const fiveElements = generateFiveElements(userInteraction.birthday);
-    const response = `Based on your Five Elements balance, your partner might have the following traits... (Insert analysis here).`;
+    const response = `Based on your Five Elements balance, your partner might have the following traits...`;
     displayResponseGradually(response);
 }
 
-function handleBaziQuestion() {
-    const myPaipan = new PaiPanFinal();
-    const response = myPaipan.getBazi(new Date(userInteraction.birthday), true);
+function handleCompatibilityQuestion() {
+    const response = `Compatibility analysis based on your Five Elements balance...`;
     displayResponseGradually(response);
 }
 
-function handleFortuneQuestion() {
-    window.open('/domainTest/index.html', '_blank');
+function handleLoveFutureQuestion() {
+    const response = `Your love future looks promising...`;
+    displayResponseGradually(response);
+}
+
+function handleCareerPathQuestion() {
+    const response = `Your career path analysis suggests...`;
+    displayResponseGradually(response);
+}
+
+function handleSuccessQuestion() {
+    const response = `Success will come through diligence and...`;
+    displayResponseGradually(response);
 }
 
 function sendMessage(event) {
@@ -115,32 +145,20 @@ function sendMessage(event) {
     }
 
     userInteraction.birthday = birthdayMessage;
-    saveUserBirthday(birthdayMessage); // Save to the main page database
+    saveUserBirthday(birthdayMessage);
     birthdayInput.value = '';
     document.getElementById('input-group').style.display = 'none';
     appendMessage(`Your birthday has been saved: ${birthdayMessage}`, 'user');
-    loadQuestions('category1'); // Load the first category of questions
+    loadCategories();
 }
 
 function appendMessage(text, sender) {
+    const chatBox = document.getElementById('chat-box');
     const messageElement = document.createElement('div');
     messageElement.className = `message ${sender}`;
     messageElement.textContent = text;
-    document.getElementById('chat-box').appendChild(messageElement);
-
-    // Scroll chat box to the latest message
-    const chatBox = document.getElementById('chat-box');
+    chatBox.appendChild(messageElement);
     chatBox.scrollTop = chatBox.scrollHeight;
-}
-
-function generateFiveElements(birthday) {
-    const date = new Date(birthday);
-    const wood = (date.getMonth() % 5) * 20 + 20;
-    const fire = (date.getDate() % 5) * 20 + 20;
-    const earth = (date.getFullYear() % 5) * 20 + 20;
-    const metal = (100 - wood - fire - earth) / 2;
-    const water = 100 - wood - fire - earth - metal;
-    return { wood, fire, earth, metal, water };
 }
 
 function displayResponseGradually(response) {
