@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>五行算性格网站</title>
+    <title>Five Elements Personality Analysis</title>
     <link rel="stylesheet" href="styles.css">
     <style>
         body {
@@ -11,52 +11,75 @@
             background-size: cover;
             background-position: center;
             background-repeat: no-repeat;
-            position: relative;
             margin: 0;
             padding: 0;
             height: 100vh;
             width: 100vw;
         }
-        
+
         #overlay {
             position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background-color: rgba(255, 255, 255, 0.5); /* 半透明的白色覆盖层 */
+            background-color: rgba(255, 255, 255, 0.5);
             z-index: 1;
         }
 
         #chat-container {
             position: relative;
             z-index: 2;
-            background-color: rgba(255, 255, 255, 0.9); /* 90%透明的白色背景 */
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            max-width: 600px;
+            margin: auto;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+        }
+
+        #chat-box {
+            max-height: 300px;
+            overflow-y: auto;
+            margin-bottom: 20px;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            background-color: #f9f9f9;
+        }
+
+        #input-group {
+            display: none;
+            margin-bottom: 20px;
+        }
+
+        #options button {
+            display: block;
+            width: 100%;
+            margin-bottom: 10px;
+            padding: 10px;
+            font-size: 16px;
+            cursor: pointer;
         }
     </style>
 </head>
 <body>
     <div id="overlay"></div>
     <div id="chat-container">
+        <!-- Chat messages -->
         <div id="chat-box"></div>
+
+        <!-- Birthday input -->
         <div id="input-group">
-            <input type="datetime-local" id="birthday-input">
-            <button id="send-button">确认</button>
+            <input type="datetime-local" id="birthday-input" placeholder="Enter your date and time of birth">
+            <button id="send-button">Submit</button>
         </div>
+
+        <!-- Question categories and options -->
         <div id="options">
-            <button onclick="selectQuestion(1)">我的婚姻会有几次</button>
-            <button onclick="selectQuestion(2)">我的女朋友长什么样子</button>
-            <button onclick="selectQuestion(3)">域名吉凶测算</button>
-            <button onclick="switchBirthday()">切换生日</button>
-            <button onclick="selectQuestion(4)">断事之吉凶</button>
-            <button onclick="selectQuestion(5)">我的八字是什么</button>
-            <button onclick="selectCustomQuestion()">定制问题</button>
+            <!-- Categories and questions will be dynamically loaded here -->
         </div>
     </div>
     <script src="script.js"></script>
-    <script src="bazi.js"></script>
-    
-    <script src="Luna.js"></script>
-    <script src="PaiPanFinal.js"></script>
 </body>
 </html>
