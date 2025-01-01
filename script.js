@@ -103,5 +103,12 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 });
 
+function appendMessage(text, sender) {
+    const messageElement = document.createElement('div');
+    messageElement.className = message ${sender};
+    messageElement.textContent = text;
+    document.getElementById('chat-box').appendChild(messageElement);
+}
+
 
 
