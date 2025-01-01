@@ -1,10 +1,12 @@
 const userInteraction = {
-    birthday: null, // Store the user's birthday
+    birthday: null, // Stores the user's birthday
 };
 
 document.addEventListener('DOMContentLoaded', () => {
-    window.parent.postMessage({ action: 'fetchBirthday' }, '*'); // Request user's birthday from the main page
+    // Request the user's birthday from the main page
+    window.parent.postMessage({ action: 'fetchBirthday' }, '*');
 
+    // Listen for messages from the main page
     window.addEventListener('message', (event) => {
         if (event.data.action === 'fetchedBirthday') {
             const userBirthday = event.data.birthday;
@@ -14,7 +16,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 userInteraction.birthday = userBirthday;
                 appendMessage(`Welcome back! Your birthday is detected as: ${userBirthday}`, 'bot');
-                loadQuestions('category1'); // Load the first category of questions by default
+                loadQuestions('category1');
             }
         } else if (event.data.action === 'saveBirthdayResult') {
             console.log('Birthday successfully saved to the main page database.');
@@ -23,6 +25,17 @@ document.addEventListener('DOMContentLoaded', () => {
         }
     });
 
+    // Add event listeners for the birthday input and button
+    const sendButton = document.getElementById('send-button');
+    const birthdayInput = document.getElementById('birthday-input');
+    sendButton.addEventListener('click', sendMessage);
+    birthdayInput.addEventListener('keypress', (e) => {
+        if (e.key === 'Enter') {
+            sendMessage(e);
+        }
+    });
+
+    // Load question categories
     const categories = Object.keys(questions);
     const optionsDiv = document.getElementById('options');
     categories.forEach((category) => {
@@ -38,7 +51,7 @@ function saveUserBirthday(birthday) {
     window.parent.postMessage({ action: 'saveBirthday', birthday }, '*');
 }
 
-// Questions and their handlers
+// Questions and handlers
 const questions = {
     category1: [
         { id: 'marriage', text: 'How many marriages will I have?', handler: handleMarriageQuestion },
@@ -94,19 +107,19 @@ function handleFortuneQuestion() {
 }
 
 function sendMessage(event) {
-    if (event.type === 'click' || event.key === 'Enter') {
-        const birthdayInput = document.getElementById('birthday-input');
-        const birthdayMessage = birthdayInput.value.trim();
-        if (birthdayMessage === '') return;
-
-        userInteraction.birthday = birthdayMessage;
-        saveUserBirthday(birthdayMessage); // Save to the main page database
-        birthdayInput.value = '';
-        document.getElementById('input-group').style.display = 'none';
-        appendMessage(`Your birthday has been saved: ${birthdayMessage}`, 'user');
-
-        loadQuestions('category1'); // Load the first category of questions by default
+    const birthdayInput = document.getElementById('birthday-input');
+    const birthdayMessage = birthdayInput.value.trim();
+    if (!birthdayMessage) {
+        appendMessage('Please enter a valid date and time of birth.', 'bot');
+        return;
     }
+
+    userInteraction.birthday = birthdayMessage;
+    saveUserBirthday(birthdayMessage); // Save to the main page database
+    birthdayInput.value = '';
+    document.getElementById('input-group').style.display = 'none';
+    appendMessage(`Your birthday has been saved: ${birthdayMessage}`, 'user');
+    loadQuestions('category1'); // Load the first category of questions
 }
 
 function appendMessage(text, sender) {
@@ -117,20 +130,16 @@ function appendMessage(text, sender) {
 
     // Scroll chat box to the latest message
     const chatBox = document.getElementById('chat-box');
-    if (chatBox) {
-        chatBox.scrollTop = chatBox.scrollHeight;
-    }
+    chatBox.scrollTop = chatBox.scrollHeight;
 }
 
 function generateFiveElements(birthday) {
-    // Example logic to calculate five elements based on the birthday
     const date = new Date(birthday);
     const wood = (date.getMonth() % 5) * 20 + 20;
     const fire = (date.getDate() % 5) * 20 + 20;
     const earth = (date.getFullYear() % 5) * 20 + 20;
     const metal = (100 - wood - fire - earth) / 2;
     const water = 100 - wood - fire - earth - metal;
-
     return { wood, fire, earth, metal, water };
 }
 
