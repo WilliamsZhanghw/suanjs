@@ -105,9 +105,15 @@ document.addEventListener('DOMContentLoaded', () => {
 
 function appendMessage(text, sender) {
     const messageElement = document.createElement('div');
-    messageElement.className = message ${sender};
-    messageElement.textContent = text;
+    messageElement.className = `message ${sender}`; // Use template literal for dynamic class assignment
+    messageElement.textContent = text; // Set the message text
     document.getElementById('chat-box').appendChild(messageElement);
+
+    // Ensure the chat box scrolls to the latest message
+    const chatBox = document.getElementById('chat-box');
+    if (chatBox) {
+        chatBox.scrollTop = chatBox.scrollHeight;
+    }
 }
 
 
