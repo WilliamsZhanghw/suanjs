@@ -20,6 +20,7 @@ const userInteraction = {
                     }
                 } else if (event.data.action === 'pointsDeducted') {
                     if (event.data.success) {
+                        console.log("get message from parent to handle this:",event.data.handler);
                         handleQuestion(event.data.handler);
                     } else {
                         appendMessage('Insufficient points. Please recharge to continue.', 'bot');
