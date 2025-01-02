@@ -9,7 +9,7 @@ const userInteraction = {
             // Listen for messages from the main page
             window.addEventListener('message', (event) => {
                 console.log("get message from parent to handle this:",event.data.action);
-                        alert("get birthday."+event.data.action);
+                        
                 if (event.data.action === 'fetchedBirthday') {
                     const userBirthday = event.data.birthday;
                     if (!userBirthday) {
@@ -23,15 +23,12 @@ const userInteraction = {
                         loadCategories();
                     }
                 } else if (event.data.action === 'pointsDeducted') {
-                            alert("get event.data.success:"+event.data.success);
-                    if (event.data.success) {
+                        
+                    
                         alert("get pointsDeducted message."+event.data.handler);
                         console.log("get message from parent to handle this handler:",event.data.handler);
                         handleQuestion(event.data.handler);
-                    } else {
-                        alert("get pointsDeducted message error."+event.data.handler);       
-                        appendMessage('Insufficient points. Please recharge to continue.', 'bot');
-                    }
+                    
                 }
             });
 
