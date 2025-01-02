@@ -4,9 +4,11 @@ const userInteraction = {
         };
 
         document.addEventListener('DOMContentLoaded', () => {
+                 window.parent.postMessage({ action: 'fetchBirthday' }, '*');
+       
             // Listen for messages from the main page
             window.addEventListener('message', (event) => {
-                if (event.data.action === 'initialize') {
+                if (event.data.action === 'fetchedBirthday') {
                     const userBirthday = event.data.birthday;
                     if (!userBirthday) {
                         appendMessage('Please enter your date and time of birth:', 'bot');
