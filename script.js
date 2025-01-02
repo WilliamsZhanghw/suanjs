@@ -15,6 +15,7 @@ const userInteraction = {
                         appendMessage('Please enter your date and time of birth:', 'bot');
                         showInputGroup();
                     } else {
+                        console.log("get message from parent to handle this birthday message:",event.data.action);
                         userInteraction.birthday = userBirthday;
                         appendMessage(`Welcome back! Your birthday is detected as: ${userBirthday}`, 'bot');
                         loadCategories();
