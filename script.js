@@ -23,6 +23,7 @@ const userInteraction = {
                         loadCategories();
                     }
                 } else if (event.data.action === 'pointsDeducted') {
+                            alert("get event.data.success:"+event.data.success);
                     if (event.data.success) {
                         alert("get pointsDeducted message."+event.data.handler);
                         console.log("get message from parent to handle this handler:",event.data.handler);
