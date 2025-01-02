@@ -25,9 +25,9 @@ const userInteraction = {
                 } else if (event.data.action === 'pointsDeducted') {
                         
                     
-                        alert("get pointsDeducted message."+event.data.handler);
-                        console.log("get message from parent to handle this handler:",event.data.handler);
-                        handleQuestion(event.data.handler);
+                        alert("get pointsDeducted message."+event.data.handler.handler);
+                        console.log("get message from parent to handle this handler:",event.data.handler.handler);
+                        handleQuestion(event.data.handler.handler);
                     
                 }
             });
