@@ -5,10 +5,11 @@ const userInteraction = {
 
         document.addEventListener('DOMContentLoaded', () => {
                  window.parent.postMessage({ action: 'fetchBirthday' }, '*');
-       
+                   alert("fetch birthday.");
             // Listen for messages from the main page
             window.addEventListener('message', (event) => {
                 console.log("get message from parent to handle this:",event.data.action);
+                        alert("get birthday."+event.data.action);
                 if (event.data.action === 'fetchedBirthday') {
                     const userBirthday = event.data.birthday;
                     if (!userBirthday) {
@@ -16,15 +17,18 @@ const userInteraction = {
                         showInputGroup();
                     } else {
                         console.log("get message from parent to handle this birthday message:",event.data.action);
+                        alert("display birthday.");        
                         userInteraction.birthday = userBirthday;
                         appendMessage(`Welcome back! Your birthday is detected as: ${userBirthday}`, 'bot');
                         loadCategories();
                     }
                 } else if (event.data.action === 'pointsDeducted') {
                     if (event.data.success) {
+                        alert("get pointsDeducted message."+event.data.handler);
                         console.log("get message from parent to handle this:",event.data.handler);
                         handleQuestion(event.data.handler);
                     } else {
+                        alert("get pointsDeducted message error."+event.data.handler);       
                         appendMessage('Insufficient points. Please recharge to continue.', 'bot');
                     }
                 }
