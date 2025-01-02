@@ -8,6 +8,7 @@ const userInteraction = {
        
             // Listen for messages from the main page
             window.addEventListener('message', (event) => {
+                console.log("get message from parent to handle this:",event.data.action);
                 if (event.data.action === 'fetchedBirthday') {
                     const userBirthday = event.data.birthday;
                     if (!userBirthday) {
