@@ -115,6 +115,20 @@ const userInteraction = {
                 appendMessage('Error: Invalid handler specified.', 'bot');
             }
         }
+        function getRiYuan(inputString) {
+                        const parts = inputString.split(','); // 使用逗号分割字符串
+                            if (parts.length >= 6) {
+                                return parts[5]; // 第六个逗号前的部分在数组中是第 5 个索引
+                            }
+                            return null; // 如果没有足够的部分，返回 null
+            }
+         function getYueZhi(inputString) {
+                        const parts = inputString.split(','); // 使用逗号分割字符串
+                            if (parts.length >= 6) {
+                                return parts[4]; // 第六个逗号前的部分在数组中是第 4 个索引
+                            }
+                            return null; // 如果没有足够的部分，返回 null
+            }
         function updateBaziZodiac() {
             //birthDate = new Date(1979, 02, 01, 04, 30); // 1983年1月10日12:30
             // birthDate = new Date(); // 1983年1月10日12:30
@@ -122,6 +136,9 @@ const userInteraction = {
             mypaipan = new PaiPanFinal();
             const dateObject = new Date(userInteraction.birthday);
             userInteraction.bazi = mypaipan.getBazi(dateObject,true);
+            userInteraction.riyuan = getRiYuan(userInteraction.bazi)；
+
+
             console.log("此人信息【" + userInteraction.bazi + "】"); 
         }
         function checkIOE(inputChar) {
