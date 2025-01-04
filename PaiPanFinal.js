@@ -7,12 +7,12 @@ class PaiPanFinal {
         let lunar = new BaZi(cal);
         let lunaryue = new Lunar(cal);
         let result = Array(10).fill("");
-        result[9] += "此人农历的日期\n【" + lunar.toString() + "】";
+        //result[9] += "此人农历的日期\n【" + lunar.toString() + "】";
         let time = Math.floor(cal.getHours() / 2);
 
         // 获取生肖
         result[9] += "\n此人的农历生肖\n【" + lunar.animalsYear() + "】";
-
+        result[9] += ","+lunar.animalsYear() ;
         let GanZhi = lunar.getYearGanZhi(time); // 取八字
         let tempchar = GanZhi.split(",");
         let ganziyear = lunaryue.getCyclicaYear(); // 年柱
@@ -20,7 +20,7 @@ class PaiPanFinal {
         let ganziday = lunaryue.getCyclicaDay(); // 日柱
         let ganzitime = tempchar[3]; // 时柱
 
-        result[9] += "\n此人八字\n【" + ganziyear + " " + ganzimonth + " " + ganziday + " " + ganzitime + "】\n";
+        //result[9] += "\n此人八字\n【" + ganziyear + " " + ganzimonth + " " + ganziday + " " + ganzitime + "】\n";
 
         result[0] = "";
         result[1] = ganziyear.charAt(0); // 年干
