@@ -57,6 +57,7 @@ const userInteraction = {
             Self: [
                 { id: 'ioe', text: 'Am I an Introvert (I) or an Extrovert (E)?', handler: 'handleIOEQuestion' },
                 { id: 'zodiac', text: 'What is my zodiac sign?', handler: 'handleZodiacQuestion' },
+                { id: 'nature', text: 'If my personality were reflected in nature, would I be a tree, the sun, or a stream?', handler: 'handleNatureQuestion' },        
                 { id: 'marriage', text: 'How many marriages will I have?', handler: 'handleMarriageQuestion' },
                 { id: 'partner', text: 'What will my partner look like?', handler: 'handlePartnerQuestion' }
             ],
@@ -146,6 +147,29 @@ const userInteraction = {
 
             console.log("此人信息【" + userInteraction.bazi + "】"); 
         }
+function getRiYuanDescription() {
+            tianGan = userInteraction.riyuan;
+    const tianGanMap = {
+        "甲": "A towering tree under the vast sky",
+        "乙": "A winding and graceful vine",
+        "丙": "The blazing and radiant sun",
+        "丁": "A lamp in the dark night",
+        "戊": "Solid walls and sturdy dikes",
+        "己": "The nurturing earth embracing all",
+        "庚": "A sharp and imposing blade or axe",
+        "辛": "Delicate and exquisite silver jewelry",
+        "壬": "A grand and majestic river",
+        "癸": "A gentle and quiet flowing stream"
+    };
+
+    return tianGanMap[tianGan] || "Invalid input: Please enter a valid Heavenly Stem character.";
+}
+
+// Example usage
+console.log(getTianGanDescription("甲")); // Output: A towering tree under the vast sky
+console.log(getTianGanDescription("辛")); // Output: Delicate and exquisite silver jewelry
+console.log(getTianGanDescription("A")); // Output: Invalid input: Please enter a valid Heavenly Stem character.
+
         function checkIOE() {
                 inputChar = userInteraction.riyuan;
                 const tianGanE = ['甲', '丙', '戊', '庚', '壬']; // 定义返回 'E' 的天干
