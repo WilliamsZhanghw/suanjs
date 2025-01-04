@@ -18,6 +18,32 @@ document.addEventListener('DOMContentLoaded', () => {
             
         });
 
+document.addEventListener("DOMContentLoaded", function() {
+            const button = document.getElementById("multipleDivination");
+
+            if (button) {
+                button.addEventListener("click", function() {
+                    // Inform parent window about the button click
+                    window.parent.postMessage({ event: "deductPoints", data: "deductPoints" }, "*");
+                });
+            } else {
+                console.log("Button not found. Check ID.");
+            }
+        });
+
+       window.addEventListener('message', (event) => {
+                console.log("get message from parent to handle this:",event.data.action);
+                        
+                if (event.data.action === 'pointsDeducted') {
+                        
+                    
+                        //alert("get pointsDeducted message."+event.data.handler.handler);
+                        console.log("get message from parent to handle this handler:",event.data.handler.handler);
+                        calculateFortune();
+                    
+                }
+            });
+
 
 function calculateFortune() {
     const domain = document.getElementById('domainInput').value.trim().toLowerCase();
