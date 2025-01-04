@@ -21,8 +21,11 @@ class PaiPanFinal {
         let ganzitime = tempchar[3]; // 时柱
 
         //result[9] += "\n此人八字\n【" + ganziyear + " " + ganzimonth + " " + ganziday + " " + ganzitime + "】\n";
-
-        result[0] = lunar.animalsYear() ;
+        // 示例用法
+        const chineseInput = lunar.animalsYear(); // 输入一个中文的生肖名称
+        const englishOutput = translateZodiac(chineseInput);
+        console.log(englishOutput); // 输出: Dragon
+        result[0] = englishOutput ;
         result[1] = ganziyear.charAt(0); // 年干
         result[2] = ganziyear.charAt(1); // 年支
         result[3] = ganzimonth.charAt(0); // 月干
@@ -39,6 +42,27 @@ class PaiPanFinal {
         return result;
     }
 }
+function translateZodiac(chineseZodiac) {
+    const zodiacMap = {
+        "鼠": "Rat",
+        "牛": "Ox",
+        "虎": "Tiger",
+        "兔": "Rabbit",
+        "龙": "Dragon",
+        "蛇": "Snake",
+        "马": "Horse",
+        "羊": "Goat",
+        "猴": "Monkey",
+        "鸡": "Rooster",
+        "狗": "Dog",
+        "猪": "Pig"
+    };
+
+    return zodiacMap[chineseZodiac] || "Unknown zodiac";
+}
+
+
+
 // 示例用法
 birthDate = new Date(1979, 02, 01, 04, 30); // 1983年1月10日12:30
 // birthDate = new Date(); // 1983年1月10日12:30
