@@ -5,7 +5,7 @@ const userInteraction = {
 
         document.addEventListener('DOMContentLoaded', () => {
                  window.parent.postMessage({ action: 'fetchBirthday' }, '*');
-                   alert("fetch birthday.");
+                   //alert("fetch birthday.");
             // Listen for messages from the main page
             window.addEventListener('message', (event) => {
                 console.log("get message from parent to handle this:",event.data.action);
@@ -17,7 +17,7 @@ const userInteraction = {
                         showInputGroup();
                     } else {
                         console.log("get message from parent to handle this birthday message:",event.data.action);
-                        alert("display birthday.");        
+                        //alert("display birthday.");        
                         userInteraction.birthday = userBirthday;
                         appendMessage(`Welcome back! Your birthday is detected as: ${userBirthday}`, 'bot');
                         loadCategories();
@@ -25,7 +25,7 @@ const userInteraction = {
                 } else if (event.data.action === 'pointsDeducted') {
                         
                     
-                        alert("get pointsDeducted message."+event.data.handler.handler);
+                        //alert("get pointsDeducted message."+event.data.handler.handler);
                         console.log("get message from parent to handle this handler:",event.data.handler.handler);
                         handleQuestion(event.data.handler.handler);
                     
