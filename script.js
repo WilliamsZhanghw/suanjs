@@ -1,6 +1,7 @@
 const userInteraction = {
             birthday: null, // Store the user's birthday
             currentCategory: null, // Track the current category
+            bazi: null, //shengxiao + bazi
         };
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -19,6 +20,7 @@ const userInteraction = {
                         console.log("get message from parent to handle this birthday message:",event.data.action);
                         //alert("display birthday.");        
                         userInteraction.birthday = userBirthday;
+                        updateBaziZodiac();
                         appendMessage(`Welcome back! Your birthday is detected as: ${userBirthday}`, 'bot');
                         loadCategories();
                     }
@@ -113,17 +115,23 @@ const userInteraction = {
                 appendMessage('Error: Invalid handler specified.', 'bot');
             }
         }
-
-        function handleIOEQuestion() {
-            const response = `You are `;
+        function updateBaziZodiac() {
             //birthDate = new Date(1979, 02, 01, 04, 30); // 1983年1月10日12:30
             // birthDate = new Date(); // 1983年1月10日12:30
             //const lunar = new Lunar(new Date());
             mypaipan = new PaiPanFinal();
             const dateObject = new Date(userInteraction.birthday);
-            baziResult = mypaipan.getBazi(dateObject,true);
+            userInteraction.bazi = mypaipan.getBazi(dateObject,true);
             console.log("此人信息【" + baziResult + "】"); // 假设时辰为午时（12:00 - 14:00）
-            displayResponseGradually(baziResult);
+        }
+        function checkIOE(inputChar) {
+                const tianGanE = ['甲', '丙', '戊', '庚', '壬']; // 定义返回 'E' 的天干
+                return tianGanE.includes(inputChar) ? 'E' : 'I';
+        }
+        function handleIOEQuestion() {
+            const response = `You are `;
+            
+            displayResponseGradually(response);
         }
         function handleMarriageQuestion() {
             const response = `Based on your Five Elements balance, here are the characteristics of your marriages...`;
@@ -164,6 +172,7 @@ const userInteraction = {
             }
 
             userInteraction.birthday = birthdayMessage;
+            updateBaziZodiac();
             saveUserBirthday(birthdayMessage);
             birthdayInput.value = '';
             document.getElementById('input-group').style.display = 'none';
