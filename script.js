@@ -51,7 +51,7 @@ const userInteraction = {
         // Define categories and questions
         const categories = {
             Self: [
-                { id: 'iore', text: Am I an Introvert (I) or an Extrovert (E)?', handler: 'handleIOEQuestion' },
+                { id: 'iore', text: 'Am I an Introvert (I) or an Extrovert (E)?', handler: 'handleIOEQuestion' },
                 { id: 'marriage', text: 'How many marriages will I have?', handler: 'handleMarriageQuestion' },
                 { id: 'partner', text: 'What will my partner look like?', handler: 'handlePartnerQuestion' }
             ],
