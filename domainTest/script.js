@@ -1,3 +1,24 @@
+document.addEventListener('DOMContentLoaded', () => {
+                 window.parent.postMessage({ action: 'fetchBirthday' }, '*');
+                   //alert("fetch birthday.");
+            // Listen for messages from the main page
+            window.addEventListener('message', (event) => {
+                console.log("get message from parent to handle this:",event.data.action);
+                        
+                if (event.data.action === 'pointsDeducted') {
+                        
+                    
+                        //alert("get pointsDeducted message."+event.data.handler.handler);
+                        console.log("get message from parent to handle this handler:",event.data.handler.handler);
+                        handleQuestion(event.data.handler.handler);
+                    
+                }
+            });
+
+            
+        });
+
+
 function calculateFortune() {
     const domain = document.getElementById('domainInput').value.trim().toLowerCase();
     const resultElement = document.getElementById('result');
