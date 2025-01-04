@@ -118,14 +118,15 @@ const userInteraction = {
             }
         }
         function getRiYuan(inputString) {
-                        const parts = inputString.split(','); // 使用逗号分割字符串
+                        
+                        const parts = String(inputString).split(','); // 使用逗号分割字符串
                             if (parts.length >= 6) {
                                 return parts[5]; // 第六个逗号前的部分在数组中是第 5 个索引
                             }
                             return null; // 如果没有足够的部分，返回 null
             }
          function getYueZhi(inputString) {
-                        const parts = inputString.split(','); // 使用逗号分割字符串
+                        const parts = String(inputString).split(','); // 使用逗号分割字符串
                             if (parts.length >= 6) {
                                 return parts[4]; // 第六个逗号前的部分在数组中是第 4 个索引
                             }
