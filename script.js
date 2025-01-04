@@ -188,6 +188,12 @@ console.log(getTianGanDescription("A")); // Output: Invalid input: Please enter 
                             }
                             return null; // 如果没有足够的部分，返回 null
             }
+
+ function handleNatureQuestion() {
+            const response = `If your personality were reflected in nature, you would be: `+getRiYuanDescription() +' .';
+            
+            displayResponseGradually(response);
+        }
         function handleZodiacQuestion() {
             const response = ` Your Chinese zodiac sign is  `+getZodiac() +' .';
             
