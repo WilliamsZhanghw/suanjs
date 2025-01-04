@@ -138,8 +138,8 @@ const userInteraction = {
             mypaipan = new PaiPanFinal();
             const dateObject = new Date(userInteraction.birthday);
             userInteraction.bazi = mypaipan.getBazi(dateObject,true);
-            userInteraction.riyuan = getRiYuan(userInteraction.bazi)；
-            userInteraction.yuezhi = getYueZhi(userInteraction.bazi)；
+            userInteraction.riyuan = getRiYuan(userInteraction.bazi);
+            userInteraction.yuezhi = getYueZhi(userInteraction.bazi);
 
 
             console.log("此人信息【" + userInteraction.bazi + "】"); 
