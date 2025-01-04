@@ -51,6 +51,7 @@ const userInteraction = {
         // Define categories and questions
         const categories = {
             Self: [
+                { id: 'iore', text: Am I an Introvert (I) or an Extrovert (E)?', handler: 'handleIOEQuestion' },
                 { id: 'marriage', text: 'How many marriages will I have?', handler: 'handleMarriageQuestion' },
                 { id: 'partner', text: 'What will my partner look like?', handler: 'handlePartnerQuestion' }
             ],
@@ -113,6 +114,10 @@ const userInteraction = {
             }
         }
 
+        function handleIOEQuestion() {
+            const response = `You are `;
+            displayResponseGradually(response);
+        }
         function handleMarriageQuestion() {
             const response = `Based on your Five Elements balance, here are the characteristics of your marriages...`;
             displayResponseGradually(response);
