@@ -1,7 +1,7 @@
 
 
 document.addEventListener("DOMContentLoaded", function() {
-            const button = document.getElementById("deductPoints");
+            const button = document.getElementById("calculateFor");
 
             if (button) {
                 button.addEventListener("click", function() {
