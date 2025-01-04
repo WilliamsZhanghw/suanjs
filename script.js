@@ -148,10 +148,10 @@ const userInteraction = {
         function checkIOE() {
                 inputChar = userInteraction.riyuan;
                 const tianGanE = ['甲', '丙', '戊', '庚', '壬']; // 定义返回 'E' 的天干
-                return tianGanE.includes(inputChar) ? 'E' : 'I';
+                return tianGanE.includes(inputChar) ? 'Extrovert (E)' : 'Introvert (I)';
         }
         function handleIOEQuestion() {
-            const response = `You are `+checkIOE();
+            const response = `You likely fall into the  `+checkIOE() +' category, if you were to take the MBTI test.';
             
             displayResponseGradually(response);
         }
