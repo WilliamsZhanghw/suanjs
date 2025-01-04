@@ -120,7 +120,8 @@ const userInteraction = {
             // birthDate = new Date(); // 1983年1月10日12:30
             //const lunar = new Lunar(new Date());
             mypaipan = new PaiPanFinal();
-            baziResult = mypaipan.getBazi(userInteraction.birthday,true);
+            const dateObject = new Date(userInteraction.birthday);
+            baziResult = mypaipan.getBazi(dateObject,true);
             console.log("此人信息【" + baziResult + "】"); // 假设时辰为午时（12:00 - 14:00）
             displayResponseGradually(baziResult);
         }
