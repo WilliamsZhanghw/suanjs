@@ -116,7 +116,13 @@ const userInteraction = {
 
         function handleIOEQuestion() {
             const response = `You are `;
-            displayResponseGradually(response);
+            birthDate = new Date(1979, 02, 01, 04, 30); // 1983年1月10日12:30
+            // birthDate = new Date(); // 1983年1月10日12:30
+            const lunar = new Lunar(new Date());
+            mypaipan = new PaiPanFinal();
+            baziResult = mypaipan.getBazi(birthDate,true);
+            console.log("此人信息【" + baziResult + "】"); // 假设时辰为午时（12:00 - 14:00）
+            displayResponseGradually(baziResult);
         }
         function handleMarriageQuestion() {
             const response = `Based on your Five Elements balance, here are the characteristics of your marriages...`;
