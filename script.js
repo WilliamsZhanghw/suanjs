@@ -122,7 +122,7 @@ const userInteraction = {
             mypaipan = new PaiPanFinal();
             const dateObject = new Date(userInteraction.birthday);
             userInteraction.bazi = mypaipan.getBazi(dateObject,true);
-            console.log("此人信息【" + baziResult + "】"); // 假设时辰为午时（12:00 - 14:00）
+            console.log("此人信息【" + userInteraction.bazi + "】"); 
         }
         function checkIOE(inputChar) {
                 const tianGanE = ['甲', '丙', '戊', '庚', '壬']; // 定义返回 'E' 的天干
