@@ -2,6 +2,8 @@ const userInteraction = {
             birthday: null, // Store the user's birthday
             currentCategory: null, // Track the current category
             bazi: null, //shengxiao + bazi
+            riyuan : null,
+            yuezhi : null,
         };
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -137,16 +139,18 @@ const userInteraction = {
             const dateObject = new Date(userInteraction.birthday);
             userInteraction.bazi = mypaipan.getBazi(dateObject,true);
             userInteraction.riyuan = getRiYuan(userInteraction.bazi)；
+            userInteraction.yuezhi = getYueZhi(userInteraction.bazi)；
 
 
             console.log("此人信息【" + userInteraction.bazi + "】"); 
         }
-        function checkIOE(inputChar) {
+        function checkIOE() {
+                inputChar = userInteraction.riyuan;
                 const tianGanE = ['甲', '丙', '戊', '庚', '壬']; // 定义返回 'E' 的天干
                 return tianGanE.includes(inputChar) ? 'E' : 'I';
         }
         function handleIOEQuestion() {
-            const response = `You are `;
+            const response = `You are `+checkIOE();
             
             displayResponseGradually(response);
         }
