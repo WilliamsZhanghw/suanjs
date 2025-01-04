@@ -6,7 +6,8 @@ document.addEventListener("DOMContentLoaded", function() {
             if (button) {
                 button.addEventListener("click", function() {
                     // Inform parent window about the button click
-                    window.parent.postMessage({ event: "deductPoints", data: "deductPoints" }, "*");
+                    window.parent.postMessage({ action: "deductPoints", data: "deductPoints" }, "*");
+                    
                 });
             } else {
                 console.log("Button not found. Check ID.");
