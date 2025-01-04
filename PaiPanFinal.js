@@ -11,8 +11,8 @@ class PaiPanFinal {
         let time = Math.floor(cal.getHours() / 2);
 
         // 获取生肖
-        result[9] += "\n此人的农历生肖\n【" + lunar.animalsYear() + "】";
-        result[9] += ","+lunar.animalsYear() ;
+        //result[9] += "\n此人的农历生肖\n【" + lunar.animalsYear() + "】";
+        //result[9] += ","+lunar.animalsYear() ;
         let GanZhi = lunar.getYearGanZhi(time); // 取八字
         let tempchar = GanZhi.split(",");
         let ganziyear = lunaryue.getCyclicaYear(); // 年柱
@@ -22,7 +22,7 @@ class PaiPanFinal {
 
         //result[9] += "\n此人八字\n【" + ganziyear + " " + ganzimonth + " " + ganziday + " " + ganzitime + "】\n";
 
-        result[0] = "";
+        result[0] = lunar.animalsYear() ;
         result[1] = ganziyear.charAt(0); // 年干
         result[2] = ganziyear.charAt(1); // 年支
         result[3] = ganzimonth.charAt(0); // 月干
