@@ -55,7 +55,8 @@ const userInteraction = {
         // Define categories and questions
         const categories = {
             Self: [
-                { id: 'iore', text: 'Am I an Introvert (I) or an Extrovert (E)?', handler: 'handleIOEQuestion' },
+                { id: 'ioe', text: 'Am I an Introvert (I) or an Extrovert (E)?', handler: 'handleIOEQuestion' },
+                { id: 'zodiac', text: 'What is my zodiac sign?', handler: 'handleZodiacQuestion' },
                 { id: 'marriage', text: 'How many marriages will I have?', handler: 'handleMarriageQuestion' },
                 { id: 'partner', text: 'What will my partner look like?', handler: 'handlePartnerQuestion' }
             ],
@@ -155,6 +156,20 @@ const userInteraction = {
             
             displayResponseGradually(response);
         }
+        function getZodiac() {
+                        inputString = userInteraction.bazi;
+                        const parts = String(inputString).split(','); // 使用逗号分割字符串
+                            if (parts.length >= 6) {
+                                return parts[0]; // 第六个逗号前的部分在数组中是第 0 个索引
+                            }
+                            return null; // 如果没有足够的部分，返回 null
+            }
+        function handleZodiacQuestion() {
+            const response = ` Your Chinese zodiac sign is  `+getZodiac() +' .';
+            
+            displayResponseGradually(response);
+        }
+            
         function handleMarriageQuestion() {
             const response = `Based on your Five Elements balance, here are the characteristics of your marriages...`;
             displayResponseGradually(response);
