@@ -48,10 +48,15 @@
         }
 
         #options {
-            display: flex;
-            flex-direction: column;
-            gap: 10px;
-        }
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    max-height: 300px; /* 根据需要设置最大高度 */
+    overflow-y: auto; /* 启用垂直滚动 */
+    padding: 10px; /* 可选：增加内边距 */
+    border: 1px solid #ccc; /* 可选：添加边框以视觉分隔 */
+}
+
 
         .message {
             margin: 5px 0;
