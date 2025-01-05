@@ -57,7 +57,8 @@ const userInteraction = {
             Self: [
                 { id: 'ioe', text: 'Am I an Introvert (I) or an Extrovert (E)?', handler: 'handleIOEQuestion' },
                 { id: 'zodiac', text: 'What is my zodiac sign?', handler: 'handleZodiacQuestion' },
-                { id: 'nature', text: 'If my personality were reflected in nature, would I be a tree, the sun, or a stream?', handler: 'handleNatureQuestion' }
+                { id: 'nature', text: 'If my personality were reflected in nature, would I be a tree, the sun, or a stream?', handler: 'handleNatureQuestion' },
+                { id: 'stranger', text: 'What impression do I leave on strangers?', handler: 'handleStrangerQuestion' }
             ],
             Love: [
                 { id: 'compatibility', text: 'How compatible are we?', handler: 'handleCompatibilityQuestion' },
@@ -119,6 +120,58 @@ const userInteraction = {
                 appendMessage('Error: Invalid handler specified.', 'bot');
             }
         }
+ function getBaziByIndex(number){
+                     const parts = String(inputString).split(','); // 使用逗号分割字符串
+                            if (parts.length >= 6) {
+                                return parts[number]; // 第六个逗号前的部分在数组中是第 5 个索引
+                            }
+                            return null; // 如果没有足够的部分，返回 null
+        }
+
+function getTianGanTraits(tianGan) {
+    const tianGanTraits = {
+        "甲": "Strong-willed, upright, and ambitious, like a towering tree. However, can be stubborn, inflexible, and overly aggressive.",
+        "乙": "Gentle, adaptable, and creative, like a graceful vine. However, may be indecisive, overly sensitive, and prone to self-doubt.",
+        "丙": "Optimistic, enthusiastic, and passionate, like the blazing sun. However, can be impulsive, impatient, and easily frustrated.",
+        "丁": "Thoughtful, caring, and resourceful, like a lamp in the dark. However, may be overly cautious, overthink, and emotionally vulnerable.",
+        "戊": "Stable, dependable, and protective, like solid walls. However, can be rigid, resistant to change, and overly protective.",
+        "己": "Empathetic, nurturing, and patient, like the earth. However, may be overly accommodating, lack assertiveness, and prone to self-sacrifice.",
+        "庚": "Resolute, determined, and sharp-minded, like a blade. However, can be harsh, uncompromising, and overly critical.",
+        "辛": "Delicate, elegant, and meticulous, like fine silver. However, may be overly perfectionistic, hesitant, and lack spontaneity.",
+        "壬": "Bold, visionary, and dynamic, like a grand river. However, can be restless, overly ambitious, and prone to emotional outbursts.",
+        "癸": "Quiet, introspective, and intuitive, like a gentle stream. However, may be overly introverted, avoid confrontation, and lack initiative."
+    };
+
+    return tianGanTraits[tianGan] || "Invalid input: Please enter a valid Heavenly Stem character.";
+}
+function getDiZhiPersonality(diZhi) {
+    const diZhiPersonality = {
+        "子": "Smart, adaptable, and charming, but can be secretive and restless.",
+        "丑": "Hardworking, reliable, and patient, but can be overly cautious and stubborn.",
+        "寅": "Ambitious, confident, and brave, but may be impulsive and aggressive.",
+        "卯": "Gentle, kind, and artistic, but can be overly sensitive and indecisive.",
+        "辰": "Charismatic, imaginative, and resourceful, but can be proud and unpredictable.",
+        "巳": "Wise, passionate, and intuitive, but may be jealous and manipulative.",
+        "午": "Energetic, enthusiastic, and open-hearted, but can be impatient and reckless.",
+        "未": "Compassionate, creative, and dependable, but may be shy and overly self-critical.",
+        "申": "Clever, versatile, and curious, but can be mischievous and unreliable.",
+        "酉": "Diligent, detail-oriented, and independent, but may be vain and critical.",
+        "戌": "Loyal, honest, and protective, but can be pessimistic and stubborn.",
+        "亥": "Compassionate, intuitive, and idealistic, but may be naive and escapist."
+    };
+
+    return diZhiPersonality[diZhi] || "Invalid input: Please enter a valid Earthly Branch character.";
+}
+
+
+function handleStrangerQuestion() {
+            const response = `This is the impression you leave on people when they first meet you: \n `+getTianGanTraits(getBaziByIndex(1)) +'\n'+getTianGanTraits(getBaziByIndex(3)) +'';
+            
+            displayResponseGradually(response);
+        }
+
+       
+
         function getRiYuan(inputString) {
                         
                         const parts = String(inputString).split(','); // 使用逗号分割字符串
@@ -147,8 +200,8 @@ const userInteraction = {
 
             console.log("此人信息【" + userInteraction.bazi + "】"); 
         }
-function getRiYuanDescription() {
-            tianGan = userInteraction.riyuan;
+function getRiYuanDescription(tianGan) {
+            
     const tianGanMap = {
         "甲": "A towering tree under the vast sky",
         "乙": "A winding and graceful vine",
@@ -165,10 +218,7 @@ function getRiYuanDescription() {
     return tianGanMap[tianGan] || "Invalid input: Please enter a valid Heavenly Stem character.";
 }
 
-// Example usage
-console.log(getTianGanDescription("甲")); // Output: A towering tree under the vast sky
-console.log(getTianGanDescription("辛")); // Output: Delicate and exquisite silver jewelry
-console.log(getTianGanDescription("A")); // Output: Invalid input: Please enter a valid Heavenly Stem character.
+
 
         function checkIOE() {
                 inputChar = userInteraction.riyuan;
@@ -190,7 +240,7 @@ console.log(getTianGanDescription("A")); // Output: Invalid input: Please enter 
             }
 
  function handleNatureQuestion() {
-            const response = `If your personality were reflected in nature, you would be: `+getRiYuanDescription() +' .';
+            const response = `If your personality were reflected in nature, you would be: `+getRiYuanDescription( userInteraction.riyuan) +' .';
             
             displayResponseGradually(response);
         }
