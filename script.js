@@ -212,7 +212,7 @@ function handleFamiliarQuestion() {
             userInteraction.yuezhi = getYueZhi(userInteraction.bazi);
             userInteraction.baziWuxing = transformGanZhiToWuXing(userInteraction.bazi);
 
-            console.log("此人信息【" + userInteraction.baziWuxing + "】"); 
+            console.log("此人信息【" + userInteraction.baziWuxing + userInteraction.baziWuxing + "】"); 
         }
 function getRiYuanDescription(tianGan) {
             
