@@ -47,15 +47,17 @@
             margin-bottom: 20px;
         }
 
-        #options {
+     #options {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-height: 300px; /* 根据需要设置最大高度 */
-    overflow-y: auto; /* 启用垂直滚动 */
-    padding: 10px; /* 可选：增加内边距 */
-    border: 1px solid #ccc; /* 可选：添加边框以视觉分隔 */
+    max-height: 300px; /* 限制容器的最大高度 */
+    overflow-y: auto; /* 启用垂直滚动条 */
+    scroll-behavior: smooth; /* 平滑滚动效果（可选） */
+    padding: 10px; /* 可选：调整内部间距 */
+    border: 1px solid #ccc; /* 可选：添加边框 */
 }
+
 
 
         .message {
