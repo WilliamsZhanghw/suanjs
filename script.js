@@ -57,13 +57,13 @@ const userInteraction = {
             Self: [
                 { id: 'ioe', text: 'Am I an Introvert (I) or an Extrovert (E)?', handler: 'handleIOEQuestion' },
                 { id: 'zodiac', text: 'What is my zodiac sign?', handler: 'handleZodiacQuestion' },
-                { id: 'nature', text: 'If my personality were reflected in nature, would I be a tree, the sun, or a stream?', handler: 'handleNatureQuestion' },        
-                { id: 'marriage', text: 'How many marriages will I have?', handler: 'handleMarriageQuestion' },
-                { id: 'partner', text: 'What will my partner look like?', handler: 'handlePartnerQuestion' }
+                { id: 'nature', text: 'If my personality were reflected in nature, would I be a tree, the sun, or a stream?', handler: 'handleNatureQuestion' }
             ],
             Love: [
                 { id: 'compatibility', text: 'How compatible are we?', handler: 'handleCompatibilityQuestion' },
-                { id: 'love-future', text: 'What is my love future?', handler: 'handleLoveFutureQuestion' }
+                { id: 'love-future', text: 'What is my love future?', handler: 'handleLoveFutureQuestion' },        
+                { id: 'marriage', text: 'How many marriages will I have?', handler: 'handleMarriageQuestion' },
+                { id: 'partner', text: 'What will my partner look like?', handler: 'handlePartnerQuestion' }
             ],
             Work: [
                 { id: 'career-path', text: 'What is my career path?', handler: 'handleCareerPathQuestion' },
