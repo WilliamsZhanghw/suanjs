@@ -319,7 +319,9 @@ function getRiYuanDescription(tianGan) {
             chatBox.scrollTop = chatBox.scrollHeight;
         }
 
-        function displayResponseGradually(response) {
+        function displayResponseGradually(responseOrigin) {
+
+            const response = responseOrigin.replace(/\n/g, '<br>');
             const chatBox = document.getElementById('chat-box');
             const message = document.createElement('div');
             message.classList.add('message', 'bot');
