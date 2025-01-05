@@ -58,7 +58,8 @@ const userInteraction = {
                 { id: 'ioe', text: 'Am I an Introvert (I) or an Extrovert (E)?', handler: 'handleIOEQuestion' },
                 { id: 'zodiac', text: 'What is my zodiac sign?', handler: 'handleZodiacQuestion' },
                 { id: 'nature', text: 'If my personality were reflected in nature, would I be a tree, the sun, or a stream?', handler: 'handleNatureQuestion' },
-                { id: 'stranger', text: 'What impression do I leave on strangers?', handler: 'handleStrangerQuestion' }
+                { id: 'stranger', text: 'What impression do I leave on strangers?', handler: 'handleStrangerQuestion' },
+                { id: 'familiar', text: 'How am I perceived by those who are familiar with me?', handler: 'handleFamiliarQuestion' }
             ],
             Love: [
                 { id: 'compatibility', text: 'How compatible are we?', handler: 'handleCompatibilityQuestion' },
@@ -165,7 +166,13 @@ function getDiZhiPersonality(diZhi) {
 
 
 function handleStrangerQuestion() {
-            const response = `This is the impression you leave on people when they first meet you: \n `+getTianGanTraits(getBaziByIndex(userInteraction.bazi,1)) +'\n'+getTianGanTraits(getBaziByIndex(userInteraction.bazi,3)) +'';
+            const response = `This is the impression you leave on people when they first meet you: \n `+getTianGanTraits(getBaziByIndex(userInteraction.bazi,1)) +'\n\n'+getTianGanTraits(getBaziByIndex(userInteraction.bazi,3)) +'';
+            
+            displayResponseGradually(response);
+        }
+
+function handleFamiliarQuestion() {
+            const response = `Here's the impression you leave on people who are familiar with you: \n `+getTianGanTraits(getBaziByIndex(userInteraction.bazi,5)) +'\n\n' +'';
             
             displayResponseGradually(response);
         }
