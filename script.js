@@ -4,6 +4,7 @@ const userInteraction = {
             bazi: null, //shengxiao + bazi
             riyuan : null,
             yuezhi : null,
+            baziWuxing : null,
         };
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -209,9 +210,9 @@ function handleFamiliarQuestion() {
             userInteraction.bazi = mypaipan.getBazi(dateObject,true);
             userInteraction.riyuan = getRiYuan(userInteraction.bazi);
             userInteraction.yuezhi = getYueZhi(userInteraction.bazi);
+            userInteraction.baziWuxing = transformGanZhiToWuXing(userInteraction.bazi);
 
-
-            console.log("此人信息【" + userInteraction.bazi + "】"); 
+            console.log("此人信息【" + userInteraction.baziWuxing + "】"); 
         }
 function getRiYuanDescription(tianGan) {
             
