@@ -59,7 +59,9 @@ const userInteraction = {
                 { id: 'zodiac', text: 'What is my zodiac sign?', handler: 'handleZodiacQuestion' },
                 { id: 'nature', text: 'If my personality were reflected in nature, would I be a tree, the sun, or a stream?', handler: 'handleNatureQuestion' },
                 { id: 'stranger', text: 'What impression do I leave on strangers?', handler: 'handleStrangerQuestion' },
-                { id: 'familiar', text: 'How am I perceived by those who are familiar with me?', handler: 'handleFamiliarQuestion' }
+                { id: 'familiar', text: 'How am I perceived by those who are familiar with me?', handler: 'handleFamiliarQuestion' },
+                { id: 'myself', text: 'What is my true inner self?', handler: 'handleMyselfQuestion' }
+                        
             ],
             Love: [
                 { id: 'compatibility', text: 'How compatible are we?', handler: 'handleCompatibilityQuestion' },
@@ -163,16 +165,20 @@ function getDiZhiPersonality(diZhi) {
 
     return diZhiPersonality[diZhi] || "Invalid input: Please enter a valid Earthly Branch character.";
 }
-
+function handleMyselfQuestion() {
+            const response = `This is what your true inner personality is like: \n\n `+getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,4)) +'\n\n'+getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,6))+'\n\n'+getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,2)) +'';
+            
+            displayResponseGradually(response);
+        }
 
 function handleStrangerQuestion() {
-            const response = `This is the impression you leave on people when they first meet you: \n `+getTianGanTraits(getBaziByIndex(userInteraction.bazi,1)) +'\n\n'+getTianGanTraits(getBaziByIndex(userInteraction.bazi,3)) +'';
+            const response = `This is the impression you leave on people when they first meet you: \n\n `+getTianGanTraits(getBaziByIndex(userInteraction.bazi,1)) +'\n\n'+getTianGanTraits(getBaziByIndex(userInteraction.bazi,3)) +'';
             
             displayResponseGradually(response);
         }
 
 function handleFamiliarQuestion() {
-            const response = `Here's the impression you leave on people who are familiar with you: \n `+getTianGanTraits(getBaziByIndex(userInteraction.bazi,5)) +'\n\n' +'';
+            const response = `Here's the impression you leave on people who are familiar with you: \n\n `+getTianGanTraits(getBaziByIndex(userInteraction.bazi,5)) +'\n\n' +'';
             
             displayResponseGradually(response);
         }
