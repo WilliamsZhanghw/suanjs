@@ -120,8 +120,8 @@ const userInteraction = {
                 appendMessage('Error: Invalid handler specified.', 'bot');
             }
         }
- function getBaziByIndex(number){
-                     const parts = String(inputString).split(','); // 使用逗号分割字符串
+ function getBaziByIndex(bazi,number){
+                     const parts = String(bazi).split(','); // 使用逗号分割字符串
                             if (parts.length >= 6) {
                                 return parts[number]; // 第六个逗号前的部分在数组中是第 5 个索引
                             }
@@ -165,7 +165,7 @@ function getDiZhiPersonality(diZhi) {
 
 
 function handleStrangerQuestion() {
-            const response = `This is the impression you leave on people when they first meet you: \n `+getTianGanTraits(getBaziByIndex(1)) +'\n'+getTianGanTraits(getBaziByIndex(3)) +'';
+            const response = `This is the impression you leave on people when they first meet you: \n `+getTianGanTraits(getBaziByIndex(userInteraction.bazi,1)) +'\n'+getTianGanTraits(getBaziByIndex(userInteraction.bazi,3)) +'';
             
             displayResponseGradually(response);
         }
