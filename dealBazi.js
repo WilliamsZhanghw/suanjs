@@ -19,9 +19,8 @@ function transformGanZhiToWuXing(inputString) {
 
     // 遍历输入字符串，逐个处理字符
     for (let char of inputString) {
-        // 如果是逗号或英文字母，直接保留
-        if (char === ',' ||char === ','  || /^[a-zA-Z]+$/.test(char)) {
-            result += char;
+        // 如果是英文字母，跳过不处理
+        if (/^[a-zA-Z]+$/.test(char)) {
             continue;
         }
 
@@ -47,7 +46,7 @@ function transformGanZhiToWuXing(inputString) {
             }
         }
 
-        // 如果不是天干或地支，保持原样
+        // 如果不是天干或地支，保留原字符
         if (!replaced) {
             result += char;
         }
