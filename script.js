@@ -61,6 +61,7 @@ const userInteraction = {
                 { id: 'nature', text: 'If my personality were reflected in nature, would I be a tree, the sun, or a stream?', handler: 'handleNatureQuestion' },
                 { id: 'stranger', text: 'What impression do I leave on strangers?', handler: 'handleStrangerQuestion' },
                 { id: 'familiar', text: 'How am I perceived by those who are familiar with me?', handler: 'handleFamiliarQuestion' },
+                { id: 'confident', text: 'Am I a confident person?', handler: 'handleConfidentQuestion' },
                 { id: 'myself', text: 'What is my true inner self?', handler: 'handleMyselfQuestion' }
                         
             ],
@@ -124,6 +125,12 @@ const userInteraction = {
                 appendMessage('Error: Invalid handler specified.', 'bot');
             }
         }
+function handleConfidentQuestion() {
+            const response = `Actually you are a `+get +'';
+            
+            displayResponseGradually(response);
+        }
+
  function getBaziByIndex(bazi,number){
                      const parts = String(bazi).split(','); // 使用逗号分割字符串
                             if (parts.length >= 6) {
