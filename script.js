@@ -176,10 +176,10 @@ function getDiZhiPersonality(diZhi) {
 function handleMyselfQuestion() {
             let result = getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,4));
             if(getBaziByIndex(userInteraction.bazi,4) !== getBaziByIndex(userInteraction.bazi,6)){
-                        result += +'\n\n'+getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,6));
+                        result += '\n\n '+getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,6));
             }
             if(getBaziByIndex(userInteraction.bazi,2) !== getBaziByIndex(userInteraction.bazi,4) && getBaziByIndex(userInteraction.bazi,2) !== getBaziByIndex(userInteraction.bazi,6)){
-                        result += +'\n\n'+getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,2));
+                        result += '\n\n '+getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,2));
             }
             const response = `This is what your true inner personality is like: \n\n ` + result +'';
             
@@ -189,7 +189,7 @@ function handleMyselfQuestion() {
 function handleStrangerQuestion() {
             let result = getTianGanTraits(getBaziByIndex(userInteraction.bazi,1));
             if(getBaziByIndex(userInteraction.bazi,1) !== getBaziByIndex(userInteraction.bazi,3)){
-                        result += +'\n\n'+getTianGanTraits(getBaziByIndex(userInteraction.bazi,3));
+                        result += '\n\n '+getTianGanTraits(getBaziByIndex(userInteraction.bazi,3));
             }
             const response = `This is the impression you leave on people when they first meet you: \n\n ` + result +'';
             
