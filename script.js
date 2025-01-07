@@ -57,7 +57,7 @@ const userInteraction = {
         const categories = {
             Self: [
                 { id: 'ioe', text: 'Am I an Introvert (I) or an Extrovert (E)?', handler: 'handleIOEQuestion' },
-                { id: 'zodiac', text: 'What is my zodiac sign?', handler: 'handleZodiacQuestion' },
+                { id: 'zodiac', text: 'What is my Chinese zodiac sign?', handler: 'handleZodiacQuestion' },
                 { id: 'nature', text: 'If my personality were reflected in nature, would I be a tree, the sun, or a stream?', handler: 'handleNatureQuestion' },
                 { id: 'stranger', text: 'What impression do I leave on strangers?', handler: 'handleStrangerQuestion' },
                 { id: 'familiar', text: 'How am I perceived by those who are familiar with me?', handler: 'handleFamiliarQuestion' },
@@ -180,7 +180,11 @@ function handleMyselfQuestion() {
         }
 
 function handleStrangerQuestion() {
-            const response = `This is the impression you leave on people when they first meet you: \n\n `+getTianGanTraits(getBaziByIndex(userInteraction.bazi,1)) +'\n\n'+getTianGanTraits(getBaziByIndex(userInteraction.bazi,3)) +'';
+            let result = getTianGanTraits(getBaziByIndex(userInteraction.bazi,1));
+            if(getBaziByIndex(userInteraction.bazi,1) !=== getBaziByIndex(userInteraction.bazi,3)){
+                        result += +'\n\n'+getTianGanTraits(getBaziByIndex(userInteraction.bazi,3));
+            }
+            const response = `This is the impression you leave on people when they first meet you: \n\n ` + result +'';
             
             displayResponseGradually(response);
         }
