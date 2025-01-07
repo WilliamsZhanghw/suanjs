@@ -74,9 +74,9 @@ function determineConfidence(inputString) {
         element5  &&
         (conditions[element5].includes(element4) || conditions[element5].includes(element6))
     ) {
-        return 'confident'; // 返回英文的“自信”
+        return 'a confident'; // 返回英文的“自信”
     } else {
-        return 'not confident'; // 返回英文的“不自信”
+        return 'NOT a confident'; // 返回英文的“不自信”
     }
 }
 
