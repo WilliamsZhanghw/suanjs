@@ -126,7 +126,7 @@ const userInteraction = {
             }
         }
 function handleConfidentQuestion() {
-            const response = `Actually you are a `+determineConfidence(userInteraction.baziWuxing) +' person.';
+            const response = `Actually you are `+determineConfidence(userInteraction.baziWuxing) +' person.';
             
             displayResponseGradually(response);
         }
