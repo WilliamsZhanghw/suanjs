@@ -174,7 +174,14 @@ function getDiZhiPersonality(diZhi) {
     return diZhiPersonality[diZhi] || "Invalid input: Please enter a valid Earthly Branch character.";
 }
 function handleMyselfQuestion() {
-            const response = `This is what your true inner personality is like: \n\n `+getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,4)) +'\n\n'+getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,6))+'\n\n'+getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,2)) +'';
+            let result = getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,4));
+            if(getBaziByIndex(userInteraction.bazi,4) !=== getBaziByIndex(userInteraction.bazi,6)){
+                        result += +'\n\n'+getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,6));
+            }
+            if(getBaziByIndex(userInteraction.bazi,2) !=== getBaziByIndex(userInteraction.bazi,4) && getBaziByIndex(userInteraction.bazi,2) !=== getBaziByIndex(userInteraction.bazi,6)){
+                        result += +'\n\n'+getDiZhiPersonality(getBaziByIndex(userInteraction.bazi,2));
+            }
+            const response = `This is what your true inner personality is like: \n\n ` + result +'';
             
             displayResponseGradually(response);
         }
