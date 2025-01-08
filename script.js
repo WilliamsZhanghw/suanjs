@@ -288,25 +288,6 @@ function handleFamiliarQuestion() {
 
             console.log("此人信息【" + userInteraction.bazi + userInteraction.baziWuxing + "】"); 
         }
-function getRiYuanDescription(tianGan) {
-            
-    const tianGanMap = {
-        "甲": "A towering tree under the vast sky",
-        "乙": "A winding and graceful vine",
-        "丙": "The blazing and radiant sun",
-        "丁": "A lamp in the dark night",
-        "戊": "Solid walls and sturdy dikes",
-        "己": "The nurturing earth embracing all",
-        "庚": "A sharp and imposing blade or axe",
-        "辛": "Delicate and exquisite silver jewelry",
-        "壬": "A grand and majestic river",
-        "癸": "A gentle and quiet flowing stream"
-    };
-
-    return tianGanMap[tianGan] || "Invalid input: Please enter a valid Heavenly Stem character.";
-}
-
-
 
         function checkIOE() {
                 inputChar = userInteraction.riyuan;
