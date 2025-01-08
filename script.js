@@ -132,7 +132,17 @@ const userInteraction = {
         }
 
 function handleCalmQuestion() {
-            const response = `Actually you are `+determineConfidence(userInteraction.baziWuxing) +' person.';
+            let result = '';
+            if( checkElementInString('金',userInteraction.baziWuxing) == false){
+                        result = 'You are NOT a calm person at all';
+            }else if(checkCharacterAtPosition('金',userInteraction.baziWuxing,4) || checkCharacterAtPosition('金',userInteraction.baziWuxing,5) || checkCharacterAtPosition('金',userInteraction.baziWuxing,6)){
+                        result = 'You are somewhat a typical calm person.';
+            }else{
+                        result = 'You are somewhat a calm person, but not in a very typical sense.';            
+            
+            }  
+               
+            const response = result;
             
             displayResponseGradually(response);
         }
