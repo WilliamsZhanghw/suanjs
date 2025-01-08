@@ -152,7 +152,19 @@ function handleConfidentQuestion() {
             displayResponseGradually(response);
         }
 function handleAdaptableQuestion() {
-            const response = `Actually you are `+determineConfidence(userInteraction.baziWuxing) +' person.';
+            let result = '';
+            let ele = '水';
+            const des = 'calm';
+            if( checkElementInString(ele,userInteraction.baziWuxing) == false){
+                        result = 'You are NOT a '+ des+' person at all.';
+            }else if(checkCharacterAtPosition(ele,userInteraction.baziWuxing,4) || checkCharacterAtPosition(ele,userInteraction.baziWuxing,5) || checkCharacterAtPosition(ele,userInteraction.baziWuxing,6)){
+                        result = 'You are somewhat a typical '+ des+' person.';
+            }else{
+                        result = 'You are somewhat a '+ des+' person, but not in a very typical sense.';            
+            
+            }  
+               
+            const response = result;
             
             displayResponseGradually(response);
         }
