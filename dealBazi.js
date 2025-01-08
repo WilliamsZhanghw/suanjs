@@ -79,5 +79,12 @@ function determineConfidence(inputString) {
         return 'NOT a confident'; // 返回英文的“不自信”
     }
 }
-
+function checkElementInString(element, inputString) {
+    // 检查输入字符串中是否包含指定的五行字符
+    if (inputString.includes(element)) {
+        return "yes";
+    } else {
+        return "no";
+    }
+}
 
