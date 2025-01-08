@@ -82,9 +82,21 @@ function determineConfidence(inputString) {
 function checkElementInString(element, inputString) {
     // 检查输入字符串中是否包含指定的五行字符
     if (inputString.includes(element)) {
-        return "yes";
+        return true;
     } else {
-        return "no";
+        return false;
     }
+}
+function checkCharacterAtPosition(char, inputString, position) {
+    // 检查输入的位置是否超出字符串长度
+    if (position < 1 || position > inputString.length) {
+        return "Invalid position";
+    }
+
+    // 获取字符串中指定位置的字符
+    const charAtPosition = inputString[position - 1]; // 注意：位置从1开始，索引从0开始
+
+    // 判断是否一致
+    return char === charAtPosition ? true : false;
 }
 
