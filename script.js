@@ -136,7 +136,7 @@ function handleCalmQuestion() {
             if( checkElementInString('金',userInteraction.baziWuxing) == false){
                         result = 'You are NOT a calm person at all.';
             }else if(checkCharacterAtPosition('金',userInteraction.baziWuxing,4) || checkCharacterAtPosition('金',userInteraction.baziWuxing,5) || checkCharacterAtPosition('金',userInteraction.baziWuxing,6)){
-                        result = 'You are somewhat a typical calm person.';
+                        result = 'You are a typical calm person.';
             }else{
                         result = 'You are somewhat a calm person, but not in a very typical sense.';            
             
@@ -158,7 +158,7 @@ function handleAdaptableQuestion() {
             if( checkElementInString(ele,userInteraction.baziWuxing) == false){
                         result = 'You are NOT an'+ des+' person at all.';
             }else if(checkCharacterAtPosition(ele,userInteraction.baziWuxing,4) || checkCharacterAtPosition(ele,userInteraction.baziWuxing,5) || checkCharacterAtPosition(ele,userInteraction.baziWuxing,6)){
-                        result = 'You are somewhat a typical '+ des+' person.';
+                        result = 'You are a typical '+ des+' person.';
             }else{
                         result = 'You are somewhat an '+ des+' person, but not in a very typical sense.';            
             
