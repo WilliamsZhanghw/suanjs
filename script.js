@@ -154,13 +154,13 @@ function handleConfidentQuestion() {
 function handleAdaptableQuestion() {
             let result = '';
             let ele = '水';
-            const des = 'calm';
+            const des = 'adaptable';
             if( checkElementInString(ele,userInteraction.baziWuxing) == false){
-                        result = 'You are NOT a '+ des+' person at all.';
+                        result = 'You are NOT an'+ des+' person at all.';
             }else if(checkCharacterAtPosition(ele,userInteraction.baziWuxing,4) || checkCharacterAtPosition(ele,userInteraction.baziWuxing,5) || checkCharacterAtPosition(ele,userInteraction.baziWuxing,6)){
                         result = 'You are somewhat a typical '+ des+' person.';
             }else{
-                        result = 'You are somewhat a '+ des+' person, but not in a very typical sense.';            
+                        result = 'You are somewhat an '+ des+' person, but not in a very typical sense.';            
             
             }  
                
