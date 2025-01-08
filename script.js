@@ -62,13 +62,11 @@ const userInteraction = {
                 { id: 'stranger', text: 'What impression do I leave on strangers?', handler: 'handleStrangerQuestion' },
                 { id: 'familiar', text: 'How am I perceived by those who are familiar with me?', handler: 'handleFamiliarQuestion' },
                 { id: 'confident', text: 'Am I a confident person?', handler: 'handleConfidentQuestion' },
-                { id: 'myself', text: 'Am I a confident person?', handler: 'handleMyselfQuestion' },
-                { id: 'myself', text: 'Am I someone who can handle situations calmly?', handler: 'handleMyselfQuestion' },
-                { id: 'myself', text: 'Am I adaptable when handling situations?', handler: 'handleMyselfQuestion' },
-                { id: 'myself', text: 'Am I a courageous person?', handler: 'handleMyselfQuestion' },
-                { id: 'myself', text: 'Am I a compassionate person?', handler: 'handleMyselfQuestion' },
-                { id: 'myself', text: 'Am I someone who values promises?', handler: 'handleMyselfQuestion' },
-                { id: 'myself', text: 'What is my true inner self?', handler: 'handleMyselfQuestion' },
+                { id: 'myself', text: 'Am I someone who can handle situations calmly?', handler: 'handleCalmQuestion' },
+                { id: 'myself', text: 'Am I adaptable when handling situations?', handler: 'handleAdaptableQuestion' },
+                { id: 'myself', text: 'Am I a courageous person?', handler: 'handleCourageousQuestion' },
+                { id: 'myself', text: 'Am I a compassionate person?', handler: 'handleCompassionateQuestion' },
+                { id: 'myself', text: 'Am I someone who values promises?', handler: 'handlePromisesQuestion' },
                 { id: 'myself', text: 'What is my true inner self?', handler: 'handleMyselfQuestion' }
                         
             ],
@@ -132,12 +130,32 @@ const userInteraction = {
                 appendMessage('Error: Invalid handler specified.', 'bot');
             }
         }
+
+function handleCalmQuestion() {
+            const response = `Actually you are `+determineConfidence(userInteraction.baziWuxing) +' person.';
+            
+            displayResponseGradually(response);
+        }
 function handleConfidentQuestion() {
             const response = `Actually you are `+determineConfidence(userInteraction.baziWuxing) +' person.';
             
             displayResponseGradually(response);
         }
-
+function handleAdaptableQuestion() {
+            const response = `Actually you are `+determineConfidence(userInteraction.baziWuxing) +' person.';
+            
+            displayResponseGradually(response);
+        }
+function handleCourageousQuestion() {
+            const response = `Actually you are `+determineConfidence(userInteraction.baziWuxing) +' person.';
+            
+            displayResponseGradually(response);
+        }
+function handlePromisesQuestion() {
+            const response = `Actually you are `+determineConfidence(userInteraction.baziWuxing) +' person.';
+            
+            displayResponseGradually(response);
+        }
  function getBaziByIndex(bazi,number){
                      const parts = String(bazi).split(','); // 使用逗号分割字符串
                             if (parts.length >= 6) {
