@@ -62,17 +62,17 @@ const userInteraction = {
                 { id: 'stranger', text: 'What impression do I leave on strangers?', handler: 'handleStrangerQuestion' },
                 { id: 'familiar', text: 'How am I perceived by those who are familiar with me?', handler: 'handleFamiliarQuestion' },
                 { id: 'confident', text: 'Am I a confident person?', handler: 'handleConfidentQuestion' },
-                { id: 'myself', text: 'Am I someone who can handle situations calmly?', handler: 'handleCalmQuestion' },
-                { id: 'myself', text: 'Am I adaptable when handling situations?', handler: 'handleAdaptableQuestion' },
-                { id: 'myself', text: 'Am I a courageous person?', handler: 'handleCourageousQuestion' },
-                { id: 'myself', text: 'Am I a compassionate person?', handler: 'handleCompassionateQuestion' },
-                { id: 'myself', text: 'Am I someone who values promises?', handler: 'handlePromisesQuestion' },
+                { id: 'calm', text: 'Am I someone who can handle situations calmly?', handler: 'handleCalmQuestion' },
+                { id: 'adaptable', text: 'Am I adaptable when handling situations?', handler: 'handleAdaptableQuestion' },
+                { id: 'courageous', text: 'Am I a courageous person?', handler: 'handleCourageousQuestion' },
+                { id: 'compassionate', text: 'Am I a compassionate person?', handler: 'handleCompassionateQuestion' },
+                { id: 'promises', text: 'Am I someone who values promises?', handler: 'handlePromisesQuestion' },
                 { id: 'myself', text: 'What is my true inner self?', handler: 'handleMyselfQuestion' }
                         
             ],
             Love: [
-                { id: 'compatibility', text: 'How compatible are we?', handler: 'handleCompatibilityQuestion' },
-                { id: 'love-future', text: 'What is my love future?', handler: 'handleLoveFutureQuestion' },        
+                { id: 'ideal', text: 'What does my ideal partner look like?', handler: 'handleIdealPartnerQuestion' },
+                { id: 'sexpopular', text: 'Am I someone who is popular with the opposite sex?', handler: 'handleSexPopularQuestion' },        
                 { id: 'marriage', text: 'How many marriages will I have?', handler: 'handleMarriageQuestion' },
                 { id: 'partner', text: 'What will my partner look like?', handler: 'handlePartnerQuestion' }
             ],
