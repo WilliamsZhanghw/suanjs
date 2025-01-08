@@ -169,12 +169,36 @@ function handleAdaptableQuestion() {
             displayResponseGradually(response);
         }
 function handleCourageousQuestion() {
-            const response = `Actually you are `+determineConfidence(userInteraction.baziWuxing) +' person.';
+            let result = '';
+            let ele = '木';
+            const des = 'courageous';
+            if( checkElementInString(ele,userInteraction.baziWuxing) == false){
+                        result = 'You are NOT a'+ des+' person at all.';
+            }else if(checkCharacterAtPosition(ele,userInteraction.baziWuxing,4) || checkCharacterAtPosition(ele,userInteraction.baziWuxing,5) || checkCharacterAtPosition(ele,userInteraction.baziWuxing,6)){
+                        result = 'You are a typical '+ des+' person.';
+            }else{
+                        result = 'You are somewhat a '+ des+' person, but not in a very typical sense.';            
+            
+            }  
+               
+            const response = result;
             
             displayResponseGradually(response);
         }
 function handlePromisesQuestion() {
-            const response = `Actually you are `+determineConfidence(userInteraction.baziWuxing) +' person.';
+            let result = '';
+            let ele = '土';
+            const des = 'commitment-minded';
+            if( checkElementInString(ele,userInteraction.baziWuxing) == false){
+                        result = 'You are NOT a'+ des+' person at all.';
+            }else if(checkCharacterAtPosition(ele,userInteraction.baziWuxing,4) || checkCharacterAtPosition(ele,userInteraction.baziWuxing,5) || checkCharacterAtPosition(ele,userInteraction.baziWuxing,6)){
+                        result = 'You are a typical '+ des+' person.';
+            }else{
+                        result = 'You are somewhat a '+ des+' person, but not in a very typical sense.';            
+            
+            }  
+               
+            const response = result;
             
             displayResponseGradually(response);
         }
