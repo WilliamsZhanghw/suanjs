@@ -62,6 +62,13 @@ const userInteraction = {
                 { id: 'stranger', text: 'What impression do I leave on strangers?', handler: 'handleStrangerQuestion' },
                 { id: 'familiar', text: 'How am I perceived by those who are familiar with me?', handler: 'handleFamiliarQuestion' },
                 { id: 'confident', text: 'Am I a confident person?', handler: 'handleConfidentQuestion' },
+                { id: 'myself', text: 'Am I a confident person?', handler: 'handleMyselfQuestion' },
+                { id: 'myself', text: 'Am I someone who can handle situations calmly?', handler: 'handleMyselfQuestion' },
+                { id: 'myself', text: 'Am I adaptable when handling situations?', handler: 'handleMyselfQuestion' },
+                { id: 'myself', text: 'Am I a courageous person?', handler: 'handleMyselfQuestion' },
+                { id: 'myself', text: 'Am I a compassionate person?', handler: 'handleMyselfQuestion' },
+                { id: 'myself', text: 'Am I someone who values promises?', handler: 'handleMyselfQuestion' },
+                { id: 'myself', text: 'What is my true inner self?', handler: 'handleMyselfQuestion' },
                 { id: 'myself', text: 'What is my true inner self?', handler: 'handleMyselfQuestion' }
                         
             ],
