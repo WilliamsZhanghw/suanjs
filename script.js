@@ -185,6 +185,24 @@ function handleCourageousQuestion() {
             
             displayResponseGradually(response);
         }
+
+function handleCompassionateQuestion() {
+            let result = '';
+            let ele = '火';
+            const des = 'compassionate';
+            if( checkElementInString(ele,userInteraction.baziWuxing) == false){
+                        result = 'You are NOT a'+ des+' person at all.';
+            }else if(checkCharacterAtPosition(ele,userInteraction.baziWuxing,4) || checkCharacterAtPosition(ele,userInteraction.baziWuxing,5) || checkCharacterAtPosition(ele,userInteraction.baziWuxing,6)){
+                        result = 'You are a typical '+ des+' person.';
+            }else{
+                        result = 'You are somewhat a '+ des+' person, but not in a very typical sense.';            
+            
+            }  
+               
+            const response = result;
+            
+            displayResponseGradually(response);
+        }
 function handlePromisesQuestion() {
             let result = '';
             let ele = '土';
