@@ -40,11 +40,7 @@ const userInteraction = {
         userInteraction.gender = gender;
     }
 
-    function calculateResultWithGender(gender) {
-        // 根据性别计算吉凶
-        console.log('根据性别进行计算:', gender);
-        // 添加计算逻辑...
-    }
+    
                 if (event.data.action === 'fetchedBirthday') {
                     const userBirthday = event.data.birthday;
                     if (!userBirthday) {
@@ -52,8 +48,10 @@ const userInteraction = {
                         showInputGroup();
                     } else {
                         console.log("get message from parent to handle this birthday message:",event.data.action);
-                        //alert("display birthday.");        
-                        userInteraction.birthday = userBirthday;
+                        //alert("display birthday.");   
+                        const [birthday, gender] = userBirthday.split('.');
+                        userInteraction.birthday = birthday;
+                        userInteraction.gender = gender;
                         updateBaziZodiac();
                         appendMessage(`Welcome back! Your birthday is detected as: ${userBirthday}`, 'bot');
                         loadCategories();
@@ -81,8 +79,9 @@ const userInteraction = {
 
         // Save user's birthday to the main page
         function saveUserBirthdayGender(birthday,gender) {
-            window.parent.postMessage({ action: 'saveBirthday', birthday }, '*');
-            window.parent.postMessage({ action: 'saveGender', gender }, '*');
+            const bg = birthday+'.'+gender;
+            window.parent.postMessage({ action: 'saveBirthday', bg }, '*');
+            
         }
 
         // Define categories and questions
