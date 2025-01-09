@@ -122,8 +122,8 @@ const userInteraction = {
         };
 
         function handleWealthQuestion(){
-                    input = userInteraction.baziWuxing;
-                    input = "金水木火金水木土";
+                    //let input = userInteraction.baziWuxing;
+                    let input = "金水木火金水木土";
                     result = analyzeWealth(input);
                     console.log("Wealth:",result);
                     const response = result;
