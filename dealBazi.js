@@ -188,13 +188,8 @@ function analyzeWealth(input) {
         result = "You care about wealth, but not that much.";
     }
 
-    return {
-        input,
-        selfElement,
-        wealthElement,
-        wealthIndices,
-        result
-    };
+    return result;
+    
 }
 
 // 测试
