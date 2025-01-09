@@ -118,7 +118,7 @@ const userInteraction = {
             Wealth: [
                 { id: 'wealth', text: 'Do I value wealth?', handler: 'handleWealthQuestion' },
                 { id: 'purpose', text: 'Do I have a sense of purpose in what I do?', handler: 'handlePurposeQuestion' },
-                { id: 'opinions', text: 'Am I someone who is good at listening to others' opinions?', handler: 'handleOpinionsQuestion' }
+                { id: 'opinions', text: "Am I someone who is good at listening to others' opinions?", handler: 'handleOpinionsQuestion' }
             ],
         };
         function handleOpinionsQuestion(){
