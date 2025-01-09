@@ -126,7 +126,7 @@ const userInteraction = {
                     let input = "金水木火金水木土";
                     result = analyzeWealth(input);//surface yes
                     console.log("Wealth1:",result);
-                    input = "金水火火金火木土土";//no 
+                    input = "金水火火金火土土";//no 
                     result = analyzeWealth(input);
                     console.log("Wealth2:",result);
                     input = "金水火木金水木土";// very
