@@ -191,11 +191,47 @@ function analyzeWealth(input) {
     return result;
     
 }
+function analyzePurpose(input) {
+    const selfPosition = 5;
+    const elements = ['金', '水', '木', '火', '土']; // 五行顺序
+    const 克制关系 = {
+        '金': '木',
+        '水': '火',
+        '木': '土',
+        '火': '金',
+        '土': '水'
+    };
 
-// 测试
-const input = "金水木火金水木土";
-const selfPosition = 5; // 第5个字表示自己
-const analysisResult = analyzeWealth(input);
-console.log(analysisResult);
+    // 获取自己的五行元素
+    const selfElement = input[selfPosition - 1]; // 注意索引从0开始，所以需要-1
+    const wealthElement = 克制关系[selfElement]; // 自己克制的五行为财
+
+    // 查找财的分布情况
+    const wealthIndices = input.split('').reduce((indices, char, index) => {
+        if (char === wealthElement) indices.push(index + 1); // 转换为人类可读的位置
+        return indices;
+    }, []);
+
+    // 判断财的分布情况
+    let result;
+    console.log("indices:",wealthIndices);
+    if (wealthIndices.includes(selfPosition - 1) || wealthIndices.includes(selfPosition + 1)) {
+    result = "You have a strong sense of purpose.";
+    } else if (wealthIndices.length === 0) {
+        result = "You have no sense of purpose at all.";
+    } else if ([1, 3].some(i => wealthIndices.includes(i)) && !wealthIndices.includes(2)) {
+        result = "You seem to prioritize goals on the surface, but deep down, you don't actually value them.";
+    } else if (!wealthIndices.includes(1) && wealthIndices.includes(2)) {
+        result = "You don't seem to prioritize goals on the surface, but deep down, you do value them.";
+    } else {
+        result = "You do have sense of purpose, but not that much.";
+    }
+
+    return result;
+    
+}
+
+
+
 
 
