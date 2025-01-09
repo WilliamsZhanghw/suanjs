@@ -180,9 +180,9 @@ function analyzeWealth(input) {
     result = "You highly value wealth.";
     } else if (wealthIndices.length === 0) {
         result = "You don't value wealth at all.";
-    } else if ([0, 2].some(i => wealthIndices.includes(i)) && !wealthIndices.includes(1)) {
+    } else if ([1, 3].some(i => wealthIndices.includes(i)) && !wealthIndices.includes(2)) {
         result = "You seem to value wealth on the surface, but you don't actually value it.";
-    } else if (!wealthIndices.includes(0) && wealthIndices.includes(1)) {
+    } else if (!wealthIndices.includes(1) && wealthIndices.includes(2)) {
         result = "You don't appear to value wealth, but you actually do.";
     } else {
         result = "You care about wealth, but not that much.";
