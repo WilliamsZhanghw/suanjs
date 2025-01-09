@@ -146,13 +146,8 @@ const userInteraction = {
                 //添加滑动提示，如果遇到什么问题
                 if(question.text === 'What is my Chinese zodiac sign?'){
                         const tooltip = document.getElementById('tooltip');
-                            // 点击时显示提示文案
-                            
-                                tooltip.style.display = 'block'; // 显示提示
-                                setTimeout(() => {
-                                    tooltip.style.display = 'none'; // 延时隐藏提示
-                                }, 3000); // 3秒后隐藏
-                           
+                        // 点击时显示提示文案   
+                        tooltip.style.display = 'block'; // 显示提示       
                 }
                 button.onclick = () => {
                     window.parent.postMessage({ action: 'deductPoints', handler: question.handler }, '*');
