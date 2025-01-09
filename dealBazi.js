@@ -200,7 +200,7 @@ function analyzeWealth(input) {
 // 测试
 const input = "金水木火金水木土";
 const selfPosition = 5; // 第5个字表示自己
-const analysisResult = analyzeWealth(input, selfPosition);
+const analysisResult = analyzeWealth(input);
 console.log(analysisResult);
 
 
