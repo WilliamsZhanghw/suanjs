@@ -117,10 +117,17 @@ const userInteraction = {
             ],
             Wealth: [
                 { id: 'wealth', text: 'Do I value wealth?', handler: 'handleWealthQuestion' },
-                { id: 'success', text: 'What will bring me success?', handler: 'handleSuccessQuestion' }
+                { id: 'purpose', text: 'Do I have a sense of purpose in what I do?', handler: 'handlePurposeQuestion' }
             ],
         };
-
+        function handlePurposeQuestion(){
+                   let input = userInteraction.baziWuxing;
+                   result = analyzePurpose(input);
+                    
+                    const response = result;
+                    
+                    displayResponseGradually(response);
+        }
         function handleWealthQuestion(){
                     let input = userInteraction.baziWuxing;
                     
