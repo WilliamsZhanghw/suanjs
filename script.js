@@ -12,7 +12,7 @@ const userInteraction = {
                  window.parent.postMessage({ action: 'fetchBirthday' }, '*');
                  const tooltip = document.getElementById('tooltip');
                         // 点击时显示提示文案   
-                        tooltip.style.display = 'block'; // 显示提示   
+                        tooltip.style.display = 'none'; // 显示提示   
                         console.log("display1 indicate...");
                     
                    //alert("fetch birthday.");
