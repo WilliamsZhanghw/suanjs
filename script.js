@@ -53,7 +53,7 @@ const userInteraction = {
                         userInteraction.birthday = birthday;
                         userInteraction.gender = gender;
                         updateBaziZodiac();
-                        appendMessage(`Welcome back! Your birthday is detected as: ${userBirthday}`, 'bot');
+                        appendMessage(`Welcome back! Currently, the provided birthday and gender are: ${userBirthday}`, 'bot');
                         loadCategories();
                     }
                 } else if (event.data.action === 'pointsDeducted') {
