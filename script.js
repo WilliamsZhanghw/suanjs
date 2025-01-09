@@ -10,6 +10,11 @@ const userInteraction = {
 
         document.addEventListener('DOMContentLoaded', () => {
                  window.parent.postMessage({ action: 'fetchBirthday' }, '*');
+                 const tooltip = document.getElementById('tooltip');
+                        // 点击时显示提示文案   
+                        tooltip.style.display = 'block'; // 显示提示   
+                        console.log("display1 indicate...");
+                    
                    //alert("fetch birthday.");
             // Listen for messages from the main page
             window.addEventListener('message', (event) => {
@@ -144,11 +149,14 @@ const userInteraction = {
                 const button = document.createElement('button');
                 button.textContent = question.text;
                 //添加滑动提示，如果遇到什么问题
+                console.log("before display indicate...");
                 if(question.text === 'What is my Chinese zodiac sign?'){
                         const tooltip = document.getElementById('tooltip');
                         // 点击时显示提示文案   
-                        tooltip.style.display = 'block'; // 显示提示       
+                        tooltip.style.display = 'block'; // 显示提示   
+                        console.log("display indicate...");
                 }
+                console.log("after display indicate...");
                 button.onclick = () => {
                     window.parent.postMessage({ action: 'deductPoints', handler: question.handler }, '*');
                 };
