@@ -96,6 +96,7 @@ const userInteraction = {
             Self: [
                 { id: 'ioe', text: 'Am I an Introvert (I) or an Extrovert (E)?', handler: 'handleIOEQuestion' },
                 { id: 'zodiac', text: 'What is my Chinese zodiac sign?', handler: 'handleZodiacQuestion' },
+                { id: 'swipe', text: 'Please Swipe Left for More Questions', handler: 'handleSwipeQuestion' },
                 { id: 'nature', text: 'If my personality were reflected in nature, would I be a tree, the sun, or a stream?', handler: 'handleNatureQuestion' },
                 { id: 'stranger', text: 'What impression do I leave on strangers?', handler: 'handleStrangerQuestion' },
                 { id: 'familiar', text: 'How am I perceived by those who are familiar with me?', handler: 'handleFamiliarQuestion' },
@@ -120,6 +121,16 @@ const userInteraction = {
             ],
         };
 
+        function    handleSwipeQuestion(){
+                        const tooltip = document.getElementById('tooltip');
+                        // 点击时显示提示文案   
+                        tooltip.style.display = 'block'; // 显示提示   
+                        console.log("display indicate...");
+                        setTimeout(() => {
+                                    tooltip.style.display = 'none'; // 延时隐藏提示
+                                }, 4000); // 3秒后隐藏
+                
+        }
         // Load categories
         function loadCategories() {
             const optionsDiv = document.getElementById('options');
@@ -148,15 +159,8 @@ const userInteraction = {
             categories[category].forEach((question) => {
                 const button = document.createElement('button');
                 button.textContent = question.text;
-                //添加滑动提示，如果遇到什么问题
-                console.log("before display indicate...");
-                if(question.text === 'What is my Chinese zodiac sign?'){
-                        const tooltip = document.getElementById('tooltip');
-                        // 点击时显示提示文案   
-                        tooltip.style.display = 'block'; // 显示提示   
-                        console.log("display indicate...");
-                }
-                console.log("after display indicate...");
+                
+                
                 button.onclick = () => {
                     window.parent.postMessage({ action: 'deductPoints', handler: question.handler }, '*');
                 };
