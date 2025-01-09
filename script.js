@@ -116,10 +116,20 @@ const userInteraction = {
                 { id: 'partner', text: 'What will my partner look like?', handler: 'handlePartnerQuestion' }
             ],
             Work: [
-                { id: 'career-path', text: 'What is my career path?', handler: 'handleCareerPathQuestion' },
+                { id: 'wealth', text: 'Do I value wealth?', handler: 'handleWealthQuestion' },
                 { id: 'success', text: 'What will bring me success?', handler: 'handleSuccessQuestion' }
             ],
         };
+
+        function handleWealthQuestion(){
+                    input = userInteraction.baziWuxing;
+                    input = "金水木火金水木土";
+                    result = analyzeWealth(input);
+                    console.log("Wealth:",result);
+                    const response = result;
+                    
+                    displayResponseGradually(response);
+        }
 
         function    handleSwipeQuestion(){
                         const tooltip = document.getElementById('tooltip');
