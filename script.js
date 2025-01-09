@@ -115,7 +115,7 @@ const userInteraction = {
                 { id: 'marriage', text: 'How many marriages will I have?', handler: 'handleMarriageQuestion' },
                 { id: 'partner', text: 'What will my partner look like?', handler: 'handlePartnerQuestion' }
             ],
-            Work: [
+            Wealth: [
                 { id: 'wealth', text: 'Do I value wealth?', handler: 'handleWealthQuestion' },
                 { id: 'success', text: 'What will bring me success?', handler: 'handleSuccessQuestion' }
             ],
