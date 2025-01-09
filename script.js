@@ -98,14 +98,14 @@ const userInteraction = {
                 { id: 'zodiac', text: 'What is my Chinese zodiac sign?', handler: 'handleZodiacQuestion' },
                 { id: 'swipe', text: 'Please Swipe Left for More Questions', handler: 'handleSwipeQuestion' },
                 { id: 'nature', text: 'If my personality were reflected in nature, would I be a tree, the sun, or a stream?', handler: 'handleNatureQuestion' },
-                { id: 'stranger', text: 'What impression do I leave on strangers?', handler: 'handleStrangerQuestion' },
-                { id: 'familiar', text: 'How am I perceived by those who are familiar with me?', handler: 'handleFamiliarQuestion' },
                 { id: 'confident', text: 'Am I a confident person?', handler: 'handleConfidentQuestion' },
                 { id: 'calm', text: 'Am I someone who can handle situations calmly?', handler: 'handleCalmQuestion' },
                 { id: 'adaptable', text: 'Am I adaptable when handling situations?', handler: 'handleAdaptableQuestion' },
                 { id: 'courageous', text: 'Am I a courageous person?', handler: 'handleCourageousQuestion' },
                 { id: 'compassionate', text: 'Am I a compassionate person?', handler: 'handleCompassionateQuestion' },
                 { id: 'promises', text: 'Am I someone who values promises?', handler: 'handlePromisesQuestion' },
+                { id: 'stranger', text: 'What impression do I leave on strangers?', handler: 'handleStrangerQuestion' },
+                { id: 'familiar', text: 'How am I perceived by those who are familiar with me?', handler: 'handleFamiliarQuestion' },
                 { id: 'myself', text: 'What is my true inner self?', handler: 'handleMyselfQuestion' }
                         
             ],
