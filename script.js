@@ -13,7 +13,36 @@ const userInteraction = {
             // Listen for messages from the main page
             window.addEventListener('message', (event) => {
                 console.log("get message from parent to handle this:",event.data.action);
-                        
+                        const genderModal = document.getElementById('genderModal');
+    const maleButton = document.getElementById('maleButton');
+    const femaleButton = document.getElementById('femaleButton');
+
+    // 生日输入完成后触发弹框
+    document.getElementById('birthday-input').addEventListener('change', () => {
+        genderModal.style.display = 'block';
+    });
+
+    // 处理用户选择性别
+    maleButton.addEventListener('click', () => {
+        handleGenderSelection('男');
+    });
+
+    femaleButton.addEventListener('click', () => {
+        handleGenderSelection('女');
+    });
+
+    function handleGenderSelection(gender) {
+        genderModal.style.display = 'none';
+        console.log('选择的性别是:', gender);
+        // 在这里调用其他逻辑，比如计算结果
+        calculateResultWithGender(gender);
+    }
+
+    function calculateResultWithGender(gender) {
+        // 根据性别计算吉凶
+        console.log('根据性别进行计算:', gender);
+        // 添加计算逻辑...
+    }
                 if (event.data.action === 'fetchedBirthday') {
                     const userBirthday = event.data.birthday;
                     if (!userBirthday) {
