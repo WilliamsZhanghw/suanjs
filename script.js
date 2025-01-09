@@ -14,7 +14,9 @@ const userInteraction = {
             // Listen for messages from the main page
             window.addEventListener('message', (event) => {
                 console.log("get message from parent to handle this:",event.data.action);
+
     
+                        
     const genderModal = document.getElementById('genderModal');
     const maleButton = document.getElementById('maleButton');
     const femaleButton = document.getElementById('femaleButton');
@@ -141,6 +143,17 @@ const userInteraction = {
             categories[category].forEach((question) => {
                 const button = document.createElement('button');
                 button.textContent = question.text;
+                //添加滑动提示，如果遇到什么问题
+                if(question.text === 'What is my Chinese zodiac sign?'){
+                        const tooltip = document.getElementById('tooltip');
+                            // 点击时显示提示文案
+                            
+                                tooltip.style.display = 'block'; // 显示提示
+                                setTimeout(() => {
+                                    tooltip.style.display = 'none'; // 延时隐藏提示
+                                }, 3000); // 3秒后隐藏
+                           
+                }
                 button.onclick = () => {
                     window.parent.postMessage({ action: 'deductPoints', handler: question.handler }, '*');
                 };
