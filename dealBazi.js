@@ -245,7 +245,7 @@ function analyzeOpinion(input) {
     const selfElement = input[selfPosition - 1]; // 注意索引从0开始，所以需要-1
     const wealthElement = 印生关系[selfElement]; // 生自己的为印
 
-    // 查找财的分布情况
+    // 查找的分布情况
     const wealthIndices = input.split('').reduce((indices, char, index) => {
         if (char === wealthElement) indices.push(index + 1); // 转换为人类可读的位置
         return indices;
@@ -264,6 +264,41 @@ function analyzeOpinion(input) {
         result = "You seem not to like listening to others' opinions on the surface, but you actually take them in.";
     } else {
         result = "Sometimes you listen to others' opinions, and sometimes you don't.";
+    }
+
+    return result;
+    
+}
+function analyzeSupport(input) {
+    const selfPosition = 5;
+    const elements = ['金', '水', '木', '火', '土']; // 五行顺序
+    const 印生关系 = {
+        '金': '土',
+        '水': '金',
+        '木': '水',
+        '火': '木',
+        '土': '火'
+    };
+
+    // 获取自己的五行元素
+    const selfElement = input[selfPosition - 1]; // 注意索引从0开始，所以需要-1
+    const wealthElement = 印生关系[selfElement]; // 生自己的为印
+
+    // 查找的分布情况
+    const wealthIndices = input.split('').reduce((indices, char, index) => {
+        if (char === wealthElement) indices.push(index + 1); // 转换为人类可读的位置
+        return indices;
+    }, []);
+
+    // 判断财的分布情况
+    let result;
+    console.log("indices:",wealthIndices);
+    if (wealthIndices.includes(selfPosition - 1) || wealthIndices.includes(selfPosition + 1)) {
+    result = "Benefactors are very likely to extend their support to you.";
+    } else if (wealthIndices.length === 0) {
+        result = "It seems improbable that help will come your way.";
+    } else {
+        result = "Sometimes help comes your way, but other times it doesn't.";
     }
 
     return result;
