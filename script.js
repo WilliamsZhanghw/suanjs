@@ -127,7 +127,7 @@ const userInteraction = {
 
             // Add Modify Birthday button
             const modifyButton = document.createElement('button');
-            modifyButton.textContent = 'Modify Birthday';
+            modifyButton.textContent = 'Modify Birthday and Gender';
             modifyButton.onclick = showInputGroup;
             optionsDiv.appendChild(modifyButton);
         }
