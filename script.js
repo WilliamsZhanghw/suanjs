@@ -118,9 +118,19 @@ const userInteraction = {
             Wealth: [
                 { id: 'wealth', text: 'Do I value wealth?', handler: 'handleWealthQuestion' },
                 { id: 'purpose', text: 'Do I have a sense of purpose in what I do?', handler: 'handlePurposeQuestion' },
-                { id: 'opinions', text: "Am I someone who is good at listening to others' opinions?", handler: 'handleOpinionsQuestion' }
+                { id: 'opinions', text: "Am I someone who is good at listening to others' opinions?", handler: 'handleOpinionsQuestion' },
+                { id: 'support', text: "Do I have a higher chance of getting help from benefactors?", handler: 'handleSupportQuestion' }
+                       
             ],
         };
+        function handleSupportQuestion(){
+                   let input = userInteraction.baziWuxing;
+                   result = analyzeSupport(input);
+                    
+                    const response = result;
+                    
+                    displayResponseGradually(response);
+        }
         function handleOpinionsQuestion(){
                    let input = userInteraction.baziWuxing;
                    result = analyzeOpinion(input);
