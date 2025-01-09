@@ -5,6 +5,7 @@ const userInteraction = {
             riyuan : null,
             yuezhi : null,
             baziWuxing : null,
+            gender: null,
         };
 
         document.addEventListener('DOMContentLoaded', () => {
@@ -13,7 +14,8 @@ const userInteraction = {
             // Listen for messages from the main page
             window.addEventListener('message', (event) => {
                 console.log("get message from parent to handle this:",event.data.action);
-                        const genderModal = document.getElementById('genderModal');
+    
+    const genderModal = document.getElementById('genderModal');
     const maleButton = document.getElementById('maleButton');
     const femaleButton = document.getElementById('femaleButton');
 
@@ -24,18 +26,18 @@ const userInteraction = {
 
     // 处理用户选择性别
     maleButton.addEventListener('click', () => {
-        handleGenderSelection('男');
+        handleGenderSelection('Male');
     });
 
     femaleButton.addEventListener('click', () => {
-        handleGenderSelection('女');
+        handleGenderSelection('Female');
     });
 
     function handleGenderSelection(gender) {
         genderModal.style.display = 'none';
         console.log('选择的性别是:', gender);
         // 在这里调用其他逻辑，比如计算结果
-        calculateResultWithGender(gender);
+        userInteraction.gender = gender;
     }
 
     function calculateResultWithGender(gender) {
@@ -78,8 +80,9 @@ const userInteraction = {
         });
 
         // Save user's birthday to the main page
-        function saveUserBirthday(birthday) {
+        function saveUserBirthdayGender(birthday,gender) {
             window.parent.postMessage({ action: 'saveBirthday', birthday }, '*');
+            window.parent.postMessage({ action: 'saveGender', gender }, '*');
         }
 
         // Define categories and questions
@@ -388,7 +391,7 @@ function handleFamiliarQuestion() {
 
             userInteraction.birthday = birthdayMessage;
             updateBaziZodiac();
-            saveUserBirthday(birthdayMessage);
+            saveUserBirthdayGender(birthdayMessage,userInteraction.gender);
             birthdayInput.value = '';
             document.getElementById('input-group').style.display = 'none';
             appendMessage(`Your birthday has been saved: ${birthdayMessage}`, 'user');
