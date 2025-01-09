@@ -124,8 +124,20 @@ const userInteraction = {
         function handleWealthQuestion(){
                     //let input = userInteraction.baziWuxing;
                     let input = "金水木火金水木土";
+                    result = analyzeWealth(input);//surface yes
+                    console.log("Wealth1:",result);
+                    input = "金水火火金火木土";//no 
                     result = analyzeWealth(input);
-                    console.log("Wealth:",result);
+                    console.log("Wealth2:",result);
+                    input = "金水火木金水木土";// very
+                    result = analyzeWealth(input);
+                    console.log("Wealth3:",result);
+                    input = "金木水火金水木土";//surface no
+                    result = analyzeWealth(input);
+                    console.log("Wealth4:",result);
+                    input = "木木水火金水木土";//normal
+                    result = analyzeWealth(input);
+                    console.log("Wealth4:",result);
                     const response = result;
                     
                     displayResponseGradually(response);
