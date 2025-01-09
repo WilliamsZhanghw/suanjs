@@ -49,7 +49,7 @@ const userInteraction = {
                     } else {
                         console.log("get message from parent to handle this birthday message:",event.data.action);
                         //alert("display birthday.");   
-                        const [birthday, gender] = userBirthday.split('.');
+                        const [birthday, gender] = userBirthday.split('#');
                         userInteraction.birthday = birthday;
                         userInteraction.gender = gender;
                         updateBaziZodiac();
@@ -79,7 +79,7 @@ const userInteraction = {
 
         // Save user's birthday to the main page
         function saveUserBirthdayGender(birthday,gender) {
-            const bg = birthday+'.'+gender;
+            const bg = birthday+'#'+gender;
             window.parent.postMessage({ action: 'saveBirthday', bg }, '*');
             
         }
