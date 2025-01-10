@@ -407,7 +407,7 @@ function adjustTime(inputDate) {
     cutoffTime.setHours(22, 59, 0, 0);
     
     // 如果输入时间超过22:59
-    if (inputTime >= cutoffTime) {
+    if (inputTime > cutoffTime) {
         const nextDay = new Date(currentDate);
         nextDay.setDate(nextDay.getDate() + 1); // 设置到第二天
         nextDay.setHours(0, 30, 0, 0); // 设置时间到00:30
