@@ -14,6 +14,7 @@ class PaiPanFinal {
         //result[9] += "\n此人的农历生肖\n【" + lunar.animalsYear() + "】";
         //result[9] += ","+lunar.animalsYear() ;
         let GanZhi = lunar.getYearGanZhi(time); // 取八字
+        console.log("ganzhi:",GanZhi);
         let tempchar = GanZhi.split(",");
         let ganziyear = lunaryue.getCyclicaYear(); // 年柱
         let ganzimonth = lunaryue.getCyclicaMonth(); // 月柱
