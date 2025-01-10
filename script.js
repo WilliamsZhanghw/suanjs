@@ -124,7 +124,7 @@ const userInteraction = {
             ],
         };
         function handleIdealPartnerQuestion(){
-                   let input = userInteraction.baziWuxing;
+                   let input = userInteraction.bazi;
                    result = analyzeIdealPartner(input);
                     
                     const response = result;
