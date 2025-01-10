@@ -123,6 +123,15 @@ const userInteraction = {
                        
             ],
         };
+        function handleSexPopularQuestion(){
+                   let input = userInteraction.bazi;
+                   let gender = userInteraction.gender;
+                   result = analyzeSexPopular(input,gender);
+                    
+                    const response = result;
+                    
+                    displayResponseGradually(response);
+        }
         function handleIdealPartnerQuestion(){
                    let input = userInteraction.bazi;
                    let gender = userInteraction.gender;
