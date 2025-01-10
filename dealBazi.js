@@ -339,7 +339,7 @@ function analyzeBoyPopular(input) {
     return result;
     
 }
-function analyzeBoyPopular(input) {
+function analyzeGirlPopular(input) {
     const selfPosition = 5;
     const elements = ['金', '水', '木', '火', '土']; // 五行顺序
     const 克制关系 = {
