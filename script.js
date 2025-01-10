@@ -124,7 +124,7 @@ const userInteraction = {
             ],
         };
         function handleSexPopularQuestion(){
-                   let input = userInteraction.bazi;
+                   let input = userInteraction.baziWuxing;
                    let gender = userInteraction.gender;
                    result = analyzeSexPopular(input,gender);
                     
