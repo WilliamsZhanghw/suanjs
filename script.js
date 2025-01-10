@@ -110,7 +110,7 @@ const userInteraction = {
                         
             ],
             Love: [
-                { id: 'ideal', text: 'What does my ideal partner look like?', handler: 'handleIdealPartnerQuestion' },
+                { id: 'ideal', text: "What are my expectations for an ideal partner?", handler: 'handleIdealPartnerQuestion' },
                 { id: 'sexpopular', text: 'Am I someone who is popular with the opposite sex?', handler: 'handleSexPopularQuestion' },        
                 { id: 'marriage', text: 'How many marriages will I have?', handler: 'handleMarriageQuestion' },
                 { id: 'partner', text: 'What will my partner look like?', handler: 'handlePartnerQuestion' }
@@ -123,6 +123,14 @@ const userInteraction = {
                        
             ],
         };
+        function handleIdealPartnerQuestion(){
+                   let input = userInteraction.baziWuxing;
+                   result = analyzeIdealPartner(input);
+                    
+                    const response = result;
+                    
+                    displayResponseGradually(response);
+        }
         function handleSupportQuestion(){
                    let input = userInteraction.baziWuxing;
                    result = analyzeSupport(input);
