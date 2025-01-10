@@ -111,9 +111,7 @@ const userInteraction = {
             ],
             Love: [
                 { id: 'ideal', text: "What are my expectations for an ideal partner?", handler: 'handleIdealPartnerQuestion' },
-                { id: 'sexpopular', text: 'Am I someone who is popular with the opposite sex?', handler: 'handleSexPopularQuestion' },        
-                { id: 'marriage', text: 'How many marriages will I have?', handler: 'handleMarriageQuestion' },
-                { id: 'partner', text: 'What will my partner look like?', handler: 'handlePartnerQuestion' }
+                { id: 'sexpopular', text: 'Am I someone who is popular with the opposite sex?', handler: 'handleSexPopularQuestion' }
             ],
             Wealth: [
                 { id: 'wealth', text: 'Do I value wealth?', handler: 'handleWealthQuestion' },
