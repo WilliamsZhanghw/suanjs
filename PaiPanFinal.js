@@ -16,9 +16,9 @@ class PaiPanFinal {
         let GanZhi = lunar.getYearGanZhi(time); // 取八字
         console.log("ganzhi:",GanZhi);
         let tempchar = GanZhi.split(",");
-        let ganziyear = lunaryue.getCyclicaYear(); // 年柱
-        let ganzimonth = lunaryue.getCyclicaMonth(); // 月柱
-        let ganziday = lunaryue.getCyclicaDay(); // 日柱
+        let ganziyear = tempchar[0]; // 年柱
+        let ganzimonth = tempchar[1]; // 月柱
+        let ganziday = tempchar[2]; // 日柱
         let ganzitime = tempchar[3]; // 时柱
 
         //result[9] += "\n此人八字\n【" + ganziyear + " " + ganzimonth + " " + ganziday + " " + ganzitime + "】\n";
