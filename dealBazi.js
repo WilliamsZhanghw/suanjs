@@ -320,7 +320,7 @@ function analyzeBoyPopular(input) {
     const wealthElement = 克制关系[selfElement]; // 自己克制的五行为财
 
     // 查找财的分布情况
-    const wealthIndices = input.split('').reduce((indices, char, index) => {
+    const wealthIndices = String(input).split('').reduce((indices, char, index) => {
         if (char === wealthElement) indices.push(index + 1); // 转换为人类可读的位置
         return indices;
     }, []);
@@ -355,7 +355,7 @@ function analyzeGirlPopular(input) {
     const wealthElement = 克制关系[selfElement]; // 自己克制的五行为财
 
     // 查找财的分布情况
-    const wealthIndices = input.split('').reduce((indices, char, index) => {
+    const wealthIndices = String(input).split('').reduce((indices, char, index) => {
         if (char === wealthElement) indices.push(index + 1); // 转换为人类可读的位置
         return indices;
     }, []);
