@@ -306,5 +306,81 @@ function analyzeSupport(input) {
 }
 
 
+function analyzeIdealPartner(input) {
+    // 定义天干与五行的映射
+    const tianGanWuXing = {
+        '甲': '木',
+        '乙': '木',
+        '丙': '火',
+        '丁': '火',
+        '戊': '土',
+        '己': '土',
+        '庚': '金',
+        '辛': '金',
+        '壬': '水',
+        '癸': '水'
+    };
+    
+    // 定义地支与可能天干的映射
+    const diZhiToTianGan = {
+        '子': ['癸'],
+        '丑': ['己', '癸', '辛'],
+        '寅': ['甲', '丙', '戊'],
+        '卯': ['乙'],
+        '辰': ['戊', '乙', '癸'],
+        '巳': ['丙', '庚', '戊'],
+        '午': ['丁', '己'],
+        '未': ['己', '乙', '丁'],
+        '申': ['庚', '壬', '戊'],
+        '酉': ['辛'],
+        '戌': ['戊', '丁', '辛'],
+        '亥': ['壬', '甲']
+    };
+    
+    // 定义五行关系
+    const wuXingRelationship = {
+        '木': { 克: '土', 生: '火', 被克: '金', 被生: '水' },
+        '火': { 克: '金', 生: '土', 被克: '水', 被生: '木' },
+        '土': { 克: '水', 生: '金', 被克: '木', 被生: '火' },
+        '金': { 克: '木', 生: '水', 被克: '火', 被生: '土' },
+        '水': { 克: '火', 生: '木', 被克: '土', 被生: '金' }
+    };
+    
+    const elements = input.split(',');
+
+    // 获取第五个字的天干及其五行
+    const targetTianGan = elements[5];
+    const targetWuXing = tianGanWuXing[targetTianGan];
+
+    // 获取第六个字的地支及其可能天干
+    const targetDiZhi = elements[6];
+    const possibleTianGan = diZhiToTianGan[targetDiZhi];
+
+    if (!targetWuXing || !possibleTianGan) {
+        return '输入有误，请检查输入的天干和地支是否正确。';
+    }
+
+    // 计算五行关系
+    const results = possibleTianGan.map(tianGan => {
+        const wuXing = tianGanWuXing[tianGan];
+        if (wuXing === wuXingRelationship[targetWuXing].克) {
+            return `${tianGan}(财)`;
+        } else if (wuXing === wuXingRelationship[targetWuXing].被克) {
+            return `${tianGan}(官)`;
+        } else if (wuXing === wuXingRelationship[targetWuXing].生) {
+            return `${tianGan}(子)`;
+        } else if (wuXing === wuXingRelationship[targetWuXing].被生) {
+            return `${tianGan}(印)`;
+        } else {
+            return `${tianGan}(无关)`;
+        }
+    });
+
+    return results.join('、');
+}
+
+
+
+
 
 
