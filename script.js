@@ -395,12 +395,37 @@ function handleFamiliarQuestion() {
                             }
                             return null; // 如果没有足够的部分，返回 null
             }
+function adjustTime(inputDate) {
+    // 输入时间
+    const inputTime = new Date(inputDate);
+    
+    // 当前日期
+    const currentDate = new Date(inputTime.getFullYear(), inputTime.getMonth(), inputTime.getDate());
+    
+    // 定义22:59的时间点
+    const cutoffTime = new Date(currentDate);
+    cutoffTime.setHours(22, 59, 0, 0);
+    
+    // 如果输入时间超过22:59
+    if (inputTime >= cutoffTime) {
+        const nextDay = new Date(currentDate);
+        nextDay.setDate(nextDay.getDate() + 1); // 设置到第二天
+        nextDay.setHours(0, 30, 0, 0); // 设置时间到00:30
+        return nextDay;
+    }
+    
+    // 否则返回原始时间
+    return inputTime;
+}
+
+
         function updateBaziZodiac() {
             //birthDate = new Date(1979, 02, 01, 04, 30); // 1983年1月10日12:30
             // birthDate = new Date(); // 1983年1月10日12:30
             //const lunar = new Lunar(new Date());
             mypaipan = new PaiPanFinal();
-            const dateObject = new Date(userInteraction.birthday);
+            const dateObject1 = new Date(userInteraction.birthday);
+            let dateObject = adjustTime(dateObject1);
             userInteraction.bazi = mypaipan.getBazi(dateObject,true);
             userInteraction.riyuan = getRiYuan(userInteraction.bazi);
             userInteraction.yuezhi = getYueZhi(userInteraction.bazi);
