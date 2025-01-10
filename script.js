@@ -1,4 +1,4 @@
-chconst userInteraction = {
+const userInteraction = {
             birthday: null, // Store the user's birthday
             currentCategory: null, // Track the current category
             bazi: null, //shengxiao + bazi
