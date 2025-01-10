@@ -304,7 +304,45 @@ function analyzeSupport(input) {
     return result;
     
 }
+function analyzeBoyPopular(input) {
+    const selfPosition = 5;
+    const elements = ['金', '水', '木', '火', '土']; // 五行顺序
+    const 克制关系 = {
+        '金': '木',
+        '水': '火',
+        '木': '土',
+        '火': '金',
+        '土': '水'
+    };
 
+    // 获取自己的五行元素
+    const selfElement = input[selfPosition - 1]; // 注意索引从0开始，所以需要-1
+    const wealthElement = 克制关系[selfElement]; // 自己克制的五行为财
+
+    // 查找财的分布情况
+    const wealthIndices = input.split('').reduce((indices, char, index) => {
+        if (char === wealthElement) indices.push(index + 1); // 转换为人类可读的位置
+        return indices;
+    }, []);
+
+    // 判断财的分布情况
+    let result;
+    console.log("indices:",wealthIndices);
+    if (wealthIndices.includes(selfPosition - 1) || wealthIndices.includes(selfPosition + 1)) {
+    result = "You have a natural charm that draws the attention of the opposite sex.";
+    } else if (wealthIndices.length === 0) {
+        result = "You are not particularly sought after by the opposite sex.";
+    } else {
+        result = "Your charm is there, but it’s not something that stands out significantly.";
+    }
+
+    return result;
+    
+}
+function analyzeSexPopular(input,gender){
+
+
+}
 
 function analyzeIdealPartner(input,gender) {
     // 定义天干与五行的映射
