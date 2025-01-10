@@ -125,7 +125,8 @@ const userInteraction = {
         };
         function handleIdealPartnerQuestion(){
                    let input = userInteraction.bazi;
-                   result = analyzeIdealPartner(input);
+                   let gender = userInteraction.gender;
+                   result = analyzeIdealPartner(input,gender);
                     
                     const response = result;
                     
