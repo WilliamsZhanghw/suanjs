@@ -375,9 +375,12 @@ function analyzeGirlPopular(input) {
     
 }
 function analyzeSexPopular(input,gender){
+    console.log("gender:",gender);
     if(gender === "Male"){
+        console.log("boy:");
         return analyzeBoyPopular(input);
     }else{
+        console.log("girl:");
         return analyzeGirlPopular(input);
     }
 
