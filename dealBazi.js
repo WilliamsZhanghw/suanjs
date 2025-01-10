@@ -306,7 +306,7 @@ function analyzeSupport(input) {
 }
 
 
-function analyzeIdealPartner(input) {
+function analyzeIdealPartner(input,gender) {
     // 定义天干与五行的映射
     const tianGanWuXing = {
         '甲': '木',
@@ -364,19 +364,24 @@ function analyzeIdealPartner(input) {
     const results = possibleTianGan.map(tianGan => {
         const wuXing = tianGanWuXing[tianGan];
         if (wuXing === wuXingRelationship[targetWuXing].克) {
-            return `${tianGan}(财)`;
+            return "You hope your partner can bring you financial prosperity, and you can have control over my partner.";
+            //return `${tianGan}(财)`;
         } else if (wuXing === wuXingRelationship[targetWuXing].被克) {
-            return `${tianGan}(官)`;
+            return "You hope your partner can appropriately regulate your behavior in life.";
+            //return `${tianGan}(官)`;
         } else if (wuXing === wuXingRelationship[targetWuXing].生) {
-            return `${tianGan}(子)`;
+            return "You hope you find someone you love as your spouse, someone you can confide in.";
+            //return `${tianGan}(食)`;
         } else if (wuXing === wuXingRelationship[targetWuXing].被生) {
-            return `${tianGan}(印)`;
+            return "You hope to find someone who loves you as your spouse and is very supportive of you."；
+            //return `${tianGan}(印)`;
         } else {
-            return `${tianGan}(无关)`;
+            return "You hope to find someone like you, like a close brother, who can share joys and hardships with you.";
+            //return `${tianGan}(比)`;
         }
     });
 
-    return results.join('、');
+    return results.join('\n\n');
 }
 
 
