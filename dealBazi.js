@@ -346,7 +346,7 @@ function analyzeIdealPartner(input) {
         '水': { 克: '火', 生: '木', 被克: '土', 被生: '金' }
     };
     
-    const elements = input.split(',');
+    const elements = String(input).split(',');
     console.log("elements:",elements,"input:",input);
     // 获取第五个字的天干及其五行
     const targetTianGan = elements[5];
