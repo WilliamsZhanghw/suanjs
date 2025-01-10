@@ -347,7 +347,7 @@ function analyzeIdealPartner(input) {
     };
     
     const elements = input.split(',');
-
+    console.log("elements:",elements,"input:",input);
     // 获取第五个字的天干及其五行
     const targetTianGan = elements[5];
     const targetWuXing = tianGanWuXing[targetTianGan];
@@ -355,7 +355,7 @@ function analyzeIdealPartner(input) {
     // 获取第六个字的地支及其可能天干
     const targetDiZhi = elements[6];
     const possibleTianGan = diZhiToTianGan[targetDiZhi];
-
+    console.log("targetDiZhi:",targetDiZhi,"possibleTianGan",possibleTianGan);
     if (!targetWuXing || !possibleTianGan) {
         return '输入有误，请检查输入的天干和地支是否正确。';
     }
