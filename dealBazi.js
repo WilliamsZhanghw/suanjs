@@ -373,7 +373,7 @@ function analyzeIdealPartner(input,gender) {
             return "You hope you find someone you love as your spouse, someone you can confide in.";
             //return `${tianGan}(食)`;
         } else if (wuXing === wuXingRelationship[targetWuXing].被生) {
-            return "You hope to find someone who loves you as your spouse and is very supportive of you."；
+            return "You hope to find someone who loves you as your spouse and is very supportive of you.";
             //return `${tianGan}(印)`;
         } else {
             return "You hope to find someone like you, like a close brother, who can share joys and hardships with you.";
