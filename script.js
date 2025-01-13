@@ -9,6 +9,7 @@ const userInteraction = {
         };
 
         document.addEventListener('DOMContentLoaded', () => {
+                    
                  window.parent.postMessage({ action: 'fetchBirthday' }, '*');
                  const tooltip = document.getElementById('tooltip');
                         // 点击时显示提示文案   
@@ -20,7 +21,16 @@ const userInteraction = {
             window.addEventListener('message', (event) => {
                 console.log("get message from parent to handle this:",event.data.action);
 
-    
+    const data = event.data;
+
+    // 确认消息的事件类型是 error，并且消息内容是 "用户未登录"
+    if (data.event === "error" && data.message === "用户未登录") {
+        // 在页面上显示未登录提示，或者进行其他处理
+        alert("您尚未登录，请先登录！");
+        
+        // 重定向到登录页面
+        window.location.href = "/login";
+    }
                         
     const genderModal = document.getElementById('genderModal');
     const maleButton = document.getElementById('maleButton');
