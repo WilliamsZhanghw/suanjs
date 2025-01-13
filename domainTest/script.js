@@ -24,8 +24,8 @@ document.addEventListener("DOMContentLoaded", function() {
                     console.log("您尚未登录，请先登录！");
                     let result = `Please Log In Or Free Sign Up and Get 5 Points!`;
                     displayAnimatedText("", result, "");
-                            }
-                    });        
+                }
+                            
                 if (event.data.action === 'pointsDeducted') {
                         
                     
