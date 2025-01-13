@@ -24,7 +24,7 @@ const userInteraction = {
     const data = event.data;
     console.log("event.data:",data);
     // 确认消息的事件类型是 error，并且消息内容是 "用户未登录"
-    if (data.event === "error" && data.message === "用户未登录") {
+    if ((data.action === "error") ||(data.event === "error"))  && data.message === "用户未登录") {
         // 在页面上显示未登录提示，或者进行其他处理
         console.log("您尚未登录，请先登录！");
         
