@@ -23,7 +23,9 @@ document.addEventListener("DOMContentLoaded", function() {
                     // 在页面上显示未登录提示，或者进行其他处理
                     console.log("您尚未登录，请先登录！");
                     let result = `Please Log In Or Free Sign Up and Get 5 Points`;
-                    displayAnimatedText("Wow!", result, "!");
+                    const resultElement = document.getElementById('result');
+                            
+                    displayAnimatedText(resultElement, result, "!");
                 }
                             
                 if (event.data.action === 'pointsDeducted') {
