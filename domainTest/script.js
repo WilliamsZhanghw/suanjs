@@ -22,10 +22,10 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (((data.action === "error") ||(data.event === "error"))  && data.message === "用户未登录") {
                     // 在页面上显示未登录提示，或者进行其他处理
                     console.log("您尚未登录，请先登录！");
-                    let result = `Please Log In Or Free Sign Up and Get 5 Points`;
+                    let result = `Please Log In Or Free Sign Up and Get 5 Points !`;
                     const resultElement = document.getElementById('result');
                             
-                    displayAnimatedText(resultElement, result, "!");
+                    displayAnimatedText(resultElement, result, "");
                 }
                             
                 if (event.data.action === 'pointsDeducted') {
