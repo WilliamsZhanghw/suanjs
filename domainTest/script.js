@@ -22,8 +22,8 @@ document.addEventListener("DOMContentLoaded", function() {
                 if (((data.action === "error") ||(data.event === "error"))  && data.message === "用户未登录") {
                     // 在页面上显示未登录提示，或者进行其他处理
                     console.log("您尚未登录，请先登录！");
-                    let result = `Please Log In Or Free Sign Up and Get 5 Points!`;
-                    displayAnimatedText("", result, "");
+                    let result = `Please Log In Or Free Sign Up and Get 5 Points`;
+                    displayAnimatedText("Wow!", result, "!");
                 }
                             
                 if (event.data.action === 'pointsDeducted') {
