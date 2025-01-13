@@ -22,11 +22,11 @@ const userInteraction = {
                 console.log("get message from parent to handle this:",event.data.action);
 
     const data = event.data;
-
+    console.log("event.data:",data);
     // 确认消息的事件类型是 error，并且消息内容是 "用户未登录"
     if (data.event === "error" && data.message === "用户未登录") {
         // 在页面上显示未登录提示，或者进行其他处理
-        alert("您尚未登录，请先登录！");
+        console.log("您尚未登录，请先登录！");
         
         // 重定向到登录页面
         window.location.href = "/login";
