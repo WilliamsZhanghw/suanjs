@@ -28,8 +28,7 @@ const userInteraction = {
         // 在页面上显示未登录提示，或者进行其他处理
         console.log("您尚未登录，请先登录！");
         appendMessage(`Please Log In Or Free Sign Up and Get 5 Points!`, 'bot');
-        // 重定向到登录页面
-        window.location.href = "/login";
+        
     }
                         
     const genderModal = document.getElementById('genderModal');
