@@ -444,7 +444,7 @@ function analyzeIdealPartner(input,gender) {
     const results = possibleTianGan.map(tianGan => {
         const wuXing = tianGanWuXing[tianGan];
         if (wuXing === wuXingRelationship[targetWuXing].克) {
-            return "You hope your partner can bring you financial prosperity, and you can have control over my partner.";
+            return "You hope your partner can bring you financial prosperity, and you can have control over your partner.";
             //return `${tianGan}(财)`;
         } else if (wuXing === wuXingRelationship[targetWuXing].被克) {
             return "You hope your partner can appropriately regulate your behavior in life.";
