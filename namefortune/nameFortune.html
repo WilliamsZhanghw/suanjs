@@ -4,6 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Name Fortune Calculator</title>
+    <script src="https://cdn.jsdelivr.net/npm/pinyin-pro"></script>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -36,20 +37,8 @@
     <div id="result"></div>
 
     <script>
-        async function convertToEnglish(name) {
-            // 调用翻译 API 或使用本地映射
-            const translations = {
-                "马云": "Ma Yun",
-                "乔布斯": "Steve Jobs",
-                "岳飞": "Yue Fei",
-                "安倍晋三": "Shinzo Abe",
-                "秦桧": "Qin Hui",
-                "爱因斯坦": "Albert Einstein",
-                "特斯拉": "Nikola Tesla",
-                "华盛顿": "George Washington"
-            };
-
-            return translations[name] || name; // 如果在映射中找到就转换，否则原样返回
+        function convertToPinyin(name) {
+            return pinyinPro(name, { toneType: "none" }); // 转换为拼音，不带声调
         }
 
         function getAsciiSum(name) {
@@ -75,14 +64,16 @@
             return fortunes[mod81] || "Neutral fortune, future depends on effort.";
         }
 
-        async function calculateFortune() {
+        function calculateFortune() {
             let name = document.getElementById("nameInput").value.trim();
             if (!name) {
                 document.getElementById("result").innerHTML = "<p style='color:red;'>Please enter a name.</p>";
                 return;
             }
 
-            let englishName = await convertToEnglish(name);
+            // 如果是中文，则转换为拼音
+            let englishName = /[\u4e00-\u9fa5]/.test(name) ? convertToPinyin(name) : name;
+
             let asciiSumWithSpace = getAsciiSum(englishName);
             let asciiSumWithoutSpace = getAsciiSum(englishName.replace(/\s+/g, ""));
 
