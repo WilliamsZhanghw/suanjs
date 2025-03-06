@@ -50,8 +50,14 @@ function getJiXiongResultSingle() {
 function getJiXiongResultMultiple() {
     // 计算一日多占的吉凶逻辑
     initGuaJie();
-    return getMultiJixiongPerDay();
+    return getOneJixiongPerDay();
 }
+
+// function getJiXiongResultMultiple() {
+//     // 计算一日多占的吉凶逻辑
+//     initGuaJie();
+//     return getMultiJixiongPerDay();
+// }
 
 
 function getOneJixiongPerDay(){
