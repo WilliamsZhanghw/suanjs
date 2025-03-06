@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Name Fortune Calculator</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 50px;
+        }
+        input {
+            padding: 10px;
+            font-size: 18px;
+            width: 300px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 18px;
+            margin-top: 10px;
+        }
+        #result {
+            margin-top: 20px;
+            font-size: 20px;
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Name Fortune Calculator</h1>
+    <p>Enter your name (English or Chinese):</p>
+    <input type="text" id="nameInput" placeholder="Enter name">
+    <button onclick="calculateFortune()">Calculate</button>
+
+    <div id="result"></div>
+
+    <script>
+        async function convertToEnglish(name) {
+            // 调用翻译 API 或使用本地映射
+            const translations = {
+                "马云": "Ma Yun",
+                "乔布斯": "Steve Jobs",
+                "岳飞": "Yue Fei",
+                "安倍晋三": "Shinzo Abe",
+                "秦桧": "Qin Hui",
+                "爱因斯坦": "Albert Einstein",
+                "特斯拉": "Nikola Tesla",
+                "华盛顿": "George Washington"
+            };
+
+            return translations[name] || name; // 如果在映射中找到就转换，否则原样返回
+        }
+
+        function getAsciiSum(name) {
+            let sum = 0;
+            for (let i = 0; i < name.length; i++) {
+                sum += name.charCodeAt(i);
+            }
+            return sum;
+        }
+
+        function getFortuneMessage(mod81) {
+            const fortunes = {
+                1: "Great success and leadership potential.",
+                4: "Unstable life, needs careful planning.",
+                15: "Fortune and happiness, ideal for leaders.",
+                23: "Brilliant talent, success comes with effort.",
+                28: "Prone to difficulties, must work hard to avoid misfortune.",
+                36: "Life is full of ups and downs, but great achievements are possible.",
+                47: "Wisdom and wealth, can achieve great things.",
+                64: "Prone to instability, must be careful in decisions.",
+                78: "Sudden changes, both success and failure come unexpectedly."
+            };
+            return fortunes[mod81] || "Neutral fortune, future depends on effort.";
+        }
+
+        async function calculateFortune() {
+            let name = document.getElementById("nameInput").value.trim();
+            if (!name) {
+                document.getElementById("result").innerHTML = "<p style='color:red;'>Please enter a name.</p>";
+                return;
+            }
+
+            let englishName = await convertToEnglish(name);
+            let asciiSumWithSpace = getAsciiSum(englishName);
+            let asciiSumWithoutSpace = getAsciiSum(englishName.replace(/\s+/g, ""));
+
+            let mod81WithSpace = asciiSumWithSpace % 81;
+            let mod81WithoutSpace = asciiSumWithoutSpace % 81;
+
+            let fortuneWithSpace = getFortuneMessage(mod81WithSpace);
+            let fortuneWithoutSpace = getFortuneMessage(mod81WithoutSpace);
+
+            document.getElementById("result").innerHTML = `
+                <h2>Results for: ${englishName}</h2>
+                <p><strong>With spaces:</strong> ASCII Sum = ${asciiSumWithSpace}, Mod 81 = ${mod81WithSpace}</p>
+                <p><strong>Fortune:</strong> ${fortuneWithSpace}</p>
+                <hr>
+                <p><strong>Without spaces:</strong> ASCII Sum = ${asciiSumWithoutSpace}, Mod 81 = ${mod81WithoutSpace}</p>
+                <p><strong>Fortune:</strong> ${fortuneWithoutSpace}</p>
+            `;
+        }
+    </script>
+
+</body>
+</html>
