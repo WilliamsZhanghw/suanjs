@@ -137,6 +137,69 @@ function getFortuneScore(domain) {
     return score % 81; 
 }
 
+//new added 
+function calculateNumberFortune(inputId, resultId) {
+    const number = document.getElementById(inputId).value.replace(/\D/g, ''); // Remove non-numeric characters
+    const resultElement = document.getElementById(resultId);
+    
+    if (!number) {
+        resultElement.textContent = 'Please enter a valid number';
+        return;
+    }
+
+    const fortuneScore = getFortuneScore(number);
+    const fortuneMessage = getFortuneMessage(fortuneScore);
+    
+    displayAnimatedText(resultElement, `Number: ${number}`, `Fortune Result: ${fortuneMessage}`);
+}
+
+function getFortuneScore(number) {
+    let sum = 0;
+    for (let i = 0; i < number.length; i++) {
+        sum += parseInt(number[i]);
+    }
+    return sum % 81;
+}
+
+function displayAnimatedText(element, mainText, fortuneText) {
+    element.innerHTML = '';
+
+    const mainParagraph = document.createElement('p');
+    const fortuneParagraph = document.createElement('p');
+    
+    element.appendChild(mainParagraph);
+    element.appendChild(fortuneParagraph);
+
+    let mainIndex = 0;
+    let fortuneIndex = 0;
+
+    function showNextCharacter() {
+        if (mainIndex < mainText.length) {
+            mainParagraph.innerHTML += mainText[mainIndex];
+            mainIndex++;
+        } else if (fortuneIndex < fortuneText.length) {
+            fortuneParagraph.innerHTML += fortuneText[fortuneIndex];
+            fortuneIndex++;
+        } else {
+            return;
+        }
+        setTimeout(showNextCharacter, 45);
+    }
+
+    showNextCharacter();
+}
+
+document.getElementById('domainInput').addEventListener('keydown', function(event) {
+    if (event.key === 'Enter') {
+        calculateFortune();
+    }
+});
+
+
+
+
+//new added end 
+
 
 
 function getFortuneMessage(score) {
