@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Fortune Calculation</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Fortune Calculation</h1>
+        <p>Enter your details to determine their fortune based on numerology.</p>
+
+        <div class="input-group">
+            <label for="phoneInput">Phone Number:</label>
+            <input type="text" id="phoneInput" placeholder="Enter phone number">
+            <button onclick="calculateNumberFortune('phoneInput', 'phoneResult')">Check Fortune</button>
+            <p id="phoneResult" class="result-text"></p>
+        </div>
+
+        <div class="input-group">
+            <label for="ssnInput">Social Security Number (SSN):</label>
+            <input type="text" id="ssnInput" placeholder="Enter SSN">
+            <button onclick="calculateNumberFortune('ssnInput', 'ssnResult')">Check Fortune</button>
+            <p id="ssnResult" class="result-text"></p>
+        </div>
+
+        <div class="input-group">
+            <label for="licenseInput">Driver’s License Number:</label>
+            <input type="text" id="licenseInput" placeholder="Enter license number">
+            <button onclick="calculateNumberFortune('licenseInput', 'licenseResult')">Check Fortune</button>
+            <p id="licenseResult" class="result-text"></p>
+        </div>
+
+        <div class="input-group">
+            <label for="domainInput">Domain Name:</label>
+            <input type="text" id="domainInput" placeholder="Enter domain">
+            <button onclick="calculateFortune()">Check Domain Fortune</button>
+            <p id="result" class="result-text"></p>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
