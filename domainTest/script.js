@@ -48,7 +48,7 @@ function calculateFortune() {
         return;
     }
 
-    const fortuneScore = getFortuneScore(domain);
+    const fortuneScore = getDomainFortuneScore(domain);
     const fortuneMessage = getFortuneMessage(fortuneScore);
 
     const domainMessage = `Domain: ${domain}`;
@@ -113,7 +113,7 @@ document.getElementById('domainInput').addEventListener('keydown', function(even
 
 // }
 
-function getFortuneScore(domain) {
+function getDomainFortuneScore(domain) {
     let score = 0;
     
 
