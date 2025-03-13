@@ -38,9 +38,9 @@ document.addEventListener("DOMContentLoaded", function() {
                 }
             });
 
-
+//计算域名
 function calculateFortune() {
-    const domain = document.getElementById('domainInput').value.trim().toLowerCase();
+    const domain = document.getElementById('domainInput').value.trim();
     const resultElement = document.getElementById('result');
 
     if (!domain) {
