@@ -138,7 +138,7 @@ function getDomainFortuneScore(domain) {
     return score % 81; 
 }*/
 
-
+/*
 function getDomainFortuneScore(domain) {
     let sum = 0;
     for (let i = 0; i < domain.length; i++) {
@@ -152,7 +152,38 @@ function getDomainFortuneScore(domain) {
         }
     }
     return sum % 81 === 0 ? 81 : sum % 81;
+}*/
+
+//权重法：
+function getDomainFortuneScore(domain) {
+    const frequencyWeightUpper = {
+        'E': 1, 'T': 2, 'A': 3, 'O': 4, 'I': 5, 'N': 6, 'S': 7, 'H': 8, 'R': 9,
+        'D': 10, 'L': 11, 'C': 12, 'U': 13, 'M': 14, 'W': 15, 'F': 16, 'G': 17,
+        'Y': 18, 'P': 19, 'B': 20, 'V': 21, 'K': 22, 'X': 23, 'J': 24, 'Q': 25, 'Z': 26
+    };
+    
+    const frequencyWeightLower = {
+        'e': 2, 't': 3, 'a': 4, 'o': 5, 'i': 6, 'n': 7, 's': 8, 'h': 9, 'r': 10,
+        'd': 11, 'l': 12, 'c': 13, 'u': 14, 'm': 15, 'w': 16, 'f': 17, 'g': 18,
+        'y': 19, 'p': 20, 'b': 21, 'v': 22, 'k': 23, 'x': 24, 'j': 25, 'q': 26, 'z': 27
+    };
+    
+    let sum = 0;
+    for (let i = 0; i < domain.length; i++) {
+        let char = domain[i];
+        if (char in frequencyWeightUpper) {
+            sum += frequencyWeightUpper[char]; // Uppercase letters
+        } else if (char in frequencyWeightLower) {
+            sum += frequencyWeightLower[char]; // Lowercase letters
+        } else if (char >= '0' && char <= '9') {
+            sum += parseInt(char); // Numbers keep their original value
+        } else {
+            sum += 1; // Special characters count as 1
+        }
+    }
+    return sum % 81 === 0 ? 81 : sum % 81;
 }
+
 
 //new added 
 function calculateNumberFortune(inputId, resultId) {
