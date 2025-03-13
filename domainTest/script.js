@@ -113,6 +113,7 @@ document.getElementById('domainInput').addEventListener('keydown', function(even
 
 // }
 
+/*old
 function getDomainFortuneScore(domain) {
     let score = 0;
     
@@ -135,6 +136,13 @@ function getDomainFortuneScore(domain) {
         }
     }
     return score % 81; 
+}*/
+function getDomainFortuneScore(domain) {
+    let sum = 0;
+    for (let i = 0; i < domain.length; i++) {
+        sum += domain.charCodeAt(i); // Sum of ASCII values
+    }
+    return sum % 81 === 0 ? 81 : sum % 81;
 }
 
 //new added 
