@@ -137,10 +137,19 @@ function getDomainFortuneScore(domain) {
     }
     return score % 81; 
 }*/
+
+
 function getDomainFortuneScore(domain) {
     let sum = 0;
     for (let i = 0; i < domain.length; i++) {
-        sum += domain.charCodeAt(i); // Sum of ASCII values
+        let charCode = domain.charCodeAt(i);
+        if (charCode >= 48 && charCode <= 57) { // Numbers 0-9, take their actual value
+            sum += charCode - 48;
+        } else if ((charCode >= 65 && charCode <= 90) || (charCode >= 97 && charCode <= 122)) { // Letters A-Z, a-z use ASCII value
+            sum += charCode;
+        } else { // Special characters
+            sum += 1;
+        }
     }
     return sum % 81 === 0 ? 81 : sum % 81;
 }
