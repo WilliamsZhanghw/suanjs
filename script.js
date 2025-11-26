@@ -60,7 +60,7 @@ const userInteraction = {
                 if (event.data.action === 'fetchedBirthday') {
                     const userBirthday = event.data.birthday;
                     if (!userBirthday) {
-                        appendMessage('One credit is used for each question.Enter your date, time and gender of birth for the best result—the more accurate your input, the better the outcome:', 'bot');
+                        appendMessage('Welcome, Seeker. The stars have guided you here. What burden weighs on your heart today?(Type your birthday and gender below to begin):', 'bot');
                         showInputGroup();
                     } else {
                         console.log("get message from parent to handle this birthday message:",event.data.action);

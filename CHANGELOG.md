@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V3] - 2025-11-22
+
+### Changed
+- Modified opening prompt message in conversation
+
 ## [V2] - 2025-11-22
 
 ### Changed
