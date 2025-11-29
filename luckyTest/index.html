@@ -11,6 +11,145 @@
     <link rel="stylesheet" href="css/style.css" />
     <link rel="stylesheet" href="css/responsive.css" />
     <link rel="stylesheet" id="scheme-source" href="css/schemes/gray.css" />
+    <style>
+        body {
+            background-image: url('../background.webp') !important;
+            background-size: cover !important;
+            background-position: center !important;
+            background-repeat: no-repeat !important;
+            background-attachment: fixed !important;
+            font-family: Arial, sans-serif !important;
+            margin: 0 !important;
+            padding: 0 !important;
+            position: relative !important;
+            color: #e0e0e0 !important;
+            min-height: 100vh !important;
+        }
+
+        body::before {
+            content: '' !important;
+            position: fixed !important;
+            top: 0 !important;
+            left: 0 !important;
+            right: 0 !important;
+            bottom: 0 !important;
+            background: rgba(13, 13, 13, 0.92) !important;
+            backdrop-filter: blur(2px) !important;
+            -webkit-backdrop-filter: blur(2px) !important;
+            z-index: 0 !important;
+            pointer-events: none !important;
+        }
+
+        #header, .header-section {
+            position: relative !important;
+            z-index: 1 !important;
+            pointer-events: auto !important;
+        }
+
+        .home-section-wrap {
+            position: relative !important;
+            z-index: 1 !important;
+            padding: 40px 0 !important;
+            pointer-events: auto !important;
+        }
+
+        .section-overlay {
+            background: transparent !important;
+        }
+
+        .container.home {
+            position: relative !important;
+            z-index: 2 !important;
+            pointer-events: auto !important;
+        }
+
+        .fancy-button, button, input[type="submit"] {
+            position: relative !important;
+            z-index: 10 !important;
+            pointer-events: auto !important;
+        }
+
+        h1.well-come, h2, h3, h4 {
+            color: #e0e0e0 !important;
+            text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.8) !important;
+        }
+
+        p.intro-message, p.guide-message, .feature-description p, .disclaimer p {
+            color: #d0d0d0 !important;
+        }
+
+        .feature-description, .disclaimer {
+            background: rgba(30, 30, 30, 0.7) !important;
+            padding: 20px !important;
+            border-radius: 10px !important;
+            margin: 20px 0 !important;
+            border: 1px solid #404040 !important;
+        }
+
+        #resultSingle, #resultMultiple {
+            background: rgba(30, 30, 30, 0.8) !important;
+            padding: 20px !important;
+            border-radius: 10px !important;
+            margin: 20px 0 !important;
+            border: 1px solid #404040 !important;
+        }
+
+        #resultSingle h2, #resultMultiple h2 {
+            color: #5a9 !important;
+        }
+
+        #resultTextSingle, #resultTextMultiple {
+            color: #e0e0e0 !important;
+            line-height: 1.8 !important;
+        }
+
+        .fancy-button {
+            background-color: #2d4a5a !important;
+            color: #e0e0e0 !important;
+            border: 1px solid #5a9 !important;
+            transition: all 0.3s ease !important;
+        }
+
+        .fancy-button:hover {
+            background-color: #3d5a6a !important;
+            border-color: #6bb !important;
+            color: #ffffff !important;
+        }
+
+        .col-md-8 {
+            background: rgba(30, 30, 30, 0.6) !important;
+            padding: 30px !important;
+            border-radius: 10px !important;
+            border: 1px solid #404040 !important;
+        }
+
+        strong {
+            color: #5a9 !important;
+        }
+
+        /* 滚动条样式 */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        ::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        ::-webkit-scrollbar-thumb {
+            background: #404040;
+            border-radius: 4px;
+        }
+
+        ::-webkit-scrollbar-thumb:hover {
+            background: #555555;
+        }
+
+        /* 确保所有文本可见 */
+        .row {
+            color: #e0e0e0 !important;
+        }
+    </style>
 </head>
 <body>
     <div id="header" class="header-section">

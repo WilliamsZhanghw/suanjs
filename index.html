@@ -29,8 +29,11 @@
             left: 0 !important;
             right: 0 !important;
             bottom: 0 !important;
-            background: rgba(13, 13, 13, 0.85) !important;
+            background: rgba(13, 13, 13, 0.92) !important;
+            backdrop-filter: blur(2px) !important;
+            -webkit-backdrop-filter: blur(2px) !important;
             z-index: 0 !important;
+            pointer-events: none !important;
         }
 
         #chat-container {
@@ -44,6 +47,7 @@
             position: relative !important;
             z-index: 1 !important;
             border: 1px solid #404040 !important;
+            pointer-events: auto !important;
         }
 
         #chat-box {
