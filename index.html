@@ -19,6 +19,7 @@
             align-items: center !important;
             height: 100vh !important;
             position: relative !important;
+            color: #e0e0e0 !important;
         }
 
         body::before {
@@ -28,30 +29,49 @@
             left: 0 !important;
             right: 0 !important;
             bottom: 0 !important;
-            background: rgba(255, 255, 255, 0.9) !important;
+            background: rgba(13, 13, 13, 0.85) !important;
             z-index: 0 !important;
         }
 
         #chat-container {
-            background: rgba(255, 255, 255, 0.98) !important;
+            background: rgba(30, 30, 30, 0.95) !important;
             border-radius: 10px !important;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2) !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5) !important;
             width: 700px !important;
             padding: 20px !important;
             display: flex !important;
             flex-direction: column !important;
             position: relative !important;
             z-index: 1 !important;
+            border: 1px solid #404040 !important;
         }
 
         #chat-box {
             height: 200px;
             overflow-y: auto;
-            border: 1px solid #ddd;
+            border: 1px solid #404040;
             padding: 10px;
             border-radius: 5px;
             margin-bottom: 20px;
-            background: #f9f9f9;
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+
+        #chat-box::-webkit-scrollbar {
+            width: 8px;
+        }
+
+        #chat-box::-webkit-scrollbar-track {
+            background: #1a1a1a;
+        }
+
+        #chat-box::-webkit-scrollbar-thumb {
+            background: #404040;
+            border-radius: 4px;
+        }
+
+        #chat-box::-webkit-scrollbar-thumb:hover {
+            background: #555555;
         }
 
         #input-group {
@@ -61,39 +81,66 @@
             margin-bottom: 20px;
         }
 
+        #birthday-input {
+            background-color: #2d2d2d;
+            color: #e0e0e0;
+            border: 1px solid #404040;
+        }
+
+        #birthday-input:focus {
+            outline: none;
+            border-color: #5a9;
+        }
+
      #options {
     display: flex;
     flex-direction: column;
     gap: 10px;
-    max-height: 300px; /* 限制容器的最大高度 */
-    overflow-y: auto; /* 启用垂直滚动条 */
-    scroll-behavior: smooth; /* 平滑滚动效果（可选） */
-    padding: 10px; /* 可选：调整内部间距 */
-    border: 1px solid #ccc; /* 可选：添加边框 */
+    max-height: 300px;
+    overflow-y: auto;
+    scroll-behavior: smooth;
+    padding: 10px;
+    border: 1px solid #404040;
+    background: #1a1a1a;
 }
 
+#options::-webkit-scrollbar {
+    width: 8px;
+}
 
+#options::-webkit-scrollbar-track {
+    background: #1a1a1a;
+}
+
+#options::-webkit-scrollbar-thumb {
+    background: #404040;
+    border-radius: 4px;
+}
+
+#options::-webkit-scrollbar-thumb:hover {
+    background: #555555;
+}
 
         .message {
             margin: 5px 0;
             padding: 10px;
             border-radius: 5px;
             max-width: 80%;
+            color: #e0e0e0;
         }
 
-/*         .message.bot {
-            background-color: #bed0ff;
-            align-self: flex-start;
-        } */
         .message.bot {
-    background-color: rgba(190, 208, 255, 0.5); /* 半透明背景色 */
+    background-color: rgba(90, 153, 153, 0.3);
     align-self: flex-start;
+    border: 1px solid rgba(90, 153, 153, 0.5);
 }
 
 
         .message.user {
-            background-color: #e6e6e6;
+            background-color: #2d4a5a;
             align-self: flex-end;
+            color: #e0e0e0;
+            border: 1px solid #3d5a6a;
         }
 
         button {
@@ -101,15 +148,25 @@
             font-size: 16px;
             cursor: pointer;
             border: none;
-            background-color: #007BFF;
-            color: #333333;
+            background-color: #2d4a5a;
+            color: #e0e0e0;
             border-radius: 5px;
             transition: background-color 0.3s ease;
         }
 
         button:hover {
-            background-color: #0056b3;
+            background-color: #3d5a6a;
         }
+
+        #send-button {
+            background-color: #5a9;
+            color: #ffffff;
+        }
+
+        #send-button:hover {
+            background-color: #6bb;
+        }
+
         .modal {
     display: none;
     position: fixed;
@@ -119,29 +176,37 @@
     width: 100%;
     height: 100%;
     overflow: auto;
-    background-color: rgba(0,0,0,0.4);
+    background-color: rgba(0,0,0,0.7);
 }
 
 .modal-content {
-    background-color: #fefefe;
+    background-color: #2d2d2d;
     margin: 15% auto;
     padding: 20px;
-    border: 1px solid #888;
+    border: 1px solid #404040;
     width: 300px;
     text-align: center;
+    color: #e0e0e0;
+    border-radius: 8px;
 }
+
+.modal-content p {
+    color: #e0e0e0;
+}
+
         .tooltip {
-    display: none; /* 默认隐藏 */
+    display: none;
     position: absolute;
     bottom: 10px;
     left: 50%;
     transform: translateX(-50%);
-    background: rgba(0, 0, 0, 0.7);
-    color: white;
+    background: rgba(45, 74, 90, 0.9);
+    color: #e0e0e0;
     padding: 10px;
     border-radius: 5px;
     font-size: 14px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+    border: 1px solid #5a9;
 }
 
     </style>
