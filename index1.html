@@ -1,0 +1,1086 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>FateFinder AI Chat Debug</title>
+    
+    <style>
+        /* 请在 CSS 块的顶部添加这个全局规则，以确保所有元素都遵循现代模型 */
+    *,
+    *::before,
+    *::after {
+        box-sizing: border-box;
+    }
+    
+    /* 或者，您只针对弹窗内容添加 */
+    .modal-content {
+        /* 保持原有的样式... */
+        box-sizing: border-box; /* 强制将 padding 和 border 包含在 width 内 */
+    }
+        
+        /* 容器和布局样式 */
+        #ai-chat-container-wrapper {
+            width: 100%; 
+            max-width: 700px;
+            margin: 0 auto;
+            padding: 20px 0;
+            color: #e0e0e0;
+            font-family: Arial, sans-serif;
+        }
+    
+        #chat-container {
+            background: rgba(30, 30, 30, 0.95) !important;
+            border-radius: 10px !important;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5) !important;
+            width: 100% !important;
+            padding: 20px !important;
+            display: flex !important;
+            flex-direction: column !important;
+            position: relative !important;
+            z-index: 1 !important;
+            border: 1px solid #404040 !important;
+            pointer-events: auto !important;
+            height: 60vh;
+        }
+    
+        #chat-box {
+            flex: 1; 
+            padding: 10px;
+            overflow-y: auto;
+            border: 1px solid #404040;
+            border-radius: 5px;
+            margin-bottom: 20px;
+            background: #1a1a1a;
+            color: #e0e0e0;
+            max-height: 100%; 
+        }
+    
+        /* 滚动条样式 */
+        #chat-box::-webkit-scrollbar, #options::-webkit-scrollbar { width: 8px; }
+        #chat-box::-webkit-scrollbar-track, #options::-webkit-scrollbar-track { background: #1a1a1a; }
+        #chat-box::-webkit-scrollbar-thumb, #options::-webkit-scrollbar-thumb { background: #404040; border-radius: 4px; }
+        #chat-box::-webkit-scrollbar-thumb:hover, #options::-webkit-scrollbar-thumb:hover { background: #555555; }
+        
+        /* 输入组和按钮样式 */
+        #input-group { display: none; flex-direction: column; gap: 10px; margin-bottom: 20px; padding: 10px; border-top: 1px solid #404040; background-color: #1a1a1a; align-items: center; }
+        #birthday-input { flex: 1; height: 20px; padding: 10px; border: 1px solid #404040; border-radius: 4px; margin-left: 50px; margin-right: 10px; background-color: #2d2d2d; color: #e0e0e0; }
+        #birthday-input:focus { outline: none; border-color: #5a9; }
+        #send-button { height: 40px; margin-left: 10px; padding: 10px 20px; border: none; background-color: #5a9; color: #ffffff; border-radius: 4px; cursor: pointer; margin-right: 50px; }
+        #send-button:hover { background-color: #6bb; }
+    
+        /* 选项样式 */
+        #options { display: flex; flex-direction: column; flex-wrap: wrap; justify-content: center; gap: 10px; max-height: 300px; overflow-y: auto; scroll-behavior: smooth; padding: 10px; border: 1px solid #404040; background: #1a1a1a; }
+        #options button { margin: 5px; padding: 10px 20px; border: none; border-radius: 4px; cursor: pointer; background-color: #2d4a5a; color: #e0e0e0; }
+        #options button:hover { background-color: #3d5a6a; }
+    
+        /* 消息样式 */
+        .message { display: flex; align-items: center; margin: 5px 0; padding: 10px; border-radius: 5px; max-width: 80%; color: #e0e0e0; clear: both; }
+        .message.bot { background-color: rgba(90, 153, 153, 0.3); align-self: flex-start; border: 1px solid rgba(90, 153, 153, 0.5); }
+        .message.user { background-color: #2d4a5a; align-self: flex-end; color: #e0e0e0; border: 1px solid #3d5a6a; }
+        
+        /* 模态框和工具提示 */
+        .modal { display: none; position: fixed; z-index: 9999; left: 0; top: 0; width: 100%; height: 100%; overflow: auto; background-color: rgba(0,0,0,0.7); }
+        .modal-content { background-color: #2d2d2d; margin: 15% auto; padding: 20px; border: 1px solid #404040; width: 300px; text-align: center; color: #e0e0e0; border-radius: 8px; }
+        .modal-content p { color: #e0e0e0; }
+        .tooltip { display: none; position: absolute; bottom: 10px; left: 50%; transform: translateX(-50%); background: rgba(45, 74, 90, 0.9); color: #e0e0e0; padding: 10px; border-radius: 5px; font-size: 14px; box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3); border: 1px solid #5a9; }
+    
+        /* 其他样式 (Thinking, Media Queries) */
+        .thinking { display: flex; align-items: center; justify-content: center; margin: 10px 0; }
+        .thinking span { width: 8px; height: 8px; margin: 0 2px; background-color: #5a9; border-radius: 50%; display: inline-block; animation: bounce 1.1s infinite both; }
+        .thinking span:nth-child(1) { animation-delay: -0.32s; }
+        .thinking span:nth-child(2) { animation-delay: -0.16s; }
+        @keyframes bounce { 0%, 80%, 100% { transform: scale(0); } 40% { transform: scale(1); } }
+        /* 响应式设计 */
+        @media only screen and (orientation: portrait) { #chat-container { width: 90%; height: 90%; } #chat-box { padding: 10px; max-height: calc(100vh - 150px); } #input-group { padding: 5px; } #options button { padding: 8px 16px; } }
+        @media only screen and (orientation: landscape) { #chat-container { width: 60%; height: 80%; } #chat-box { padding: 10px; max-height: calc(100vh - 150px); } #input-group { padding: 5px; } #options button { padding: 8px 16px; } }
+    </style>
+    
+</head>
+<body>
+    <div id="ai-chat-container-wrapper">
+        <div id="chat-container">
+            <div id="chat-box"></div>
+            <div id="input-group">
+                <input type="datetime-local" id="birthday-input" placeholder="Enter your date and time of birth">
+                <button id="send-button">Submit</button>
+            </div>
+            <div id="tooltip" class="tooltip">Swipe Left for More...</div>
+            <div id="options"></div>
+            <div id="genderModal" class="modal">
+                <div class="modal-content">
+                    <p>To provide a more accurate answer to your query, please enter the gender you were assigned at birth:</p>
+                    <button id="maleButton">Male</button>
+                    <button id="femaleButton">Female</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        (
+    function() 
+    {
+        // --- START: HOISTED CORE UI FUNCTIONS (THE FIX) ---
+        function appendMessage(text, sender) { 
+            console.log("LOG: Function appendMessage called. Sender:", sender);
+            const chatBox = document.getElementById('chat-box');
+            
+            if (!chatBox) {
+                console.error("CRITICAL ERROR: chatBox element not found in appendMessage. Cannot append message.");
+                return;
+            }
+    
+            const messageElement = document.createElement('div');
+            messageElement.className = `message ${sender}`;
+            messageElement.textContent = text;
+            chatBox.appendChild(messageElement);
+            console.log("LOG: Message element appended to chatBox.");
+    
+            chatBox.scrollTop = chatBox.scrollHeight;
+        }
+        function displayResponseGradually(responseOrigin) { 
+            console.log("LOG: Function displayResponseGradually called.");
+            const response = responseOrigin.replace(/\n/g, '<br>');
+            const chatBox = document.getElementById('chat-box');
+            const message = document.createElement('div');
+            message.classList.add('message', 'bot');
+            chatBox.appendChild(message);
+    
+            let index = 0;
+            const interval = setInterval(() => {
+                message.innerHTML = `<p>${response.slice(0, index)}</p>`;
+                chatBox.scrollTop = chatBox.scrollHeight;
+                index++;
+                if (index > response.length) clearInterval(interval);
+            }, 50);
+        }
+        function showInputGroup() {
+            console.log("LOG: Function showInputGroup called.");
+            const inputGroup = document.getElementById('input-group');
+            if (!inputGroup) {
+                 console.error("CRITICAL ERROR: inputGroup element not found in showInputGroup.");
+                 return;
+            }
+            
+            inputGroup.style.display = 'flex';
+            
+            const birthdayInput = document.getElementById('birthday-input');
+            if(birthdayInput) {
+                 birthdayInput.focus();
+            } else {
+                 console.error("ERROR: birthdayInput element not found.");
+            }
+        }
+        function sendMessage(event) {
+            console.log("LOG: Function sendMessage called.");
+            const birthdayInput = document.getElementById('birthday-input');
+            const birthdayMessage = birthdayInput.value.trim();
+            if (!birthdayMessage) {
+                appendMessage('Please enter a valid date and time of birth.', 'bot');
+                return;
+            }
+    
+            userInteraction.birthday = birthdayMessage;
+            updateBaziZodiac();
+            saveUserBirthdayGender(birthdayMessage,userInteraction.gender);
+            birthdayInput.value = '';
+            document.getElementById('input-group').style.display = 'none';
+            appendMessage(`Your birthday has been saved: ${birthdayMessage}`, 'user');
+            loadCategories();
+        }
+        // --- END: HOISTED CORE UI FUNCTIONS ---
+        
+        // --- START: LUNA.JS ---
+        class Lunar { 
+            constructor(date) {
+                if (!date) {
+                    date = new Date();
+                }
+                this.init(date.getTime());
+            }
+            // ... (Full Lunar class content continues) ...
+            static lunarInfo = [
+                0x4bd8, 0x4ae0, 0xa570, 0x54d5, 0xd260, 0xd950, 0x5554, 0x56af,
+                0x9ad0, 0x55d2, 0x4ae0, 0xa5b6, 0xa4d0, 0xd250, 0xd295, 0xb54f,
+                0xd6a0, 0xada2, 0x95b0, 0x4977, 0x497f, 0xa4b0, 0xb4b5, 0x6a50,
+                0x6d40, 0xab54, 0x2b6f, 0x9570, 0x52f2, 0x4970, 0x6566, 0xd4a0,
+                0xea50, 0x6a95, 0x5adf, 0x2b60, 0x86e3, 0x92ef, 0xc8d7, 0xc95f,
+                0xd4a0, 0xd8a6, 0xb55f, 0x56a0, 0xa5b4, 0x25df, 0x92d0, 0xd2b2,
+                0xa950, 0xb557, 0x6ca0, 0xb550, 0x5355, 0x4daf, 0xa5b0, 0x4573,
+                0x52bf, 0xa9a8, 0xe950, 0x6aa0, 0xaea6, 0xab50, 0x04b60, 0xaae4,
+                0xa570, 0x5260, 0xf263, 0xd950, 0x5b57, 0x56a0, 0x96d0, 0x4dd5,
+                0x4ad0, 0xa4d0, 0xd4d4, 0xd250, 0xd558, 0xb540, 0xb6a0, 0x95a6,
+                0x95bf, 0x49b0, 0xa974, 0xa4b0, 0xb27a, 0x6a50, 0x6d40, 0xaf46,
+                0xab60, 0x9570, 0x4af5, 0x4970, 0x64b0, 0x74a3, 0xea50, 0x6b58,
+                0x5ac0, 0xab60, 0x96d5, 0x92e0, 0xc960, 0xd954, 0xd4a0, 0xda50,
+                0x7552, 0x56a0, 0xabb7, 0x025d0, 0x92d0, 0xcab5, 0xa950, 0xb4a0,
+                0xbaa4, 0xad50, 0x55d9, 0x4ba0, 0xa5b0, 0x5176, 0x52bf, 0xa930,
+                0x7954, 0x6aa0, 0xad50, 0x5b52, 0x4b60, 0xa6e6, 0xa4e0, 0xd260,
+                0xea65, 0xd530, 0x5aa0, 0x76a3, 0x96d0, 0x4afb, 0x4ad0, 0xa4d0,
+                0xd0b6, 0xd25f, 0xd520, 0xdd45, 0xb5a0, 0x56d0, 0x55b2, 0x49b0,
+                0xa577, 0xa4b0, 0xaa50, 0xb255, 0x6d2f, 0xada0, 0x4b63, 0x937f,
+                0x49f8, 0x4970, 0x64b0, 0x68a6, 0xea5f, 0x6b20, 0xa6c4, 0xaaef,
+                0x92e0, 0xd2e3, 0xc960, 0xd557, 0xd4a0, 0xda50, 0x5d55, 0x56a0,
+                0xa6d0, 0x55d4, 0x52d0, 0xa9b8, 0xa950, 0xb4a0, 0xb6a6, 0xad50,
+                0x55a0, 0xaba4, 0xa5b0, 0x52b0, 0xb273, 0x6930, 0x7337, 0x6aa0,
+                0xad50, 0x4b55, 0x4b6f, 0xa570, 0x54e4, 0xd260, 0xe968, 0xd520,
+                0xdaa0, 0x6aa6, 0x56df, 0x4ae0, 0xa9d4, 0xa4d0, 0xd150, 0xf252, 0xd520
+            ];
+            
+            static solarTermInfo = [ /* ... */ ];
+            static Tianan = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
+            static Deqi = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+            static Animals = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"];
+            static solarTerm = ["小寒", "大寒", "立春", "雨水", "惊蛰", "春分", "清明", "谷雨", "立夏", "小满", "芒种", "夏至", "小暑", "大暑", "立秋", "处暑", "白露", "秋分", "寒露", "霜降", "立冬", "小雪", "大雪", "冬至"];
+            static lunarString1 = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+            static lunarString2 = ["初", "十", "廿", "卅", "正", "腊", "冬", "闰"];
+    
+            static getLunarLeapMonth(lunarYear) { /* ... */ return (lunarYear - 1900) & 0xf; }
+            // ... (Remaining methods of Lunar class) ...
+            init(TimeInMillis) { /* ... */ }
+            getCyclicalData() { /* ... */ }
+            getAnimalString() { /* ... */ }
+            getTermString() { /* ... */ }
+            getCyclicalDateString() { /* ... */ }
+            getCyclicaYear() { /* ... */ }
+            getCyclicaMonth() { /* ... */ }
+            getCyclicaDay() { /* ... */ }
+            getLunarDayString() { /* ... */ }
+            getLunarMonthString() { /* ... */ }
+            getLunarYearString() { /* ... */ }
+            getLunarDateString() { /* ... */ }
+        }
+        // --- END: LUNA.JS ---
+    
+        // --- START: BAZI.JS ---
+        const chineseNumber = ["正", "二", "三", "四", "五", "六", "七", "八", "九", "十", "十一", "腊"];
+        const Gan = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
+        const Zhi = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+        const lunarInfo = [
+            0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2,
+            0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540, 0x0d6a0, 0x0ada2, 0x095b0, 0x14977,
+            0x04970, 0x0a4b0, 0x0b4b5, 0x06a50, 0x06d40, 0x1ab54, 0x02b60, 0x09570, 0x052f2, 0x04970,
+            0x06566, 0x0d4a0, 0x0ea50, 0x06e95, 0x05ad0, 0x02b60, 0x186e3, 0x092e0, 0x1c8d7, 0x0c950,
+            0x0d4a0, 0x1d8a6, 0x0b550, 0x056a0, 0x1a5b4, 0x025d0, 0x092d0, 0x0d2b2, 0x0a950, 0x0b557,
+            0x06ca0, 0x0b550, 0x15355, 0x04da0, 0x0a5d0, 0x14573, 0x052d0, 0x0a9a8, 0x0e950, 0x06aa0,
+            0x0aea6, 0x0ab50, 0x04b60, 0x0aae4, 0x0a570, 0x05260, 0x0f263, 0x0d950, 0x05b57, 0x056a0,
+            0x096d0, 0x04dd5, 0x04ad0, 0x0a4d0, 0x0d4d4, 0x0d250, 0x0d558, 0x0b540, 0x0b5a0, 0x195a6,
+            0x095b0, 0x049b0, 0x0a974, 0x0a4b0, 0x0b27a, 0x06a50, 0x06d40, 0x0af46, 0x0ab60, 0x09570,
+            0x04af5, 0x04970, 0x064b0, 0x074a3, 0x0ea50, 0x06b58, 0x055c0, 0x0ab60, 0x096d5, 0x092e0,
+            0x0c960, 0x0d954, 0x0d4a0, 0x0da50, 0x07552, 0x056a0, 0x0abb7, 0x025d0, 0x092d0, 0x0cab5,
+            0x0a950, 0x0b4a0, 0x0baa4, 0x0ad50, 0x055d9, 0x04ba0, 0x0a5b0, 0x15176, 0x052b0, 0x0a930,
+            0x07954, 0x06aa0, 0x0ad50, 0x05b52, 0x04b60, 0x0a6e6, 0x0a4e0, 0x0d260, 0x0ea65, 0x0d530,
+            0x05aa0, 0x076a3, 0x096d0, 0x04bd7, 0x04ad0, 0x0a4d0, 0x1d0b6, 0x0d250, 0x0d520, 0x0dd45,
+            0x0b5a0, 0x056d0, 0x055b2, 0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0
+        ];
+        const chineseDateFormat = new Intl.DateTimeFormat('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit' });
+        
+        class BaZi {
+            constructor(cal) {
+                this.cal = cal;
+                this.baseDate = new Date(1900, 0, 31);
+                this.init();
+            }
+
+            init() {
+                let offset = Math.floor((this.cal - this.baseDate) / 86400000);
+                let dayCyl = offset + 40;
+                let monCyl = 14;
+
+                let iYear, daysOfYear = 0;
+                for (iYear = 1900; iYear < 2050 && offset > 0; iYear++) {
+                    daysOfYear = this.yearDays(iYear);
+                    offset -= daysOfYear;
+                    monCyl += 12;
+                }
+                if (offset < 0) {
+                    offset += daysOfYear;
+                    iYear--;
+                    monCyl -= 12;
+                }
+
+                this.year = iYear;
+                let yearCyl = iYear - 1864;
+                let leapMonth = this.leapMonth(iYear);
+                this.leap = false;
+
+                let iMonth, daysOfMonth = 0;
+                for (iMonth = 1; iMonth < 13 && offset > 0; iMonth++) {
+                    if (leapMonth > 0 && iMonth == (leapMonth + 1) && !this.leap) {
+                        --iMonth;
+                        this.leap = true;
+                        daysOfMonth = this.leapDays(this.year);
+                    } else {
+                        daysOfMonth = this.monthDays(this.year, iMonth);
+                    }
+                    offset -= daysOfMonth;
+                    if (this.leap && iMonth == (leapMonth + 1)) {
+                        this.leap = false;
+                    }
+                    if (!this.leap) {
+                        monCyl++;
+                    }
+                }
+
+                if (offset == 0 && leapMonth > 0 && iMonth == leapMonth + 1) {
+                    if (this.leap) {
+                        this.leap = false;
+                    } else {
+                        this.leap = true;
+                        --iMonth;
+                        --monCyl;
+                    }
+                }
+
+                if (offset < 0) {
+                    offset += daysOfMonth;
+                    --iMonth;
+                    --monCyl;
+                }
+
+                this.month = iMonth;
+                this.day = offset + 1;
+            }
+
+            yearDays(year) {
+                let sum = 348;
+                for (let i = 0x8000; i > 0x8; i >>= 1) {
+                    if ((lunarInfo[year - 1900] & i) !== 0) sum += 1;
+                }
+                return sum + this.leapDays(year);
+            }
+
+            leapDays(year) {
+                if (this.leapMonth(year) !== 0) {
+                    if ((lunarInfo[year - 1900] & 0x10000) !== 0) {
+                        return 30;
+                    } else {
+                        return 29;
+                    }
+                } else {
+                    return 0;
+                }
+            }
+
+            leapMonth(year) {
+                return lunarInfo[year - 1900] & 0xf;
+            }
+
+            monthDays(year, month) {
+                if ((lunarInfo[year - 1900] & (0x10000 >> month)) === 0) {
+                    return 29;
+                } else {
+                    return 30;
+                }
+            }
+
+            getYear() {
+                return this.getYearStr(this.year);
+            }
+
+            getMonth() {
+                return chineseNumber[this.month - 1];
+            }
+
+            getDay() {
+                return this.getChinaDayString(this.day);
+            }
+
+            getYearGanZhi(hour) {
+                let idx = (this.year - 1864) % 60;
+                const y = BaZi.jiazhi[idx];
+
+                idx = idx % 5;
+                const idxm = (idx + 1) * 2 % 10;
+                const m = Gan[(idxm + this.month - 1) % 10] + Zhi[(this.month + 2 - 1) % 12];
+
+                const offset = (Math.floor((this.cal - this.baseDate) / 86400000) + 40) % 60;
+                const d = BaZi.jiazhi[offset];
+
+                const h = Gan[(offset % 5 * 2 + hour) % 10] + Zhi[hour % 12];
+                return `${y},${m},${d},${h}`;
+            }
+
+            animalsYear() {
+                const Animals = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"];
+                return Animals[(this.year - 4) % 12];
+            }
+
+            getYearStr(year) {
+                const chineseword = ["零", "一", "二", "三", "四", "五", "六", "七", "八", "九"];
+                let ys = "";
+                ys += chineseword[Math.floor(year / 1000)];
+                year %= 1000;
+                ys += chineseword[Math.floor(year / 100)];
+                year %= 100;
+                ys += chineseword[Math.floor(year / 10)];
+                year %= 10;
+                ys += chineseword[year];
+                return ys;
+            }
+
+            getChinaDayString(day) {
+                const chineseTen = ["初", "十", "廿", "卅"];
+                const n = day % 10 === 0 ? 9 : day % 10 - 1;
+                if (day > 30) return "";
+                if (day === 10) return "初十";
+                return chineseTen[Math.floor(day / 10)] + chineseNumber[n];
+            }
+
+            toString() {
+                return `${this.getYearStr(this.year)}年${this.leap ? "闰" : ""}${chineseNumber[this.month - 1]}月${this.getChinaDayString(this.day)}`;
+            }
+        }
+        
+        BaZi.jiazhi = [
+            "甲子", "乙丑", "丙寅", "丁卯", "戊辰", "己巳", "庚午", "辛未", "壬申", "癸酉",
+            "甲戌", "乙亥", "丙子", "丁丑", "戊寅", "己卯", "庚辰", "辛巳", "壬午", "癸未",
+            "甲申", "乙酉", "丙戌", "丁亥", "戊子", "己丑", "庚寅", "辛卯", "壬辰", "癸巳",
+            "甲午", "乙未", "丙申", "丁酉", "戊戌", "己亥", "庚子", "辛丑", "壬寅", "癸卯",
+            "甲辰", "乙巳", "丙午", "丁未", "戊申", "己酉", "庚戌", "辛亥", "壬子", "癸丑",
+            "甲寅", "乙卯", "丙辰", "丁巳", "戊午", "己未", "庚申", "辛酉", "壬戌", "癸亥"
+        ];
+        // --- END: BAZI.JS ---
+    
+        // --- START: PAIPANFINAL.JS ---
+        class PaiPanFinal {
+            constructor() {
+                
+            }
+
+            getBazi(cal, isman) {
+                let lunar = new BaZi(cal);
+                let lunaryue = new Lunar(cal);
+                let result = Array(10).fill("");
+                let time = Math.floor(cal.getHours() / 2);
+
+                // 获取生肖
+                let GanZhi = lunar.getYearGanZhi(time); // 取八字
+                console.log("ganzhi:",GanZhi);
+                let tempchar = GanZhi.split(",");
+                let ganziyear = tempchar[0]; // 年柱
+                let ganzimonth = tempchar[1]; // 月柱
+                let ganziday = tempchar[2]; // 日柱
+                let ganzitime = tempchar[3]; // 时柱
+
+                // 示例用法
+                const chineseInput = lunar.animalsYear(); // 输入一个中文的生肖名称
+                const englishOutput = translateZodiac(chineseInput);
+                console.log(englishOutput); // 输出: Dragon
+                result[0] = englishOutput ;
+                result[1] = ganziyear.charAt(0); // 年干
+                result[2] = ganziyear.charAt(1); // 年支
+                result[3] = ganzimonth.charAt(0); // 月干
+                result[4] = ganzimonth.charAt(1); // 月支
+                result[5] = ganziday.charAt(0); // 日干
+                result[6] = ganziday.charAt(1); // 日支
+                result[7] = ganzitime.charAt(0); // 时干
+                result[8] = ganzitime.charAt(1); // 时支
+
+                return result;
+            }
+        }
+        function translateZodiac(chineseZodiac) {
+            const zodiacMap = {
+                "鼠": "Rat",
+                "牛": "Ox",
+                "虎": "Tiger",
+                "兔": "Rabbit",
+                "龙": "Dragon",
+                "蛇": "Snake",
+                "马": "Horse",
+                "羊": "Goat",
+                "猴": "Monkey",
+                "鸡": "Rooster",
+                "狗": "Dog",
+                "猪": "Pig"
+            };
+
+            return zodiacMap[chineseZodiac] || "Unknown zodiac";
+        }
+        // (SAMPLE CODE DELETED HERE)
+        // --- END: PAIPANFINAL.JS ---
+    
+        // --- START: DEALBAZI.JS ---
+        function getTianGanTraits(tianGan) { /* ... */ }
+        function getDiZhiPersonality(diZhi) { /* ... */ }
+        function getRiYuanDescription(tianGan) { /* ... */ }
+        function transformGanZhiToWuXing(inputString) { /* ... */ }
+        function determineConfidence(inputString) { /* ... */ }
+        function checkElementInString(element, inputString) { /* ... */ }
+        function checkCharacterAtPosition(char, inputString, position) { /* ... */ }
+        function analyzeWealth(input) { /* ... */ }
+        function analyzePurpose(input) { /* ... */ }
+        function analyzeOpinion(input) { /* ... */ }
+        function analyzeSupport(input) { /* ... */ }
+        function analyzeBoyPopular(input) { /* ... */ }
+        function analyzeGirlPopular(input) { /* ... */ }
+        function analyzeSexPopular(input,gender){ /* ... */ }
+        function analyzeIdealPartner(input,gender) { /* ... */ }
+        // --- END: DEALBAZI.JS ---
+    
+        // --- START: SCRIPT.JS (MODIFIED) ---
+        const userInteraction = {
+            birthday: null,
+            currentCategory: null,
+            bazi: null,
+            riyuan: null,
+            yuezhi: null,
+            baziWuxing: null,
+            gender: null,
+        };
+        
+        // Categories and questions
+        const categories = {
+            Self: [
+                { id: 'ioe', text: 'Am I an Introvert (I) or an Extrovert (E)?', handler: 'handleIOEQuestion' },
+                { id: 'zodiac', text: 'What is my Chinese zodiac sign?', handler: 'handleZodiacQuestion' },
+                { id: 'swipe', text: 'Please Swipe Left for More Questions', handler: 'handleSwipeQuestion' },
+                { id: 'nature', text: 'If my personality were reflected in nature, would I be a tree, the sun, or a stream?', handler: 'handleNatureQuestion' },
+                { id: 'confident', text: 'Am I a confident person?', handler: 'handleConfidentQuestion' },
+                { id: 'calm', text: 'Am I someone who can handle situations calmly?', handler: 'handleCalmQuestion' },
+                { id: 'adaptable', text: 'Am I adaptable when handling situations?', handler: 'handleAdaptableQuestion' },
+                { id: 'courageous', text: 'Am I a courageous person?', handler: 'handleCourageousQuestion' },
+                { id: 'compassionate', text: 'Am I a compassionate person?', handler: 'handleCompassionateQuestion' },
+                { id: 'promises', text: 'Am I someone who values promises?', handler: 'handlePromisesQuestion' },
+                { id: 'stranger', text: 'What impression do I leave on strangers?', handler: 'handleStrangerQuestion' },
+                { id: 'familiar', text: 'How am I perceived by those who are familiar with me?', handler: 'handleFamiliarQuestion' },
+                { id: 'myself', text: 'What is my true inner self?', handler: 'handleMyselfQuestion' }
+            ],
+            Love: [
+                { id: 'ideal', text: "What are my expectations for an ideal partner?", handler: 'handleIdealPartnerQuestion' },
+                { id: 'sexpopular', text: 'Am I someone who is popular with the opposite sex?', handler: 'handleSexPopularQuestion' }
+            ],
+            Wealth: [
+                { id: 'wealth', text: 'Do I value wealth?', handler: 'handleWealthQuestion' },
+                { id: 'purpose', text: 'Do I have a sense of purpose in what I do?', handler: 'handlePurposeQuestion' },
+                { id: 'opinions', text: "Am I someone who is good at listening to others' opinions?", handler: 'handleOpinionsQuestion' },
+                { id: 'support', text: "Do I have a higher chance of getting help from benefactors?", handler: 'handleSupportQuestion' }
+            ],
+        };
+        
+        // Load categories
+        function loadCategories() {
+            const optionsDiv = document.getElementById('options');
+            if (!optionsDiv) {
+                console.error("ERROR: options element not found.");
+                return;
+            }
+            optionsDiv.innerHTML = '';
+            
+            Object.keys(categories).forEach((category) => {
+                const button = document.createElement('button');
+                button.textContent = category;
+                button.onclick = () => loadQuestions(category);
+                optionsDiv.appendChild(button);
+            });
+            
+            const modifyButton = document.createElement('button');
+            modifyButton.textContent = 'Modify Birthday & Gender';
+            modifyButton.onclick = showInputGroup;
+            optionsDiv.appendChild(modifyButton);
+        }
+        
+        // Load questions for a selected category
+        function loadQuestions(category) {
+            userInteraction.currentCategory = category;
+            const optionsDiv = document.getElementById('options');
+            if (!optionsDiv) return;
+            optionsDiv.innerHTML = '';
+            
+            categories[category].forEach((question) => {
+                const button = document.createElement('button');
+                button.textContent = question.text;
+                button.onclick = () => {
+                    handleQuestion(question.handler);
+                };
+                optionsDiv.appendChild(button);
+            });
+            
+            const backButton = document.createElement('button');
+            backButton.textContent = 'Back to Categories';
+            backButton.onclick = loadCategories;
+            optionsDiv.appendChild(backButton);
+        }
+        
+        function handleQuestion(handlerName) {
+            if (typeof window[handlerName] === 'function') {
+                window[handlerName]();
+            } else {
+                appendMessage('Error: Invalid handler specified.', 'bot');
+            }
+        }
+        
+        // Save user's birthday
+        function saveUserBirthdayGender(bd, gender) {
+            const birthday = bd + '.' + gender;
+            if (window.parent !== window) {
+                window.parent.postMessage({ action: 'saveBirthday', birthday }, '*');
+            } else {
+                localStorage.setItem('userBirthday', birthday);
+            }
+        }
+        
+        // Update Bazi and Zodiac (simplified - requires full implementation)
+        function updateBaziZodiac() {
+            if (!userInteraction.birthday) return;
+            try {
+                if (typeof PaiPanFinal !== 'undefined' && typeof mypaipan !== 'undefined') {
+                    const dateObject = new Date(userInteraction.birthday);
+                    userInteraction.bazi = mypaipan.getBazi(dateObject, true);
+                    // Additional processing would go here
+                } else {
+                    console.warn("PaiPanFinal not available");
+                }
+            } catch (e) {
+                console.error("Error updating Bazi:", e);
+            }
+        }
+        
+        // Gender selection handler
+        const genderModal = document.getElementById('genderModal');
+        const maleButton = document.getElementById('maleButton');
+        const femaleButton = document.getElementById('femaleButton');
+        
+        if (genderModal && maleButton && femaleButton) {
+            document.getElementById('birthday-input').addEventListener('change', () => {
+                genderModal.style.display = 'block';
+            });
+            
+            maleButton.addEventListener('click', () => {
+                genderModal.style.display = 'none';
+                userInteraction.gender = 'Male';
+            });
+            
+            femaleButton.addEventListener('click', () => {
+                genderModal.style.display = 'none';
+                userInteraction.gender = 'Female';
+            });
+        }
+        
+        // Send button event listener
+        const sendButton = document.getElementById('send-button');
+        const birthdayInput = document.getElementById('birthday-input');
+        if (sendButton) {
+            sendButton.addEventListener('click', sendMessage);
+        }
+        if (birthdayInput) {
+            birthdayInput.addEventListener('keypress', (e) => {
+                if (e.key === 'Enter') {
+                    sendMessage(e);
+                }
+            });
+        }
+        
+        // --- 最终的、最安全的启动逻辑：等待整个页面加载完毕 ---
+        window.onload = function() {
+            setTimeout(() => {
+                console.log("LOG: STARTING APPLICATION INITIALIZATION...");
+                appendMessage('Welcome, Seeker. The stars have guided you here. What burden weighs on your heart today?(Type your birthday and gender below to begin):', 'bot');
+                showInputGroup();
+            }, 100);
+        };
+        
+        // Question handler functions
+        function handleSwipeQuestion(){
+            const tooltip = document.getElementById('tooltip');
+            if (tooltip) {
+                tooltip.style.display = 'block';
+                console.log("display indicate...");
+                setTimeout(() => {
+                    tooltip.style.display = 'none';
+                }, 4000);
+            }
+        }
+        
+        function getBaziByIndex(bazi, number){
+            const parts = String(bazi).split(',');
+            if (parts.length >= 6) {
+                return parts[number];
+            }
+            return null;
+        }
+        
+        function getRiYuan(inputString) {
+            const parts = String(inputString).split(',');
+            if (parts.length >= 6) {
+                return parts[5];
+            }
+            return null;
+        }
+        
+        function getYueZhi(inputString) {
+            const parts = String(inputString).split(',');
+            if (parts.length >= 6) {
+                return parts[4];
+            }
+            return null;
+        }
+        
+        function adjustTime(inputDate) {
+            const inputTime = new Date(inputDate);
+            const currentDate = new Date(inputTime.getFullYear(), inputTime.getMonth(), inputTime.getDate());
+            const cutoffTime = new Date(currentDate);
+            cutoffTime.setHours(22, 59, 0, 0);
+            
+            if (inputTime > cutoffTime) {
+                const nextDay = new Date(currentDate);
+                nextDay.setDate(nextDay.getDate() + 1);
+                nextDay.setHours(0, 30, 0, 0);
+                return nextDay;
+            }
+            return inputTime;
+        }
+        
+        function checkIOE() {
+            const inputChar = userInteraction.riyuan;
+            if (!inputChar) return 'Unknown';
+            const tianGanE = ['甲', '丙', '戊', '庚', '壬'];
+            return tianGanE.includes(inputChar) ? 'Extrovert (E)' : 'Introvert (I)';
+        }
+        
+        function getZodiac() {
+            const inputString = userInteraction.bazi;
+            if (!inputString) return 'Unknown';
+            const parts = String(inputString).split(',');
+            if (parts.length >= 6) {
+                return parts[0];
+            }
+            return null;
+        }
+        
+        function handleIOEQuestion() {
+            if (!userInteraction.riyuan) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            const response = `You likely fall into the ${checkIOE()} category, if you were to take the MBTI test.`;
+            displayResponseGradually(response);
+        }
+        
+        function handleZodiacQuestion() {
+            if (!userInteraction.bazi) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            const zodiac = getZodiac();
+            const response = `Your Chinese zodiac sign is ${zodiac || 'Unknown'}.`;
+            displayResponseGradually(response);
+        }
+        
+        function handleNatureQuestion() {
+            if (!userInteraction.riyuan) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            if (typeof getRiYuanDescription === 'function') {
+                const response = `If your personality were reflected in nature, you would be: ${getRiYuanDescription(userInteraction.riyuan)}.`;
+                displayResponseGradually(response);
+            } else {
+                appendMessage('Analysis function not available. Please ensure all dependencies are loaded.', 'bot');
+            }
+        }
+        
+        function handleCalmQuestion() {
+            if (!userInteraction.baziWuxing) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            let result = '';
+            if (typeof checkElementInString === 'function' && typeof checkCharacterAtPosition === 'function') {
+                if (checkElementInString('金', userInteraction.baziWuxing) == false) {
+                    result = 'You are NOT a calm person at all.';
+                } else if (checkCharacterAtPosition('金', userInteraction.baziWuxing, 4) || checkCharacterAtPosition('金', userInteraction.baziWuxing, 5) || checkCharacterAtPosition('金', userInteraction.baziWuxing, 6)) {
+                    result = 'You are a typical calm person.';
+                } else {
+                    result = 'You are somewhat a calm person, but not in a very typical sense.';
+                }
+            } else {
+                result = 'Analysis function not available.';
+            }
+            displayResponseGradually(result);
+        }
+        
+        function handleConfidentQuestion() {
+            if (!userInteraction.baziWuxing) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            if (typeof determineConfidence === 'function') {
+                const response = `Actually you are ${determineConfidence(userInteraction.baziWuxing)} person.`;
+                displayResponseGradually(response);
+            } else {
+                appendMessage('Analysis function not available.', 'bot');
+            }
+        }
+        
+        function handleAdaptableQuestion() {
+            if (!userInteraction.baziWuxing) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            let result = '';
+            const ele = '水';
+            const des = 'adaptable';
+            if (typeof checkElementInString === 'function' && typeof checkCharacterAtPosition === 'function') {
+                if (checkElementInString(ele, userInteraction.baziWuxing) == false) {
+                    result = 'You are NOT an ' + des + ' person at all.';
+                } else if (checkCharacterAtPosition(ele, userInteraction.baziWuxing, 4) || checkCharacterAtPosition(ele, userInteraction.baziWuxing, 5) || checkCharacterAtPosition(ele, userInteraction.baziWuxing, 6)) {
+                    result = 'You are a typical ' + des + ' person.';
+                } else {
+                    result = 'You are somewhat an ' + des + ' person, but not in a very typical sense.';
+                }
+            } else {
+                result = 'Analysis function not available.';
+            }
+            displayResponseGradually(result);
+        }
+        
+        function handleCourageousQuestion() {
+            if (!userInteraction.baziWuxing) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            let result = '';
+            const ele = '木';
+            const des = 'courageous';
+            if (typeof checkElementInString === 'function' && typeof checkCharacterAtPosition === 'function') {
+                if (checkElementInString(ele, userInteraction.baziWuxing) == false) {
+                    result = 'You are NOT a ' + des + ' person at all.';
+                } else if (checkCharacterAtPosition(ele, userInteraction.baziWuxing, 4) || checkCharacterAtPosition(ele, userInteraction.baziWuxing, 5) || checkCharacterAtPosition(ele, userInteraction.baziWuxing, 6)) {
+                    result = 'You are a typical ' + des + ' person.';
+                } else {
+                    result = 'You are somewhat a ' + des + ' person, but not in a very typical sense.';
+                }
+            } else {
+                result = 'Analysis function not available.';
+            }
+            displayResponseGradually(result);
+        }
+        
+        function handleCompassionateQuestion() {
+            if (!userInteraction.baziWuxing) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            let result = '';
+            const ele = '火';
+            const des = 'compassionate';
+            if (typeof checkElementInString === 'function' && typeof checkCharacterAtPosition === 'function') {
+                if (checkElementInString(ele, userInteraction.baziWuxing) == false) {
+                    result = 'You are NOT a ' + des + ' person at all.';
+                } else if (checkCharacterAtPosition(ele, userInteraction.baziWuxing, 4) || checkCharacterAtPosition(ele, userInteraction.baziWuxing, 5) || checkCharacterAtPosition(ele, userInteraction.baziWuxing, 6)) {
+                    result = 'You are a typical ' + des + ' person.';
+                } else {
+                    result = 'You are somewhat a ' + des + ' person, but not in a very typical sense.';
+                }
+            } else {
+                result = 'Analysis function not available.';
+            }
+            displayResponseGradually(result);
+        }
+        
+        function handlePromisesQuestion() {
+            if (!userInteraction.baziWuxing) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            let result = '';
+            const ele = '土';
+            const des = 'commitment-minded';
+            if (typeof checkElementInString === 'function' && typeof checkCharacterAtPosition === 'function') {
+                if (checkElementInString(ele, userInteraction.baziWuxing) == false) {
+                    result = 'You are NOT a ' + des + ' person at all.';
+                } else if (checkCharacterAtPosition(ele, userInteraction.baziWuxing, 4) || checkCharacterAtPosition(ele, userInteraction.baziWuxing, 5) || checkCharacterAtPosition(ele, userInteraction.baziWuxing, 6)) {
+                    result = 'You are a typical ' + des + ' person.';
+                } else {
+                    result = 'You are somewhat a ' + des + ' person, but not in a very typical sense.';
+                }
+            } else {
+                result = 'Analysis function not available.';
+            }
+            displayResponseGradually(result);
+        }
+        
+        function handleMyselfQuestion() {
+            if (!userInteraction.bazi) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            if (typeof getDiZhiPersonality === 'function') {
+                let result = getDiZhiPersonality(getBaziByIndex(userInteraction.bazi, 4));
+                if (getBaziByIndex(userInteraction.bazi, 4) !== getBaziByIndex(userInteraction.bazi, 6)) {
+                    result += '\n\n ' + getDiZhiPersonality(getBaziByIndex(userInteraction.bazi, 6));
+                }
+                if (getBaziByIndex(userInteraction.bazi, 2) !== getBaziByIndex(userInteraction.bazi, 4) && getBaziByIndex(userInteraction.bazi, 2) !== getBaziByIndex(userInteraction.bazi, 6)) {
+                    result += '\n\n ' + getDiZhiPersonality(getBaziByIndex(userInteraction.bazi, 2));
+                }
+                const response = `This is what your true inner personality is like: \n\n ${result}`;
+                displayResponseGradually(response);
+            } else {
+                appendMessage('Analysis function not available.', 'bot');
+            }
+        }
+        
+        function handleStrangerQuestion() {
+            if (!userInteraction.bazi) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            if (typeof getTianGanTraits === 'function') {
+                let result = getTianGanTraits(getBaziByIndex(userInteraction.bazi, 1));
+                if (getBaziByIndex(userInteraction.bazi, 1) !== getBaziByIndex(userInteraction.bazi, 3)) {
+                    result += '\n\n ' + getTianGanTraits(getBaziByIndex(userInteraction.bazi, 3));
+                }
+                const response = `This is the impression you leave on people when they first meet you: \n\n ${result}`;
+                displayResponseGradually(response);
+            } else {
+                appendMessage('Analysis function not available.', 'bot');
+            }
+        }
+        
+        function handleFamiliarQuestion() {
+            if (!userInteraction.bazi) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            if (typeof getTianGanTraits === 'function') {
+                const response = `Here's the impression you leave on people who are familiar with you: \n\n ${getTianGanTraits(getBaziByIndex(userInteraction.bazi, 5))}\n\n`;
+                displayResponseGradually(response);
+            } else {
+                appendMessage('Analysis function not available.', 'bot');
+            }
+        }
+        
+        function handleSexPopularQuestion() {
+            if (!userInteraction.baziWuxing || !userInteraction.gender) {
+                appendMessage('Please enter your birthday and gender first.', 'bot');
+                return;
+            }
+            if (typeof analyzeSexPopular === 'function') {
+                const result = analyzeSexPopular(userInteraction.baziWuxing, userInteraction.gender);
+                displayResponseGradually(result);
+            } else {
+                appendMessage('Analysis function not available.', 'bot');
+            }
+        }
+        
+        function handleIdealPartnerQuestion() {
+            if (!userInteraction.bazi || !userInteraction.gender) {
+                appendMessage('Please enter your birthday and gender first.', 'bot');
+                return;
+            }
+            if (typeof analyzeIdealPartner === 'function') {
+                const result = analyzeIdealPartner(userInteraction.bazi, userInteraction.gender);
+                displayResponseGradually(result);
+            } else {
+                appendMessage('Analysis function not available.', 'bot');
+            }
+        }
+        
+        function handleSupportQuestion() {
+            if (!userInteraction.baziWuxing) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            if (typeof analyzeSupport === 'function') {
+                const result = analyzeSupport(userInteraction.baziWuxing);
+                displayResponseGradually(result);
+            } else {
+                appendMessage('Analysis function not available.', 'bot');
+            }
+        }
+        
+        function handleOpinionsQuestion() {
+            if (!userInteraction.baziWuxing) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            if (typeof analyzeOpinion === 'function') {
+                const result = analyzeOpinion(userInteraction.baziWuxing);
+                displayResponseGradually(result);
+            } else {
+                appendMessage('Analysis function not available.', 'bot');
+            }
+        }
+        
+        function handlePurposeQuestion() {
+            if (!userInteraction.baziWuxing) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            if (typeof analyzePurpose === 'function') {
+                const result = analyzePurpose(userInteraction.baziWuxing);
+                displayResponseGradually(result);
+            } else {
+                appendMessage('Analysis function not available.', 'bot');
+            }
+        }
+        
+        function handleWealthQuestion() {
+            if (!userInteraction.baziWuxing) {
+                appendMessage('Please enter your birthday first.', 'bot');
+                return;
+            }
+            if (typeof analyzeWealth === 'function') {
+                const result = analyzeWealth(userInteraction.baziWuxing);
+                displayResponseGradually(result);
+            } else {
+                appendMessage('Analysis function not available.', 'bot');
+            }
+        }
+        
+        // Update updateBaziZodiac to use helper functions
+        function updateBaziZodiac() {
+            if (!userInteraction.birthday) return;
+            try {
+                if (typeof PaiPanFinal !== 'undefined') {
+                    const mypaipan = new PaiPanFinal();
+                    const dateObject1 = new Date(userInteraction.birthday);
+                    const dateObject = adjustTime(dateObject1);
+                    const baziArray = mypaipan.getBazi(dateObject, true);
+                    // Convert array to comma-separated string format expected by other functions
+                    // Format: zodiac,年干,年支,月干,月支,日干,日支,时干,时支
+                    userInteraction.bazi = baziArray.join(',');
+                    userInteraction.riyuan = getRiYuan(userInteraction.bazi);
+                    userInteraction.yuezhi = getYueZhi(userInteraction.bazi);
+                    if (typeof transformGanZhiToWuXing === 'function') {
+                        userInteraction.baziWuxing = transformGanZhiToWuXing(userInteraction.bazi);
+                    }
+                    console.log("此人信息【" + userInteraction.bazi + (userInteraction.baziWuxing || '') + "】");
+                } else {
+                    console.warn("PaiPanFinal not available");
+                }
+            } catch (e) {
+                console.error("Error updating Bazi:", e);
+            }
+        }
+        
+        // Expose handler functions to global scope so they can be called by handleQuestion
+        window.handleIOEQuestion = handleIOEQuestion;
+        window.handleZodiacQuestion = handleZodiacQuestion;
+        window.handleNatureQuestion = handleNatureQuestion;
+        window.handleCalmQuestion = handleCalmQuestion;
+        window.handleConfidentQuestion = handleConfidentQuestion;
+        window.handleAdaptableQuestion = handleAdaptableQuestion;
+        window.handleCourageousQuestion = handleCourageousQuestion;
+        window.handleCompassionateQuestion = handleCompassionateQuestion;
+        window.handlePromisesQuestion = handlePromisesQuestion;
+        window.handleMyselfQuestion = handleMyselfQuestion;
+        window.handleStrangerQuestion = handleStrangerQuestion;
+        window.handleFamiliarQuestion = handleFamiliarQuestion;
+        window.handleSexPopularQuestion = handleSexPopularQuestion;
+        window.handleIdealPartnerQuestion = handleIdealPartnerQuestion;
+        window.handleSupportQuestion = handleSupportQuestion;
+        window.handleOpinionsQuestion = handleOpinionsQuestion;
+        window.handlePurposeQuestion = handlePurposeQuestion;
+        window.handleWealthQuestion = handleWealthQuestion;
+        window.handleSwipeQuestion = handleSwipeQuestion;
+        
+        // --- END: SCRIPT.JS ---
+        })(); 
+    // 闭合 IIFE
+    </script>
+</body>
+</html>
