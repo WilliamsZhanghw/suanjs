@@ -15,6 +15,9 @@ All notable changes to this project will be documented in this file.
 - Fixed Bazi calculation to properly convert array to string format
 - Improved error handling for missing dependencies
 - Enhanced compatibility with WordPress iframe environment
+- Fixed window size to 600px height for consistent layout
+- Optimized chat box scrolling with automatic scroll to bottom
+- Fixed input group and options area to prevent compression
 
 ## [V3] - 2025-11-22
 
