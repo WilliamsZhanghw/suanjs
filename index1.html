@@ -143,8 +143,13 @@
             chatBox.scrollTop = chatBox.scrollHeight;
         }
         function displayResponseGradually(responseOrigin) { 
-            console.log("LOG: Function displayResponseGradually called.");
-            const response = responseOrigin.replace(/\n/g, '<br>');
+            console.log("LOG: Function displayResponseGradually called with:", responseOrigin);
+            if (!responseOrigin) {
+                console.error("LOG: displayResponseGradually received undefined or null response");
+                appendMessage('Error: Unable to generate response. Please try again.', 'bot');
+                return;
+            }
+            const response = String(responseOrigin).replace(/\n/g, '<br>');
             const chatBox = document.getElementById('chat-box');
             const message = document.createElement('div');
             message.classList.add('message', 'bot');
@@ -184,9 +189,16 @@
                 return;
             }
     
+            // Save birthday globally
             userInteraction.birthday = birthdayMessage;
+            console.log("LOG: Birthday saved to userInteraction:", userInteraction.birthday);
+            
+            // Save to localStorage for persistence (even if gender is not set yet)
+            saveUserBirthdayGender(birthdayMessage, userInteraction.gender);
+            
+            // Update Bazi calculation with the new birthday
             updateBaziZodiac();
-            saveUserBirthdayGender(birthdayMessage,userInteraction.gender);
+            
             birthdayInput.value = '';
             document.getElementById('input-group').style.display = 'none';
             appendMessage(`Your birthday has been saved: ${birthdayMessage}`, 'user');
@@ -506,21 +518,374 @@
         // --- END: PAIPANFINAL.JS ---
     
         // --- START: DEALBAZI.JS ---
-        function getTianGanTraits(tianGan) { /* ... */ }
-        function getDiZhiPersonality(diZhi) { /* ... */ }
-        function getRiYuanDescription(tianGan) { /* ... */ }
-        function transformGanZhiToWuXing(inputString) { /* ... */ }
-        function determineConfidence(inputString) { /* ... */ }
-        function checkElementInString(element, inputString) { /* ... */ }
-        function checkCharacterAtPosition(char, inputString, position) { /* ... */ }
-        function analyzeWealth(input) { /* ... */ }
-        function analyzePurpose(input) { /* ... */ }
-        function analyzeOpinion(input) { /* ... */ }
-        function analyzeSupport(input) { /* ... */ }
-        function analyzeBoyPopular(input) { /* ... */ }
-        function analyzeGirlPopular(input) { /* ... */ }
-        function analyzeSexPopular(input,gender){ /* ... */ }
-        function analyzeIdealPartner(input,gender) { /* ... */ }
+        function getTianGanTraits(tianGan) {
+            const tianGanTraits = {
+                "甲": "Strong-willed, upright, and ambitious, like a towering tree. However, can be stubborn, inflexible, and overly aggressive.",
+                "乙": "Gentle, adaptable, and creative, like a graceful vine. However, may be indecisive, overly sensitive, and prone to self-doubt.",
+                "丙": "Optimistic, enthusiastic, and passionate, like the blazing sun. However, can be impulsive, impatient, and easily frustrated.",
+                "丁": "Thoughtful, caring, and resourceful, like a lamp in the dark. However, may be overly cautious, overthink, and emotionally vulnerable.",
+                "戊": "Stable, dependable, and protective, like solid walls. However, can be rigid, resistant to change, and overly protective.",
+                "己": "Empathetic, nurturing, and patient, like the earth. However, may be overly accommodating, lack assertiveness, and prone to self-sacrifice.",
+                "庚": "Resolute, determined, and sharp-minded, like a blade. However, can be harsh, uncompromising, and overly critical.",
+                "辛": "Delicate, elegant, and meticulous, like fine silver. However, may be overly perfectionistic, hesitant, and lack spontaneity.",
+                "壬": "Bold, visionary, and dynamic, like a grand river. However, can be restless, overly ambitious, and prone to emotional outbursts.",
+                "癸": "Quiet, introspective, and intuitive, like a gentle stream. However, may be overly introverted, avoid confrontation, and lack initiative."
+            };
+            return tianGanTraits[tianGan] || "Invalid input: Please enter a valid Heavenly Stem character.";
+        }
+        
+        function getDiZhiPersonality(diZhi) {
+            const diZhiPersonality = {
+                "子": "Smart, adaptable, and charming, but can be secretive and restless.",
+                "丑": "Hardworking, reliable, and patient, but can be overly cautious and stubborn.",
+                "寅": "Ambitious, confident, and brave, but may be impulsive and aggressive.",
+                "卯": "Gentle, kind, and artistic, but can be overly sensitive and indecisive.",
+                "辰": "Charismatic, imaginative, and resourceful, but can be proud and unpredictable.",
+                "巳": "Wise, passionate, and intuitive, but may be jealous and manipulative.",
+                "午": "Energetic, enthusiastic, and open-hearted, but can be impatient and reckless.",
+                "未": "Compassionate, creative, and dependable, but may be shy and overly self-critical.",
+                "申": "Clever, versatile, and curious, but can be mischievous and unreliable.",
+                "酉": "Diligent, detail-oriented, and independent, but may be vain and critical.",
+                "戌": "Loyal, honest, and protective, but can be pessimistic and stubborn.",
+                "亥": "Compassionate, intuitive, and idealistic, but may be naive and escapist."
+            };
+            return diZhiPersonality[diZhi] || "Invalid input: Please enter a valid Earthly Branch character.";
+        }
+        
+        function getRiYuanDescription(tianGan) {
+            const tianGanMap = {
+                "甲": "A towering tree under the vast sky",
+                "乙": "A winding and graceful vine",
+                "丙": "The blazing and radiant sun",
+                "丁": "A lamp in the dark night",
+                "戊": "Solid walls and sturdy dikes",
+                "己": "The nurturing earth embracing all",
+                "庚": "A sharp and imposing blade or axe",
+                "辛": "Delicate and exquisite silver jewelry",
+                "壬": "A grand and majestic river",
+                "癸": "A gentle and quiet flowing stream"
+            };
+            return tianGanMap[tianGan] || "Invalid input: Please enter a valid Heavenly Stem character.";
+        }
+        
+        function transformGanZhiToWuXing(inputString) {
+            const ganMapping = {
+                '金': ['庚', '辛'],
+                '木': ['甲', '乙'],
+                '水': ['壬', '癸'],
+                '火': ['丙', '丁'],
+                '土': ['戊', '己']
+            };
+            const zhiMapping = {
+                '金': ['申', '酉'],
+                '木': ['寅', '卯'],
+                '水': ['子', '亥'],
+                '火': ['巳', '午'],
+                '土': ['辰', '戌', '丑', '未']
+            };
+            let result = '';
+            for (let char of inputString) {
+                if (/^[a-zA-Z]+$/.test(char)) {
+                    continue;
+                }
+                let replaced = false;
+                for (let [wuXing, ganList] of Object.entries(ganMapping)) {
+                    if (ganList.includes(char)) {
+                        result += wuXing;
+                        replaced = true;
+                        break;
+                    }
+                }
+                if (!replaced) {
+                    for (let [wuXing, zhiList] of Object.entries(zhiMapping)) {
+                        if (zhiList.includes(char)) {
+                            result += wuXing;
+                            replaced = true;
+                            break;
+                        }
+                    }
+                }
+                if (!replaced) {
+                    result += char;
+                }
+            }
+            return result;
+        }
+        
+        function determineConfidence(inputString) {
+            const conditions = {
+                '金': ['金', '土'],
+                '水': ['水', '金'],
+                '木': ['木', '水'],
+                '火': ['火', '木'],
+                '土': ['土', '火']
+            };
+            const element4 = inputString[3];
+            const element5 = inputString[4];
+            const element6 = inputString[5];
+            if (element5 && (conditions[element5].includes(element4) || conditions[element5].includes(element6))) {
+                return 'a confident';
+            } else {
+                return 'NOT a confident';
+            }
+        }
+        
+        function checkElementInString(element, inputString) {
+            if (inputString && inputString.includes(element)) {
+                return true;
+            } else {
+                return false;
+            }
+        }
+        
+        function checkCharacterAtPosition(char, inputString, position) {
+            if (position < 1 || position > inputString.length) {
+                return false;
+            }
+            const charAtPosition = inputString[position - 1];
+            return char === charAtPosition ? true : false;
+        }
+        
+        function analyzeWealth(input) {
+            const selfPosition = 5;
+            const 克制关系 = {
+                '金': '木',
+                '水': '火',
+                '木': '土',
+                '火': '金',
+                '土': '水'
+            };
+            if (!input || input.length < selfPosition) {
+                return "Unable to analyze wealth - insufficient data.";
+            }
+            const selfElement = input[selfPosition - 1];
+            const wealthElement = 克制关系[selfElement];
+            const wealthIndices = input.split('').reduce((indices, char, index) => {
+                if (char === wealthElement) indices.push(index + 1);
+                return indices;
+            }, []);
+            let result;
+            if (wealthIndices.includes(selfPosition - 1) || wealthIndices.includes(selfPosition + 1)) {
+                result = "You highly value wealth.";
+            } else if (wealthIndices.length === 0) {
+                result = "You don't value wealth at all.";
+            } else if ([1, 3].some(i => wealthIndices.includes(i)) && !wealthIndices.includes(2)) {
+                result = "You seem to value wealth on the surface, but you don't actually value it.";
+            } else if (!wealthIndices.includes(1) && wealthIndices.includes(2)) {
+                result = "You don't appear to value wealth, but you actually do.";
+            } else {
+                result = "You care about wealth, but not that much.";
+            }
+            return result;
+        }
+        
+        function analyzePurpose(input) {
+            const selfPosition = 5;
+            const 克制关系 = {
+                '金': '木',
+                '水': '火',
+                '木': '土',
+                '火': '金',
+                '土': '水'
+            };
+            if (!input || input.length < selfPosition) {
+                return "Unable to analyze purpose - insufficient data.";
+            }
+            const selfElement = input[selfPosition - 1];
+            const wealthElement = 克制关系[selfElement];
+            const wealthIndices = input.split('').reduce((indices, char, index) => {
+                if (char === wealthElement) indices.push(index + 1);
+                return indices;
+            }, []);
+            let result;
+            if (wealthIndices.includes(selfPosition - 1) || wealthIndices.includes(selfPosition + 1)) {
+                result = "You have a strong sense of purpose.";
+            } else if (wealthIndices.length === 0) {
+                result = "You have no sense of purpose at all.";
+            } else if ([1, 3].some(i => wealthIndices.includes(i)) && !wealthIndices.includes(2)) {
+                result = "You seem to prioritize goals on the surface, but deep down, you don't actually value them.";
+            } else if (!wealthIndices.includes(1) && wealthIndices.includes(2)) {
+                result = "You don't seem to prioritize goals on the surface, but deep down, you do value them.";
+            } else {
+                result = "You do have sense of purpose, but not that much.";
+            }
+            return result;
+        }
+        
+        function analyzeOpinion(input) {
+            const selfPosition = 5;
+            const 印生关系 = {
+                '金': '土',
+                '水': '金',
+                '木': '水',
+                '火': '木',
+                '土': '火'
+            };
+            if (!input || input.length < selfPosition) {
+                return "Unable to analyze opinion - insufficient data.";
+            }
+            const selfElement = input[selfPosition - 1];
+            const wealthElement = 印生关系[selfElement];
+            const wealthIndices = input.split('').reduce((indices, char, index) => {
+                if (char === wealthElement) indices.push(index + 1);
+                return indices;
+            }, []);
+            let result;
+            if (wealthIndices.includes(selfPosition - 1) || wealthIndices.includes(selfPosition + 1)) {
+                result = "You are very good at listening to others' perspectives.";
+            } else if (wealthIndices.length === 0) {
+                result = "You don't listen to others' perspectives at all.";
+            } else if ([1, 3].some(i => wealthIndices.includes(i)) && !wealthIndices.includes(2)) {
+                result = "You appear to like listening to others' opinions on the surface, but you don't really take them in.";
+            } else if (!wealthIndices.includes(1) && wealthIndices.includes(2)) {
+                result = "You seem not to like listening to others' opinions on the surface, but you actually take them in.";
+            } else {
+                result = "Sometimes you listen to others' opinions, and sometimes you don't.";
+            }
+            return result;
+        }
+        
+        function analyzeSupport(input) {
+            const selfPosition = 5;
+            const 印生关系 = {
+                '金': '土',
+                '水': '金',
+                '木': '水',
+                '火': '木',
+                '土': '火'
+            };
+            if (!input || input.length < selfPosition) {
+                return "Unable to analyze support - insufficient data.";
+            }
+            const selfElement = input[selfPosition - 1];
+            const wealthElement = 印生关系[selfElement];
+            const wealthIndices = input.split('').reduce((indices, char, index) => {
+                if (char === wealthElement) indices.push(index + 1);
+                return indices;
+            }, []);
+            let result;
+            if (wealthIndices.includes(selfPosition - 1) || wealthIndices.includes(selfPosition + 1)) {
+                result = "Benefactors are very likely to extend their support to you.";
+            } else if (wealthIndices.length === 0) {
+                result = "It seems improbable that help will come your way.";
+            } else {
+                result = "Sometimes help comes your way, but other times it doesn't.";
+            }
+            return result;
+        }
+        
+        function analyzeBoyPopular(input) {
+            const selfPosition = 5;
+            const 克制关系 = {
+                '金': '木',
+                '水': '火',
+                '木': '土',
+                '火': '金',
+                '土': '水'
+            };
+            if (!input || input.length < selfPosition) {
+                return "Unable to analyze popularity - insufficient data.";
+            }
+            const selfElement = input[selfPosition - 1];
+            const wealthElement = 克制关系[selfElement];
+            const wealthIndices = String(input).split('').reduce((indices, char, index) => {
+                if (char === wealthElement) indices.push(index + 1);
+                return indices;
+            }, []);
+            let result;
+            if (wealthIndices.includes(selfPosition - 1) || wealthIndices.includes(selfPosition + 1)) {
+                result = "You have a natural charm that draws the attention of the opposite sex.";
+            } else if (wealthIndices.length === 0) {
+                result = "You are not particularly sought after by the opposite sex.";
+            } else {
+                result = "Your charm is there, but it's not something that stands out significantly.";
+            }
+            return result;
+        }
+        
+        function analyzeGirlPopular(input) {
+            const selfPosition = 5;
+            const 克制关系 = {
+                '金': '火',
+                '水': '土',
+                '木': '金',
+                '火': '水',
+                '土': '木'
+            };
+            if (!input || input.length < selfPosition) {
+                return "Unable to analyze popularity - insufficient data.";
+            }
+            const selfElement = input[selfPosition - 1];
+            const wealthElement = 克制关系[selfElement];
+            const wealthIndices = String(input).split('').reduce((indices, char, index) => {
+                if (char === wealthElement) indices.push(index + 1);
+                return indices;
+            }, []);
+            let result;
+            if (wealthIndices.includes(selfPosition - 1) || wealthIndices.includes(selfPosition + 1)) {
+                result = "You have a natural charm that draws the attention of the opposite sex.";
+            } else if (wealthIndices.length === 0) {
+                result = "You are not particularly sought after by the opposite sex.";
+            } else {
+                result = "Your charm is there, but it's not something that stands out significantly.";
+            }
+            return result;
+        }
+        
+        function analyzeSexPopular(input, gender) {
+            console.log("input:", input, "gender:", gender);
+            if (gender === "Male") {
+                return analyzeBoyPopular(input);
+            } else {
+                return analyzeGirlPopular(input);
+            }
+        }
+        
+        function analyzeIdealPartner(input, gender) {
+            const tianGanWuXing = {
+                '甲': '木', '乙': '木', '丙': '火', '丁': '火', '戊': '土',
+                '己': '土', '庚': '金', '辛': '金', '壬': '水', '癸': '水'
+            };
+            const diZhiToTianGan = {
+                '子': ['癸'], '丑': ['己', '癸', '辛'], '寅': ['甲', '丙', '戊'],
+                '卯': ['乙'], '辰': ['戊', '乙', '癸'], '巳': ['丙', '庚', '戊'],
+                '午': ['丁', '己'], '未': ['己', '乙', '丁'], '申': ['庚', '壬', '戊'],
+                '酉': ['辛'], '戌': ['戊', '丁', '辛'], '亥': ['壬', '甲']
+            };
+            const wuXingRelationship = {
+                '木': { 克: '土', 生: '火', 被克: '金', 被生: '水' },
+                '火': { 克: '金', 生: '土', 被克: '水', 被生: '木' },
+                '土': { 克: '水', 生: '金', 被克: '木', 被生: '火' },
+                '金': { 克: '木', 生: '水', 被克: '火', 被生: '土' },
+                '水': { 克: '火', 生: '木', 被克: '土', 被生: '金' }
+            };
+            const elements = String(input).split(',');
+            if (elements.length < 7) {
+                return 'Unable to analyze ideal partner - insufficient data.';
+            }
+            const targetTianGan = elements[5];
+            const targetWuXing = tianGanWuXing[targetTianGan];
+            const targetDiZhi = elements[6];
+            const possibleTianGan = diZhiToTianGan[targetDiZhi];
+            if (!targetWuXing || !possibleTianGan) {
+                return 'Unable to analyze ideal partner - invalid input.';
+            }
+            const results = possibleTianGan.map(tianGan => {
+                const wuXing = tianGanWuXing[tianGan];
+                if (wuXing === wuXingRelationship[targetWuXing].克) {
+                    return "You hope your partner can bring you financial prosperity, and you can have control over your partner.";
+                } else if (wuXing === wuXingRelationship[targetWuXing].被克) {
+                    return "You hope your partner can appropriately regulate your behavior in life.";
+                } else if (wuXing === wuXingRelationship[targetWuXing].生) {
+                    return "You hope you find someone you love as your spouse, someone you can confide in.";
+                } else if (wuXing === wuXingRelationship[targetWuXing].被生) {
+                    return "You hope to find someone who loves you as your spouse and is very supportive of you.";
+                } else {
+                    return "You hope to find someone like you, like a close brother, who can share joys and hardships with you.";
+                }
+            });
+            return results.join('\n\n');
+        }
         // --- END: DEALBAZI.JS ---
     
         // --- START: SCRIPT.JS (MODIFIED) ---
@@ -617,11 +982,17 @@
         
         // Save user's birthday
         function saveUserBirthdayGender(bd, gender) {
-            const birthday = bd + '.' + gender;
+            if (!bd) {
+                console.warn("LOG: Cannot save - birthday is empty");
+                return;
+            }
+            const birthday = bd + '.' + (gender || '');
+            console.log("LOG: Saving birthday to storage:", birthday);
             if (window.parent !== window) {
                 window.parent.postMessage({ action: 'saveBirthday', birthday }, '*');
             } else {
                 localStorage.setItem('userBirthday', birthday);
+                console.log("LOG: Birthday saved to localStorage:", localStorage.getItem('userBirthday'));
             }
         }
         
@@ -654,11 +1025,23 @@
             maleButton.addEventListener('click', () => {
                 genderModal.style.display = 'none';
                 userInteraction.gender = 'Male';
+                console.log("LOG: Gender set to Male, birthday:", userInteraction.birthday);
+                // If birthday already exists, save the updated combination
+                if (userInteraction.birthday) {
+                    saveUserBirthdayGender(userInteraction.birthday, userInteraction.gender);
+                    updateBaziZodiac();
+                }
             });
             
             femaleButton.addEventListener('click', () => {
                 genderModal.style.display = 'none';
                 userInteraction.gender = 'Female';
+                console.log("LOG: Gender set to Female, birthday:", userInteraction.birthday);
+                // If birthday already exists, save the updated combination
+                if (userInteraction.birthday) {
+                    saveUserBirthdayGender(userInteraction.birthday, userInteraction.gender);
+                    updateBaziZodiac();
+                }
             });
         }
         
@@ -676,12 +1059,41 @@
             });
         }
         
+        // Load saved birthday from localStorage or parent window
+        function loadSavedBirthday() {
+            if (window.parent !== window) {
+                // Iframe mode: try to get from parent (message listener already set up elsewhere)
+                window.parent.postMessage({ action: 'fetchBirthday' }, '*');
+                // Return false to show input, will be handled by message listener
+                return false;
+            } else {
+                // Standalone mode: get from localStorage
+                const savedBirthday = localStorage.getItem('userBirthday');
+                if (savedBirthday) {
+                    const [birthday, gender] = savedBirthday.split('.');
+                    userInteraction.birthday = birthday;
+                    userInteraction.gender = gender || null;
+                    console.log("LOG: Loaded saved birthday from localStorage:", userInteraction.birthday, "gender:", userInteraction.gender);
+                    updateBaziZodiac();
+                    appendMessage(`Welcome back! Currently, the provided birthday and gender are: ${savedBirthday}`, 'bot');
+                    loadCategories();
+                    return true;
+                }
+            }
+            return false;
+        }
+        
         // --- 最终的、最安全的启动逻辑：等待整个页面加载完毕 ---
         window.onload = function() {
             setTimeout(() => {
                 console.log("LOG: STARTING APPLICATION INITIALIZATION...");
-                appendMessage('Welcome, Seeker. The stars have guided you here. What burden weighs on your heart today?(Type your birthday and gender below to begin):', 'bot');
-                showInputGroup();
+                // Try to load saved birthday first
+                const hasSavedBirthday = loadSavedBirthday();
+                if (!hasSavedBirthday) {
+                    // No saved birthday, show welcome message and input
+                    appendMessage('Welcome, Seeker. The stars have guided you here. What burden weighs on your heart today?(Type your birthday and gender below to begin):', 'bot');
+                    showInputGroup();
+                }
             }, 100);
         };
         
@@ -754,7 +1166,7 @@
         }
         
         function handleIOEQuestion() {
-            if (!userInteraction.riyuan) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
@@ -763,7 +1175,7 @@
         }
         
         function handleZodiacQuestion() {
-            if (!userInteraction.bazi) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
@@ -773,7 +1185,7 @@
         }
         
         function handleNatureQuestion() {
-            if (!userInteraction.riyuan) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
@@ -786,7 +1198,7 @@
         }
         
         function handleCalmQuestion() {
-            if (!userInteraction.baziWuxing) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
@@ -806,7 +1218,7 @@
         }
         
         function handleConfidentQuestion() {
-            if (!userInteraction.baziWuxing) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
@@ -819,7 +1231,7 @@
         }
         
         function handleAdaptableQuestion() {
-            if (!userInteraction.baziWuxing) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
@@ -841,7 +1253,7 @@
         }
         
         function handleCourageousQuestion() {
-            if (!userInteraction.baziWuxing) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
@@ -863,7 +1275,7 @@
         }
         
         function handleCompassionateQuestion() {
-            if (!userInteraction.baziWuxing) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
@@ -885,7 +1297,7 @@
         }
         
         function handlePromisesQuestion() {
-            if (!userInteraction.baziWuxing) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
@@ -907,7 +1319,7 @@
         }
         
         function handleMyselfQuestion() {
-            if (!userInteraction.bazi) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
@@ -927,7 +1339,7 @@
         }
         
         function handleStrangerQuestion() {
-            if (!userInteraction.bazi) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
@@ -944,7 +1356,7 @@
         }
         
         function handleFamiliarQuestion() {
-            if (!userInteraction.bazi) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
@@ -956,79 +1368,164 @@
             }
         }
         
+        // Helper function to ensure Bazi data is available
+        function ensureBaziDataAvailable() {
+            // First check if birthday exists
+            if (!userInteraction.birthday) {
+                // Try to load from localStorage
+                const savedBirthday = localStorage.getItem('userBirthday');
+                if (savedBirthday) {
+                    const [birthday, gender] = savedBirthday.split('.');
+                    userInteraction.birthday = birthday;
+                    if (gender) {
+                        userInteraction.gender = gender;
+                    }
+                    console.log("LOG: Loaded birthday from localStorage:", userInteraction.birthday);
+                } else {
+                    console.log("LOG: No birthday found in localStorage");
+                    return false;
+                }
+            }
+            
+            // If birthday exists but bazi data is missing, recalculate
+            if (userInteraction.birthday && (!userInteraction.bazi || !userInteraction.baziWuxing)) {
+                console.log("LOG: Birthday exists but Bazi data missing, recalculating...");
+                updateBaziZodiac();
+                // Wait a bit for calculation to complete, then check again
+                // If still missing after calculation, at least we have birthday
+            }
+            
+            // Return true if birthday exists (even if bazi calculation failed)
+            // This allows the app to continue working with birthday
+            if (userInteraction.birthday) {
+                console.log("LOG: Birthday available:", userInteraction.birthday, "Bazi:", userInteraction.bazi ? "exists" : "missing", "BaziWuxing:", userInteraction.baziWuxing ? "exists" : "missing");
+                return true;
+            }
+            
+            return false;
+        }
+        
         function handleSexPopularQuestion() {
-            if (!userInteraction.baziWuxing || !userInteraction.gender) {
+            if (!ensureBaziDataAvailable() || !userInteraction.gender) {
                 appendMessage('Please enter your birthday and gender first.', 'bot');
                 return;
             }
             if (typeof analyzeSexPopular === 'function') {
+                if (!userInteraction.baziWuxing) {
+                    appendMessage('Bazi data is not available. Please re-enter your birthday.', 'bot');
+                    return;
+                }
                 const result = analyzeSexPopular(userInteraction.baziWuxing, userInteraction.gender);
-                displayResponseGradually(result);
+                if (result) {
+                    displayResponseGradually(result);
+                } else {
+                    appendMessage('Unable to analyze popularity. Please try again.', 'bot');
+                }
             } else {
                 appendMessage('Analysis function not available.', 'bot');
             }
         }
         
         function handleIdealPartnerQuestion() {
-            if (!userInteraction.bazi || !userInteraction.gender) {
+            if (!ensureBaziDataAvailable() || !userInteraction.gender) {
                 appendMessage('Please enter your birthday and gender first.', 'bot');
                 return;
             }
             if (typeof analyzeIdealPartner === 'function') {
+                if (!userInteraction.bazi) {
+                    appendMessage('Bazi data is not available. Please re-enter your birthday.', 'bot');
+                    return;
+                }
                 const result = analyzeIdealPartner(userInteraction.bazi, userInteraction.gender);
-                displayResponseGradually(result);
+                if (result) {
+                    displayResponseGradually(result);
+                } else {
+                    appendMessage('Unable to analyze ideal partner. Please try again.', 'bot');
+                }
             } else {
                 appendMessage('Analysis function not available.', 'bot');
             }
         }
         
         function handleSupportQuestion() {
-            if (!userInteraction.baziWuxing) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
             if (typeof analyzeSupport === 'function') {
+                if (!userInteraction.baziWuxing) {
+                    appendMessage('Bazi data is not available. Please re-enter your birthday.', 'bot');
+                    return;
+                }
                 const result = analyzeSupport(userInteraction.baziWuxing);
-                displayResponseGradually(result);
+                if (result) {
+                    displayResponseGradually(result);
+                } else {
+                    appendMessage('Unable to analyze support. Please try again.', 'bot');
+                }
             } else {
                 appendMessage('Analysis function not available.', 'bot');
             }
         }
         
         function handleOpinionsQuestion() {
-            if (!userInteraction.baziWuxing) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
             if (typeof analyzeOpinion === 'function') {
+                if (!userInteraction.baziWuxing) {
+                    appendMessage('Bazi data is not available. Please re-enter your birthday.', 'bot');
+                    return;
+                }
                 const result = analyzeOpinion(userInteraction.baziWuxing);
-                displayResponseGradually(result);
+                if (result) {
+                    displayResponseGradually(result);
+                } else {
+                    appendMessage('Unable to analyze opinions. Please try again.', 'bot');
+                }
             } else {
                 appendMessage('Analysis function not available.', 'bot');
             }
         }
         
         function handlePurposeQuestion() {
-            if (!userInteraction.baziWuxing) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
             if (typeof analyzePurpose === 'function') {
+                if (!userInteraction.baziWuxing) {
+                    appendMessage('Bazi data is not available. Please re-enter your birthday.', 'bot');
+                    return;
+                }
                 const result = analyzePurpose(userInteraction.baziWuxing);
-                displayResponseGradually(result);
+                if (result) {
+                    displayResponseGradually(result);
+                } else {
+                    appendMessage('Unable to analyze purpose. Please try again.', 'bot');
+                }
             } else {
                 appendMessage('Analysis function not available.', 'bot');
             }
         }
         
         function handleWealthQuestion() {
-            if (!userInteraction.baziWuxing) {
+            if (!ensureBaziDataAvailable()) {
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
             if (typeof analyzeWealth === 'function') {
+                if (!userInteraction.baziWuxing) {
+                    appendMessage('Bazi data is not available. Please re-enter your birthday.', 'bot');
+                    return;
+                }
                 const result = analyzeWealth(userInteraction.baziWuxing);
-                displayResponseGradually(result);
+                if (result) {
+                    displayResponseGradually(result);
+                } else {
+                    appendMessage('Unable to analyze wealth. Please try again.', 'bot');
+                }
             } else {
                 appendMessage('Analysis function not available.', 'bot');
             }
@@ -1036,8 +1533,12 @@
         
         // Update updateBaziZodiac to use helper functions
         function updateBaziZodiac() {
-            if (!userInteraction.birthday) return;
+            if (!userInteraction.birthday) {
+                console.warn("LOG: Cannot update Bazi - birthday not set");
+                return;
+            }
             try {
+                console.log("LOG: Updating Bazi with birthday:", userInteraction.birthday);
                 if (typeof PaiPanFinal !== 'undefined') {
                     const mypaipan = new PaiPanFinal();
                     const dateObject1 = new Date(userInteraction.birthday);
@@ -1048,16 +1549,40 @@
                     userInteraction.bazi = baziArray.join(',');
                     userInteraction.riyuan = getRiYuan(userInteraction.bazi);
                     userInteraction.yuezhi = getYueZhi(userInteraction.bazi);
+                    
+                    // Transform to Wuxing
                     if (typeof transformGanZhiToWuXing === 'function') {
                         userInteraction.baziWuxing = transformGanZhiToWuXing(userInteraction.bazi);
+                        console.log("LOG: BaziWuxing calculated:", userInteraction.baziWuxing);
+                    } else {
+                        console.error("LOG: transformGanZhiToWuXing function not available");
                     }
-                    console.log("此人信息【" + userInteraction.bazi + (userInteraction.baziWuxing || '') + "】");
+                    console.log("LOG: Bazi updated successfully. 此人信息【" + userInteraction.bazi + (userInteraction.baziWuxing || '') + "】");
                 } else {
                     console.warn("PaiPanFinal not available");
                 }
             } catch (e) {
                 console.error("Error updating Bazi:", e);
             }
+        }
+        
+        // Helper function to ensure birthday is available
+        function ensureBirthdayAvailable() {
+            if (!userInteraction.birthday) {
+                // Try to load from localStorage
+                const savedBirthday = localStorage.getItem('userBirthday');
+                if (savedBirthday) {
+                    const [birthday, gender] = savedBirthday.split('.');
+                    userInteraction.birthday = birthday;
+                    if (gender) {
+                        userInteraction.gender = gender;
+                    }
+                    updateBaziZodiac();
+                    return true;
+                }
+                return false;
+            }
+            return true;
         }
         
         // Expose handler functions to global scope so they can be called by handleQuestion

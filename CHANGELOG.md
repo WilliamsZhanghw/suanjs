@@ -2,6 +2,21 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V7] - 2025-12-01
+
+### Fixed
+- Fixed birthday global persistence issue - birthday now persists across all categories (Self, Wealth, Love)
+- Added `ensureBaziDataAvailable()` helper function to automatically restore birthday from localStorage
+- Fixed all analysis functions in Wealth and Love categories (analyzeWealth, analyzePurpose, analyzeOpinion, analyzeSupport, analyzeSexPopular, analyzeIdealPartner)
+- Added complete implementation of all dealBazi.js functions
+- Fixed `displayResponseGradually` to handle undefined responses gracefully
+- Improved error handling in all question handler functions
+
+### Changed
+- Birthday is now automatically loaded from localStorage on page load
+- All question handlers now check and restore birthday before processing
+- Enhanced logging for debugging birthday and Bazi data issues
+
 ## [V5] - 2025-11-25
 
 ### Added
