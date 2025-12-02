@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V8] - 2025-12-01
+
+### Changed
+- Modified domainTest/index.html: Changed "Phone Number" to "Any Number" for testing any number
+- Removed SSN (Social Security Number) functionality
+- Removed Driver's License Number functionality
+- Simplified number prediction interface to focus on general number testing and domain name testing
+
 ## [V7] - 2025-12-01
 
 ### Fixed
