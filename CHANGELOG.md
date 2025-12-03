@@ -4,6 +4,15 @@ All notable changes to this project will be documented in this file.
 
 ## [V8] - 2025-12-01
 
+### Added
+- Integrated DeepSeek API for AI-powered chat functionality
+- Added "Chat with DeepSeek" button in category selection
+- Added DeepSeek API Key input and storage (localStorage)
+- Added DeepSeek chat interface with message input and send functionality
+- Implemented `callDeepSeekAPI()` function for API communication
+- Added user-friendly error handling for common API errors (401, 402, 429, 500)
+- Added thinking indicator during API calls
+
 ### Changed
 - Modified domainTest/index.html: Changed "Phone Number" to "Any Number" for testing any number
 - Removed SSN (Social Security Number) functionality
