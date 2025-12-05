@@ -1098,6 +1098,29 @@
         
         // DeepSeek API functions - Calls backend proxy instead of directly calling DeepSeek
         async function callDeepSeekAPI(userMessage) {
+            // Check if Bazi and gender are available
+            if (!ensureBaziDataAvailable()) {
+                appendMessage('Please enter your birthday and gender first.', 'bot');
+                return null;
+            }
+            
+            if (!userInteraction.bazi || !userInteraction.gender) {
+                appendMessage('Please enter your birthday and gender first.', 'bot');
+                return null;
+            }
+            
+            // Format Bazi and gender
+            const formattedBazi = formatBaziString(userInteraction.bazi);
+            const formattedGender = formatGender(userInteraction.gender);
+            
+            if (!formattedBazi || !formattedGender) {
+                appendMessage('Bazi or gender information is incomplete. Please re-enter your birthday and gender.', 'bot');
+                return null;
+            }
+            
+            // Build the prompt with dynamic values
+            const systemPrompt = `My question is: ${userMessage}. You are a Bazi (Chinese astrology) master, help me answer this question based on this Bazi chart. The Bazi information is: ${formattedBazi}, Gender: ${formattedGender}. Answer in English, don't use too technical terms, but explain it in a way that Americans can understand. Remove the disclaimer at the end. Use second person, not third person. Do not mention Bazi in the answer. Do not use Chinese characters in the answer. Do not use any other languages in the answer.`;
+            
             // Show thinking indicator
             const chatBox = document.getElementById('chat-box');
             let thinkingMsg = null;
@@ -1118,7 +1141,7 @@
                         'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        message: userMessage
+                        message: systemPrompt
                     })
                 });
                 
@@ -1261,6 +1284,24 @@
                 return parts[number];
             }
             return null;
+        }
+        
+        // Format Bazi string to "年干年支 月干月支 日干日支 时干时支" format
+        function formatBaziString(bazi) {
+            if (!bazi) return '';
+            const parts = String(bazi).split(',');
+            // Format: zodiac,年干,年支,月干,月支,日干,日支,时干,时支
+            if (parts.length >= 9) {
+                // Index: 1=年干, 2=年支, 3=月干, 4=月支, 5=日干, 6=日支, 7=时干, 8=时支
+                return `${parts[1]}${parts[2]} ${parts[3]}${parts[4]} ${parts[5]}${parts[6]} ${parts[7]}${parts[8]}`;
+            }
+            return '';
+        }
+        
+        // Convert gender to Chinese
+        function formatGender(gender) {
+            if (!gender) return '';
+            return gender === 'Male' ? '男' : (gender === 'Female' ? '女' : '');
         }
         
         function getRiYuan(inputString) {

@@ -2,6 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V11] - 2025-12-05
+
+### Added
+- Added `formatBaziString()` function to format Bazi data for DeepSeek prompts
+- Added `formatGender()` function to convert gender to Chinese format
+- Implemented dynamic prompt generation with user's Bazi and gender information
+
+### Changed
+- Modified DeepSeek prompt to include dynamic Bazi and gender information
+- Updated `callDeepSeekAPI()` to check for Bazi and gender before making API calls
+- Changed prompt format: "My question is: {question}. You are a Bazi master, help me answer this question based on this Bazi chart. The Bazi information is: {formattedBazi}, Gender: {formattedGender}..."
+- Removed fixed system prompt from WordPress plugin (frontend now builds complete prompt)
+- DeepSeek now uses personalized prompts based on user's calculated Bazi and gender
+
+### Fixed
+- Added validation to ensure Bazi and gender are available before calling DeepSeek API
+- Improved error messages when Bazi or gender information is missing
+
 ## [V10] - 2025-12-02
 
 ### Added

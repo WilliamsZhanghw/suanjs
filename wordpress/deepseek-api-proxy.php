@@ -50,10 +50,6 @@ function deepseek_chat_handler($request) {
             'model' => 'deepseek-chat',
             'messages' => array(
                 array(
-                    'role' => 'system',
-                    'content' => 'You are a helpful AI assistant specializing in Chinese numerology, Bazi (八字), and fortune telling. Provide thoughtful and insightful responses.'
-                ),
-                array(
                     'role' => 'user',
                     'content' => $message
                 )
