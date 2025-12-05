@@ -2,6 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V10] - 2025-12-02
+
+### Added
+- Created WordPress plugin `deepseek-api-proxy.php` for secure API Key storage
+- Added WordPress REST API endpoint `/wp-json/deepseek/v1/chat` for DeepSeek API calls
+- Added WordPress admin settings page for API Key configuration
+- Created comprehensive WordPress integration documentation
+- Added Hostinger-specific installation guide
+- Added security guide for WordPress implementation
+
+### Changed
+- Modified `index1.html` to use WordPress REST API instead of requiring user API Key input
+- Removed API Key input field from frontend - users no longer need to enter API Key
+- Updated `DEEPSEEK_API_PROXY` to use WordPress REST API endpoint
+- Removed all independent backend server code and documentation
+- Simplified architecture to use WordPress backend only
+
+### Removed
+- Removed `api/` directory and all Node.js backend server code
+- Removed independent backend deployment documentation
+- Removed CORS configuration requirements (no longer needed with WordPress backend)
+
 ## [V8] - 2025-12-01
 
 ### Added

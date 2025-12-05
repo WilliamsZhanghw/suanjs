@@ -112,10 +112,6 @@
             <div id="options"></div>
             <div id="deepseek-chat-group" style="display: none; flex-direction: column; gap: 10px; margin-top: 10px; padding: 10px; border-top: 1px solid #404040; background-color: #1a1a1a; flex-shrink: 0;">
                 <div style="display: flex; gap: 10px; align-items: center;">
-                    <input type="text" id="deepseek-api-key" placeholder="Enter DeepSeek API Key (optional)" style="flex: 1; padding: 8px; border: 1px solid #404040; border-radius: 4px; background-color: #2d2d2d; color: #e0e0e0;">
-                    <button id="save-api-key-btn" style="padding: 8px 15px; border: none; background-color: #5a9; color: #ffffff; border-radius: 4px; cursor: pointer;">Save Key</button>
-                </div>
-                <div style="display: flex; gap: 10px; align-items: center;">
                     <input type="text" id="deepseek-input" placeholder="Ask DeepSeek anything..." style="flex: 1; padding: 8px; border: 1px solid #404040; border-radius: 4px; background-color: #2d2d2d; color: #e0e0e0;">
                     <button id="deepseek-send-btn" style="padding: 8px 15px; border: none; background-color: #5a9; color: #ffffff; border-radius: 4px; cursor: pointer;">Send</button>
                 </div>
@@ -972,14 +968,6 @@
             
             if (deepseekGroup.style.display === 'none' || !deepseekGroup.style.display) {
                 deepseekGroup.style.display = 'flex';
-                // Load saved API key if exists
-                const savedKey = localStorage.getItem('deepseekApiKey');
-                if (savedKey) {
-                    const apiKeyInput = document.getElementById('deepseek-api-key');
-                    if (apiKeyInput) {
-                        apiKeyInput.value = savedKey;
-                    }
-                }
                 // Focus on input
                 const deepseekInput = document.getElementById('deepseek-input');
                 if (deepseekInput) {
@@ -989,6 +977,15 @@
                 deepseekGroup.style.display = 'none';
             }
         }
+        
+        // Backend API endpoint - WordPress REST API
+        // If index1.html is on the same domain as WordPress, use relative path:
+        const DEEPSEEK_API_PROXY = '/wp-json/deepseek/v1/chat';
+        
+        // If index1.html is on a different domain, use full URL:
+        // const DEEPSEEK_API_PROXY = 'https://yourwordpress.com/wp-json/deepseek/v1/chat';
+        
+        // TODO: Update this to match your WordPress installation
         
         // Load questions for a selected category
         function loadQuestions(category) {
@@ -1099,13 +1096,8 @@
             });
         }
         
-        // DeepSeek API functions
-        async function callDeepSeekAPI(userMessage, apiKey) {
-            if (!apiKey) {
-                appendMessage('Please set your DeepSeek API Key first.', 'bot');
-                return null;
-            }
-            
+        // DeepSeek API functions - Calls backend proxy instead of directly calling DeepSeek
+        async function callDeepSeekAPI(userMessage) {
             // Show thinking indicator
             const chatBox = document.getElementById('chat-box');
             let thinkingMsg = null;
@@ -1119,63 +1111,57 @@
             }
             
             try {
-                const response = await fetch('https://api.deepseek.com/v1/chat/completions', {
+                // Call backend proxy (WordPress REST API or independent backend)
+                const response = await fetch(DEEPSEEK_API_PROXY, {
                     method: 'POST',
                     headers: {
-                        'Content-Type': 'application/json',
-                        'Authorization': `Bearer ${apiKey}`
+                        'Content-Type': 'application/json'
                     },
                     body: JSON.stringify({
-                        model: 'deepseek-chat',
-                        messages: [
-                            {
-                                role: 'system',
-                                content: 'You are a helpful AI assistant specializing in Chinese numerology, Bazi (八字), and fortune telling. Provide thoughtful and insightful responses.'
-                            },
-                            {
-                                role: 'user',
-                                content: userMessage
-                            }
-                        ],
-                        stream: false,
-                        temperature: 0.7
+                        message: userMessage
                     })
                 });
                 
+                const data = await response.json();
+                
                 if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({ error: { message: 'Unknown error' } }));
-                    let errorMessage = errorData.error?.message || `HTTP error! status: ${response.status}`;
+                    let errorMessage = data.error?.message || `HTTP error! status: ${response.status}`;
                     
                     // Handle specific error codes with user-friendly messages
                     if (response.status === 401) {
-                        errorMessage = 'Invalid API Key. Please check your API key and try again.';
+                        errorMessage = 'Invalid API Key. Server configuration error.';
                     } else if (response.status === 402) {
-                        errorMessage = 'Insufficient Balance. Your DeepSeek account has insufficient credits. Please recharge your account at https://platform.deepseek.com/';
+                        errorMessage = 'Insufficient Balance. The service account has insufficient credits. Please contact the administrator.';
                     } else if (response.status === 429) {
                         errorMessage = 'Rate limit exceeded. Please wait a moment and try again.';
                     } else if (response.status === 500) {
-                        errorMessage = 'DeepSeek server error. Please try again later.';
+                        errorMessage = data.message || 'Server error. Please try again later.';
+                    } else if (response.status === 503) {
+                        errorMessage = 'Service unavailable. The backend server may be down. Please try again later.';
                     }
                     
                     throw new Error(errorMessage);
                 }
-                
-                const data = await response.json();
                 
                 // Remove thinking message
                 if (thinkingMsg && thinkingMsg.parentNode) {
                     thinkingMsg.parentNode.removeChild(thinkingMsg);
                 }
                 
-                return data.choices[0]?.message?.content || 'No response from DeepSeek.';
+                return data.content || 'No response from DeepSeek.';
             } catch (error) {
                 console.error('DeepSeek API Error:', error);
                 // Remove thinking message on error
                 if (thinkingMsg && thinkingMsg.parentNode) {
                     thinkingMsg.parentNode.removeChild(thinkingMsg);
                 }
-                // Display error message (already contains user-friendly text)
-                appendMessage(`❌ ${error.message}`, 'bot');
+                
+                // Handle network errors
+                if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+                    appendMessage('❌ Unable to connect to the server. Please check if the backend server is running.', 'bot');
+                } else {
+                    appendMessage(`❌ ${error.message}`, 'bot');
+                }
                 return null;
             }
         }
@@ -1183,9 +1169,8 @@
         // Send message to DeepSeek
         async function sendDeepSeekMessage() {
             const deepseekInput = document.getElementById('deepseek-input');
-            const apiKeyInput = document.getElementById('deepseek-api-key');
             
-            if (!deepseekInput || !apiKeyInput) return;
+            if (!deepseekInput) return;
             
             const userMessage = deepseekInput.value.trim();
             if (!userMessage) {
@@ -1193,28 +1178,12 @@
                 return;
             }
             
-            // Get API key (from input or localStorage)
-            let apiKey = apiKeyInput.value.trim();
-            if (!apiKey) {
-                apiKey = localStorage.getItem('deepseekApiKey');
-            }
-            
-            if (!apiKey) {
-                appendMessage('Please enter your DeepSeek API Key first.', 'bot');
-                return;
-            }
-            
-            // Save API key if it was entered
-            if (apiKeyInput.value.trim()) {
-                localStorage.setItem('deepseekApiKey', apiKey);
-            }
-            
             // Display user message
             appendMessage(userMessage, 'user');
             deepseekInput.value = '';
             
-            // Call DeepSeek API
-            const response = await callDeepSeekAPI(userMessage, apiKey);
+            // Call DeepSeek API through backend proxy
+            const response = await callDeepSeekAPI(userMessage);
             if (response) {
                 displayResponseGradually(response);
             }
@@ -1223,7 +1192,6 @@
         // DeepSeek event listeners
         const deepseekSendBtn = document.getElementById('deepseek-send-btn');
         const deepseekInput = document.getElementById('deepseek-input');
-        const saveApiKeyBtn = document.getElementById('save-api-key-btn');
         
         if (deepseekSendBtn) {
             deepseekSendBtn.addEventListener('click', sendDeepSeekMessage);
@@ -1233,18 +1201,6 @@
             deepseekInput.addEventListener('keypress', (e) => {
                 if (e.key === 'Enter') {
                     sendDeepSeekMessage();
-                }
-            });
-        }
-        
-        if (saveApiKeyBtn) {
-            saveApiKeyBtn.addEventListener('click', () => {
-                const apiKeyInput = document.getElementById('deepseek-api-key');
-                if (apiKeyInput && apiKeyInput.value.trim()) {
-                    localStorage.setItem('deepseekApiKey', apiKeyInput.value.trim());
-                    appendMessage('API Key saved successfully!', 'bot');
-                } else {
-                    appendMessage('Please enter a valid API Key.', 'bot');
                 }
             });
         }
