@@ -2,6 +2,12 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V12] - 2025-12-05
+
+### Changed
+- Changed DeepSeek chat button text from "💬 Chat with DeepSeek" to "Fate Free Inquiry"
+- Updated button label for better user experience and clarity
+
 ## [V11] - 2025-12-05
 
 ### Added
