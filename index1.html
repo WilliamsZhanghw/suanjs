@@ -619,6 +619,11 @@
         }
         
         function determineConfidence(inputString) {
+            if (!inputString || typeof inputString !== 'string') {
+                console.error('determineConfidence: inputString is invalid:', inputString);
+                return 'NOT a confident';
+            }
+            
             const conditions = {
                 '金': ['金', '土'],
                 '水': ['水', '金'],
@@ -626,10 +631,18 @@
                 '火': ['火', '木'],
                 '土': ['土', '火']
             };
+            
             const element4 = inputString[3];
             const element5 = inputString[4];
             const element6 = inputString[5];
-            if (element5 && (conditions[element5].includes(element4) || conditions[element5].includes(element6))) {
+            
+            // Check if element5 exists and is a valid key in conditions
+            if (!element5 || !conditions[element5]) {
+                console.warn('determineConfidence: element5 is invalid or not in conditions:', element5, 'inputString:', inputString);
+                return 'NOT a confident';
+            }
+            
+            if (element5 && conditions[element5] && (conditions[element5].includes(element4) || conditions[element5].includes(element6))) {
                 return 'a confident';
             } else {
                 return 'NOT a confident';
@@ -956,7 +969,7 @@
             optionsDiv.appendChild(modifyButton);
             
             const deepseekButton = document.createElement('button');
-            deepseekButton.textContent = 'Fate Free Inquiry';
+            deepseekButton.textContent = '🔮 Fate Free Inquiry';
             deepseekButton.onclick = toggleDeepSeekChat;
             optionsDiv.appendChild(deepseekButton);
         }
@@ -1121,13 +1134,13 @@
             // Build the prompt with dynamic values
             const systemPrompt = `My question is: ${userMessage}. You are a Bazi (Chinese astrology) master, help me answer this question based on this Bazi chart. The Bazi information is: ${formattedBazi}, Gender: ${formattedGender}. Answer in English, don't use too technical terms, but explain it in a way that Americans can understand. Remove the disclaimer at the end. Use second person, not third person. Do not mention Bazi in the answer. Do not use Chinese characters in the answer. Do not use any other languages in the answer.`;
             
-            // Show thinking indicator
+            // Show thinking indicator with fortune-telling style
             const chatBox = document.getElementById('chat-box');
             let thinkingMsg = null;
             if (chatBox) {
                 thinkingMsg = document.createElement('div');
                 thinkingMsg.className = 'message bot';
-                thinkingMsg.textContent = '🤔 Thinking...';
+                thinkingMsg.textContent = '🔮 Consulting the stars and reading your fate...';
                 thinkingMsg.id = 'deepseek-thinking-msg';
                 chatBox.appendChild(thinkingMsg);
                 chatBox.scrollTop = chatBox.scrollHeight;
@@ -1171,7 +1184,19 @@
                     thinkingMsg.parentNode.removeChild(thinkingMsg);
                 }
                 
-                return data.content || 'No response from DeepSeek.';
+                // Include the prompt for manual verification (can be hidden in production)
+                // Set SHOW_PROMPT_IN_RESPONSE to false when ready for production
+                const SHOW_PROMPT_IN_RESPONSE = true; // Change to false for production
+                
+                const deepseekResponse = data.content || 'No response from DeepSeek.';
+                
+                if (SHOW_PROMPT_IN_RESPONSE) {
+                    // Return response with prompt for verification
+                    return `[PROMPT SENT TO DEEPSEEK]\n${systemPrompt}\n\n[RESPONSE]\n${deepseekResponse}`;
+                } else {
+                    // Return only the response for production
+                    return deepseekResponse;
+                }
             } catch (error) {
                 console.error('DeepSeek API Error:', error);
                 // Remove thinking message on error
@@ -1409,9 +1434,18 @@
                 appendMessage('Please enter your birthday first.', 'bot');
                 return;
             }
+            if (!userInteraction.baziWuxing) {
+                appendMessage('Bazi data is not available. Please re-enter your birthday.', 'bot');
+                return;
+            }
             if (typeof determineConfidence === 'function') {
-                const response = `Actually you are ${determineConfidence(userInteraction.baziWuxing)} person.`;
-                displayResponseGradually(response);
+                const result = determineConfidence(userInteraction.baziWuxing);
+                if (result) {
+                    const response = `Actually you are ${result} person.`;
+                    displayResponseGradually(response);
+                } else {
+                    appendMessage('Unable to determine confidence. Please try again.', 'bot');
+                }
             } else {
                 appendMessage('Analysis function not available.', 'bot');
             }

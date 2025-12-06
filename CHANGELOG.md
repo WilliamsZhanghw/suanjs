@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V13] - 2025-12-06
+
+### Added
+- Added prompt display in DeepSeek response for manual verification
+- Added `SHOW_PROMPT_IN_RESPONSE` flag to control prompt visibility (for production release)
+
+### Changed
+- Changed thinking indicator from "🤔 Thinking..." to "🔮 Consulting the stars and reading your fate..."
+- Updated thinking icon from 🤔 to 🔮 for better alignment with fortune-telling theme
+- Modified DeepSeek response format to include sent prompt for verification purposes
+- Added "🔮" icon to "Fate Free Inquiry" button
+
+### Fixed
+- Fixed `determineConfidence` function error handling to prevent undefined property access
+- Added validation checks in `handleConfidentQuestion` function
+
 ## [V12] - 2025-12-05
 
 ### Changed
