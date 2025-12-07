@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V14] - 2025-12-06
+
+### Fixed
+- **Fixed Bazi month pillar calculation**: Changed from using lunar month to using solar terms (节气)
+  - Year pillar: Now correctly determines year based on 立春 (Spring Begins) time
+  - Month pillar: Now uses solar terms to determine month branch instead of lunar month
+    - 正月(寅月): 立春 -> 惊蛰之前
+    - 二月(卯月): 惊蛰 -> 清明之前
+    - And so on for all 12 months
+  - Month stem: Uses 五虎遁 (Five Tiger Escape) method based on year stem and month branch
+  - Day and hour pillars remain unchanged (already correct)
+
+### Added
+- Added `getSolarTermTime()` method to Lunar class for precise solar term time calculation
+- Added `getSolarTermDay()` method for compatibility
+- Created `test_bazi_calculation.html` test page for Bazi calculation verification
+- Created `BAZI_CALCULATION_ANALYSIS.md` documentation analyzing the calculation issues
+- Enhanced debug logging in `getYearGanZhi()` method for troubleshooting
+
+### Changed
+- Updated `BaZi.getYearGanZhi()` method in `index1.html` to use new calculation logic
+- Replaced lunar month-based calculation with solar term-based calculation
+- Improved accuracy of Bazi calculations to match traditional Chinese calendar rules
+
 ## [V13] - 2025-12-06
 
 ### Added
