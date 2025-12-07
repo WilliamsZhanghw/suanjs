@@ -122,6 +122,23 @@ import { secrets } from 'wix-secrets-backend';
 // import * as secrets from 'wix-secrets-backend';
 
 export async function post_deepseekChat(request) {
+  // CORS 响应头 - 允许跨域请求
+  const corsHeaders = {
+    'Access-Control-Allow-Origin': '*', // 允许所有域名，或指定具体域名如 'https://williamszhanghw.github.io'
+    'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+    'Access-Control-Allow-Headers': 'Content-Type, Authorization',
+    'Access-Control-Max-Age': '86400'
+  };
+  
+  // 处理 OPTIONS 预检请求
+  if (request.method === 'OPTIONS') {
+    return {
+      status: 200,
+      headers: corsHeaders,
+      body: {}
+    };
+  }
+  
   try {
     // 从 Wix Secrets Manager 获取 API Key
     const apiKey = await secrets.getSecret('DEEPSEEK_API_KEY');
@@ -129,6 +146,7 @@ export async function post_deepseekChat(request) {
     if (!apiKey) {
       return {
         status: 500,
+        headers: corsHeaders,
         body: {
           error: {
             message: 'API Key not configured. Please set DEEPSEEK_API_KEY in Wix Secrets Manager.'
@@ -142,6 +160,7 @@ export async function post_deepseekChat(request) {
     if (!message) {
       return {
         status: 400,
+        headers: corsHeaders,
         body: {
           error: {
             message: 'Message is required.'
@@ -175,15 +194,17 @@ export async function post_deepseekChat(request) {
     if (!response.ok) {
       return {
         status: response.status,
+        headers: corsHeaders,
         body: {
           error: data.error || { message: 'DeepSeek API error' }
         }
       };
     }
     
-    // 返回 DeepSeek 的响应
+    // 返回 DeepSeek 的响应（包含 CORS 头）
     return {
       status: 200,
+      headers: corsHeaders,
       body: {
         content: data.choices[0].message.content
       }
@@ -193,6 +214,7 @@ export async function post_deepseekChat(request) {
     console.error('DeepSeek API Error:', error);
     return {
       status: 500,
+      headers: corsHeaders,
       body: {
         error: {
           message: error.message || 'Internal server error'
@@ -232,14 +254,37 @@ export async function post_deepseekChat(request) {
 
 ### 3. 获取后端代码的调用 URL
 
-**如果你使用的是 HTTP Function：**
+**重要**：Wix HTTP Function 的 URL 是**自动生成**的，你无法手动设置。URL 格式由 Wix 自动决定。
+
+**如何找到实际的 Function URL：**
+
+**方法 1：在 Wix Studio 中查看**
 1. 在 Wix Studio 中，进入 **Backend** → **Functions**
 2. 找到 `deepseek-chat` 函数
 3. 点击函数名称，查看详细信息
-4. 复制 **Function URL**，格式类似：
+4. 查找 **"Function URL"** 或 **"Endpoint URL"** 字段
+5. 复制完整的 URL
+
+**方法 2：通过函数设置查看**
+1. 在 Wix Studio 中，进入 **Backend** → **Functions**
+2. 找到 `deepseek-chat` 函数
+3. 点击函数右侧的 **"..."** 菜单（三个点）
+4. 选择 **"Settings"** 或 **"View Details"**
+5. 在设置页面中查找 URL 信息
+
+**方法 3：常见的 Wix HTTP Function URL 格式**
+Wix HTTP Function 的 URL 通常是以下格式之一：
+- `https://your-site.com/_functions/deepseek-chat`（带下划线，最常见）
+- `https://your-site.com/functions/deepseek-chat`（不带下划线，较少见）
+- `https://your-site.com/_api/deepseek-chat`（使用 _api 前缀，较少见）
+
+**如果找不到 URL，可以：**
+1. 查看 Wix 文档或帮助中心
+2. 在函数代码中添加日志输出 URL：
+   ```javascript
+   console.log('Function URL:', request.url);
    ```
-   https://your-wix-site.com/_functions/deepseek-chat
-   ```
+3. 测试不同的 URL 格式，看哪个能正常工作
 
 **如果你使用的是 Web Module：**
 1. Web Module 需要通过页面前端代码调用
@@ -342,6 +387,31 @@ A: 在 Wix 后台的 **Backend** → **Functions** 中，点击函数名称可�
 ### Q: 如果 API Key 需要更新怎么办？
 
 A: 在 Wix 后台的 **Settings** → **Secrets Manager** 中，找到 `DEEPSEEK_API_KEY`，点击 **Edit**，更新 Secret Value，然后保存。无需重新部署 HTTP Function。
+
+### Q: 遇到 CORS 错误怎么办？
+
+A: 如果看到类似 "Access to fetch at '...' has been blocked by CORS policy" 的错误，说明你的网站和 Wix HTTP Function 不在同一域名下（例如网站托管在 GitHub Pages）。
+
+**解决方案**：
+1. **在 Wix HTTP Function 中添加 CORS 头**（已在代码示例中包含）：
+   ```javascript
+   const corsHeaders = {
+     'Access-Control-Allow-Origin': '*', // 或指定具体域名
+     'Access-Control-Allow-Methods': 'GET, POST, OPTIONS',
+     'Access-Control-Allow-Headers': 'Content-Type, Authorization'
+   };
+   ```
+
+2. **确保所有响应都包含 CORS 头**：
+   - 在 HTTP Function 的每个 `return` 语句中添加 `headers: corsHeaders`
+   - 处理 OPTIONS 预检请求
+
+3. **如果网站托管在特定域名**，建议将 `'Access-Control-Allow-Origin': '*'` 改为具体域名以提高安全性：
+   ```javascript
+   'Access-Control-Allow-Origin': 'https://williamszhanghw.github.io'
+   ```
+
+4. **重新部署 HTTP Function**：修改后需要在 Wix 中保存并发布 HTTP Function。
 
 ### Q: 导入 `wix-secrets-backend` 时出现错误怎么办？
 
