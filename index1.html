@@ -41,8 +41,8 @@
             z-index: 1 !important;
             border: 1px solid #404040 !important;
             pointer-events: auto !important;
-            height: 600px !important;
-            max-height: 600px !important;
+            height: 800px !important;
+            max-height: 800px !important;
             overflow: hidden !important;
         }
     
@@ -1291,7 +1291,7 @@
             }
             
             // Build the prompt with dynamic values
-            const systemPrompt = `My question is: ${userMessage}. You are a Bazi (Chinese astrology) master, help me answer this question based on this Bazi chart. The Bazi information is: ${formattedBazi}, Gender: ${formattedGender}. Answer in English, don't use too technical terms, but explain it in a way that Americans can understand. Remove the disclaimer at the end. Use second person, not third person. Do not mention Bazi in the answer. Do not use Chinese characters in the answer. Do not use any other languages in the answer.`;
+            const systemPrompt = `My question is: ${userMessage}. You are a Bazi (Chinese astrology) master, help me answer this question based on this Bazi chart. The Bazi information is: ${formattedBazi}, Gender: ${formattedGender}. Answer in English, don't use too technical terms, but explain it in a way that Americans can understand. Remove the disclaimer at the end. Use second person, not third person. Do not mention Bazi in the answer. Do not use Chinese characters in the answer. Do not use any other languages in the answer. Keep your answer within 120 words.`;
             
             // Show thinking indicator with fortune-telling style
             const chatBox = document.getElementById('chat-box');
@@ -1347,14 +1347,40 @@
                 // Set SHOW_PROMPT_IN_RESPONSE to false when ready for production
                 const SHOW_PROMPT_IN_RESPONSE = true; // Change to false for production
                 
-                const deepseekResponse = data.content || 'No response from DeepSeek.';
+                let deepseekResponse = data.content || 'No response from DeepSeek.';
+                
+                // Limit response to 120 words
+                function limitWords(text, maxWords) {
+                    // Remove extra whitespace and split into words
+                    const words = text.trim().split(/\s+/);
+                    if (words.length <= maxWords) {
+                        return text;
+                    }
+                    // Take first maxWords words and join them
+                    const limitedWords = words.slice(0, maxWords);
+                    // Try to end at a sentence boundary if possible
+                    let result = limitedWords.join(' ');
+                    // If the last character is not punctuation, try to find the last sentence end
+                    const lastSentenceEnd = result.lastIndexOf('.');
+                    if (lastSentenceEnd > result.length * 0.7) {
+                        // If we found a sentence end in the last 30% of the text, use it
+                        result = result.substring(0, lastSentenceEnd + 1);
+                    } else {
+                        // Otherwise, just add ellipsis
+                        result = result + '...';
+                    }
+                    return result;
+                }
+                
+                // Apply word limit to response (only to the actual response, not the prompt)
+                const limitedResponse = limitWords(deepseekResponse, 120);
                 
                 if (SHOW_PROMPT_IN_RESPONSE) {
                     // Return response with prompt for verification
-                    return `[PROMPT SENT TO DEEPSEEK]\n${systemPrompt}\n\n[RESPONSE]\n${deepseekResponse}`;
+                    return `[PROMPT SENT TO DEEPSEEK]\n${systemPrompt}\n\n[RESPONSE]\n${limitedResponse}`;
                 } else {
                     // Return only the response for production
-                    return deepseekResponse;
+                    return limitedResponse;
                 }
             } catch (error) {
                 console.error('DeepSeek API Error:', error);
