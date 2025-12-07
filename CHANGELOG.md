@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V16] - 2025-12-07
+
+### Changed
+- **Updated Wix HTTP Function URL path**: Changed from `/_functions/deepseek-chat` to `/functions/deepseek-chat` in `script.js`
+  - Fixed 404 Not Found error by using correct Wix HTTP Function URL format
+  - Updated `DEEPSEEK_API_PROXY` constant to match actual Wix endpoint
+
+### Added
+- **Enhanced WIX_SETUP.md documentation**:
+  - Added detailed instructions for finding actual Wix HTTP Function URL
+  - Added multiple methods to locate Function URL in Wix Studio
+  - Added troubleshooting guide for CORS errors
+  - Added instructions for handling OPTIONS preflight requests
+  - Added alternative URL format testing methods
+
+### Fixed
+- Fixed Wix HTTP Function URL path mismatch issue
+- Improved CORS error handling documentation
+
 ## [V15] - 2025-12-06
 
 ### Added
