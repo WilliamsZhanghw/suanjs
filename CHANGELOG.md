@@ -2,6 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V18] - 2025-12-07
+
+### Removed
+- **Removed DeepSeek integration from index.html**:
+  - Removed "🔮 Fate Free Inquiry" button from category list
+  - Removed DeepSeek chat interface HTML elements (`deepseek-chat-group`)
+  - Removed all DeepSeek-related event listeners
+  - Removed `toggleDeepSeekChat()` function
+  - Removed `formatBaziString()` and `formatGender()` helper functions
+  - Removed `callDeepSeekAPI()` and `sendDeepSeekMessage()` functions
+  - Removed `DEEPSEEK_API_PROXY` constant
+
+### Changed
+- **Restored chat container height**: Changed from 800px back to 600px in `index.html`
+- Cleaned up unused DeepSeek-related code from `script.js`
+
 ## [V16] - 2025-12-07
 
 ### Changed
