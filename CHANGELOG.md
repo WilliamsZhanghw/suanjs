@@ -2,6 +2,29 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V15] - 2025-12-06
+
+### Changed
+- **Updated index.html to match index1.html features**:
+  - Updated Bazi calculation method: Changed from using lunar month to using solar terms (节气) for accurate year and month pillar calculations
+  - Increased dialog height: Changed chat container height to 800px for better content visibility
+  - Added word limit for DeepSeek responses: Limited DeepSeek AI responses to maximum 120 English words
+  - Added DeepSeek integration: Added "🔮 Fate Free Inquiry" button and chat interface
+  - Updated `bazi.js`: Modified `getYearGanZhi()` method to use precise solar term calculations
+  - Updated `Luna.js`: Added `getSolarTermTime()` method for precise solar term time calculation
+
+### Added
+- **Wix Integration Support**:
+  - Created `WIX_SETUP.md` documentation for Wix HTTP Functions integration
+  - Added DeepSeek API proxy support for Wix backend
+  - Added `formatBaziString()` and `formatGender()` helper functions
+  - Added `callDeepSeekAPI()` and `sendDeepSeekMessage()` functions
+  - Added word limit functionality with intelligent truncation
+
+### Fixed
+- Fixed Bazi calculation accuracy in `index.html` to match `index1.html` implementation
+- Fixed month pillar calculation to use solar terms instead of lunar months
+
 ## [V14] - 2025-12-06
 
 ### Changed

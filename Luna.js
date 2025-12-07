@@ -76,6 +76,13 @@ class Lunar {
         return new Date(time).getDate();
     }
 
+    // 获取节气的完整时间（Date对象）
+    static getSolarTermTime(solarYear, index) {
+        const baseDate = new Date(1900, 0, 6, 2, 5, 0);
+        const time = baseDate.getTime() + 31556925974.7 * (solarYear - 1900) + Lunar.solarTermInfo[index] * 60000;
+        return new Date(time);
+    }
+
     static getCyclicalString(cyclicalNumber) {
         return Lunar.Tianan[Lunar.getTianan(cyclicalNumber)] + Lunar.Deqi[Lunar.getDeqi(cyclicalNumber)];
     }

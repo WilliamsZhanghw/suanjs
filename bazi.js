@@ -133,17 +133,107 @@ class BaZi {
     }
 
     getYearGanZhi(hour) {
-        let idx = (this.year - 1864) % 60;
+        const solarYear = this.cal.getFullYear();
+        const solarMonth = this.cal.getMonth(); // 0-11
+        const solarDay = this.cal.getDate();
+        
+        // 年柱：根据立春（solar term 2）的精确时间判断
+        const term2Time = Lunar.getSolarTermTime(solarYear, 2); // 立春时间
+        let baziYear = solarYear;
+        if (this.cal < term2Time) {
+            // 如果当前时间早于立春，用上一年的年柱
+            baziYear = solarYear - 1;
+        }
+        let idx = (baziYear - 1864) % 60;
         const y = BaZi.jiazhi[idx];
 
-        idx = idx % 5;
-        const idxm = (idx + 1) * 2 % 10;
-        const m = Gan[(idxm + this.month - 1) % 10] + Zhi[(this.month + 2 - 1) % 12];
+        // 月柱：根据节气判断
+        // 八字月支对应关系（以节气为界）：
+        // 正月(寅月): 立春(2) -> 惊蛰(4)之前
+        // 二月(卯月): 惊蛰(4) -> 清明(6)之前
+        // 三月(辰月): 清明(6) -> 立夏(8)之前
+        // 四月(巳月): 立夏(8) -> 芒种(10)之前
+        // 五月(午月): 芒种(10) -> 小暑(12)之前
+        // 六月(未月): 小暑(12) -> 立秋(14)之前
+        // 七月(申月): 立秋(14) -> 白露(16)之前
+        // 八月(酉月): 白露(16) -> 寒露(18)之前
+        // 九月(戌月): 寒露(18) -> 立冬(20)之前
+        // 十月(亥月): 立冬(20) -> 大雪(22)之前
+        // 十一月(子月): 大雪(22) -> 小寒(0)之前（跨年）
+        // 十二月(丑月): 小寒(0) -> 立春(2)之前
+        
+        // 确定当前时间在哪个节气区间
+        let monthZhiIndex = -1;
+        
+        // 节气索引到月支的映射
+        const termToZhi = {
+            0: 1,   // 小寒 -> 丑月
+            2: 2,   // 立春 -> 寅月
+            4: 3,   // 惊蛰 -> 卯月
+            6: 4,   // 清明 -> 辰月
+            8: 5,   // 立夏 -> 巳月
+            10: 6,  // 芒种 -> 午月
+            12: 7,  // 小暑 -> 未月
+            14: 8,  // 立秋 -> 申月
+            16: 9,  // 白露 -> 酉月
+            18: 10, // 寒露 -> 戌月
+            20: 11, // 立冬 -> 亥月
+            22: 0   // 大雪 -> 子月
+        };
+        
+        // 检查所有节气区间
+        const termKeys = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22];
+        for (let i = 0; i < termKeys.length; i++) {
+            const currentTerm = termKeys[i];
+            const nextTerm = i < termKeys.length - 1 ? termKeys[i + 1] : 0; // 最后一个节气后是小寒（跨年）
+            
+            const termTime = Lunar.getSolarTermTime(solarYear, currentTerm);
+            let nextTermTime;
+            if (nextTerm === 0 && currentTerm !== 0) {
+                // 跨年情况：大雪(22)之后是小寒(0)，需要下一年的小寒
+                nextTermTime = Lunar.getSolarTermTime(solarYear + 1, 0);
+            } else {
+                nextTermTime = Lunar.getSolarTermTime(solarYear, nextTerm);
+            }
+            
+            if (this.cal >= termTime && this.cal < nextTermTime) {
+                monthZhiIndex = termToZhi[currentTerm];
+                break;
+            }
+        }
+        
+        // 如果还没找到，检查跨年的情况（大雪到小寒之间）
+        if (monthZhiIndex === -1) {
+            const term22 = Lunar.getSolarTermTime(solarYear, 22); // 大雪
+            const nextYearTerm0 = Lunar.getSolarTermTime(solarYear + 1, 0); // 下一年的小寒
+            if (this.cal >= term22 && this.cal < nextYearTerm0) {
+                monthZhiIndex = 0; // 子月
+            }
+        }
+        
+        // 如果仍然没找到，使用默认值（不应该发生）
+        if (monthZhiIndex === -1) {
+            console.error("无法确定月支，使用默认值");
+            monthZhiIndex = 0;
+        }
+        
+        // 月干：根据年干推算（五虎遁）
+        idx = idx % 5; // 年干在十天干中的位置（0-4）
+        const idxm = (idx + 1) * 2 % 10; // 五虎遁的起始天干索引
+        // 五虎遁是从寅月开始计算的，所以需要将月支转换为从寅月开始的索引
+        const monthIndexForGan = (monthZhiIndex + 10) % 12; // 将月支转换为从寅月开始的索引（寅=0, 卯=1, ...）
+        const monthGanIndex = (idxm + monthIndexForGan) % 10;
+        const m = Gan[monthGanIndex] + Zhi[monthZhiIndex];
 
+        // 日柱：根据日期计算
         const offset = (Math.floor((this.cal - this.baseDate) / 86400000) + 40) % 60;
         const d = BaZi.jiazhi[offset];
 
-        const h = Gan[(offset % 5 * 2 + hour) % 10] + Zhi[hour % 12];
+        // 时柱：根据日干和时辰计算（五鼠遁）
+        const dayGanIndex = offset % 10;
+        const hourGanIndex = (dayGanIndex % 5 * 2 + hour) % 10;
+        const h = Gan[hourGanIndex] + Zhi[hour % 12];
+        
         return `${y},${m},${d},${h}`;
     }
 
