@@ -588,7 +588,7 @@ function adjustTime(inputDate) {
         
         // Backend API endpoint - For Wix, this should be set to your Wix HTTP Function URL
         // See WIX_SETUP.md for configuration instructions
-        const DEEPSEEK_API_PROXY = '/_functions/deepseek-chat';
+        const DEEPSEEK_API_PROXY = 'https://www.fatefinder.org/_functions/deepseek-chat';
         // TODO: Update this to match your Wix HTTP Function URL
         
         // Call DeepSeek API through backend proxy
