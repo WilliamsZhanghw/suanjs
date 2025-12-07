@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>八字计算测试 - 精确修复版本</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 1200px;
+            margin: 50px auto;
+            padding: 20px;
+            background: #1a1a1a;
+            color: #e0e0e0;
+        }
+        h1 {
+            color: #5a9;
+            text-align: center;
+        }
+        .result-box {
+            background: #2d2d2d;
+            padding: 20px;
+            border-radius: 8px;
+            margin: 20px 0;
+            border: 1px solid #404040;
+        }
+        .method-comparison {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+            margin-top: 20px;
+        }
+        .method-box {
+            background: #1a1a1a;
+            padding: 15px;
+            border-radius: 8px;
+            border: 2px solid #404040;
+        }
+        .method-box.old {
+            border-color: #f55;
+        }
+        .method-box.new {
+            border-color: #5a9;
+        }
+        .method-title {
+            color: #5a9;
+            font-weight: bold;
+            font-size: 18px;
+            margin-bottom: 15px;
+            padding-bottom: 10px;
+            border-bottom: 2px solid #404040;
+        }
+        .method-box.old .method-title {
+            color: #f55;
+        }
+        .bazi-item {
+            margin: 10px 0;
+            padding: 10px;
+            background: #2d2d2d;
+            border-radius: 4px;
+        }
+        .label {
+            color: #5a9;
+            font-weight: bold;
+        }
+        .method-box.old .label {
+            color: #f55;
+        }
+        .expected-result {
+            margin-top: 20px;
+            padding: 15px;
+            background: #3d3d3d;
+            border-radius: 8px;
+            border: 2px solid #9a5;
+        }
+        .bazi-string {
+            font-size: 20px;
+            font-weight: bold;
+            color: #5a9;
+            margin: 10px 0;
+        }
+        .error-analysis {
+            margin-top: 20px;
+            padding: 15px;
+            background: #3d3d3d;
+            border-radius: 8px;
+            border: 2px solid #f55;
+        }
+        .debug-info {
+            margin-top: 10px;
+            padding: 10px;
+            background: #2d2d2d;
+            border-radius: 4px;
+            font-size: 12px;
+            color: #888;
+        }
+    </style>
+</head>
+<body>
+    <h1>🔮 八字计算测试 - 精确修复版本</h1>
+    <div class="result-box">
+        <h2 style="text-align: center;">测试时间：1999年4月13日22:00</h2>
+        <div class="expected-result">
+            <h3 style="color: #9a5; margin-top: 0;">期望结果：待验证</h3>
+        </div>
+        <div id="result"></div>
+    </div>
+
+    <script>
+        // ========== BaZi.js ==========
+        const Gan = ["甲", "乙", "丙", "丁", "戊", "己", "庚", "辛", "壬", "癸"];
+        const Zhi = ["子", "丑", "寅", "卯", "辰", "巳", "午", "未", "申", "酉", "戌", "亥"];
+        const lunarInfo = [
+            0x04bd8, 0x04ae0, 0x0a570, 0x054d5, 0x0d260, 0x0d950, 0x16554, 0x056a0, 0x09ad0, 0x055d2,
+            0x04ae0, 0x0a5b6, 0x0a4d0, 0x0d250, 0x1d255, 0x0b540, 0x0d6a0, 0x0ada2, 0x095b0, 0x14977,
+            0x04970, 0x0a4b0, 0x0b4b5, 0x06a50, 0x06d40, 0x1ab54, 0x02b60, 0x09570, 0x052f2, 0x04970,
+            0x06566, 0x0d4a0, 0x0ea50, 0x06e95, 0x05ad0, 0x02b60, 0x186e3, 0x092e0, 0x1c8d7, 0x0c950,
+            0x0d4a0, 0x1d8a6, 0x0b550, 0x056a0, 0x1a5b4, 0x025d0, 0x092d0, 0x0d2b2, 0x0a950, 0x0b557,
+            0x06ca0, 0x0b550, 0x15355, 0x04da0, 0x0a5d0, 0x14573, 0x052d0, 0x0a9a8, 0x0e950, 0x06aa0,
+            0x0aea6, 0x0ab50, 0x04b60, 0x0aae4, 0x0a570, 0x05260, 0x0f263, 0x0d950, 0x05b57, 0x056a0,
+            0x096d0, 0x04dd5, 0x04ad0, 0x0a4d0, 0x0d4d4, 0x0d250, 0x0d558, 0x0b540, 0x0b5a0, 0x195a6,
+            0x095b0, 0x049b0, 0x0a974, 0x0a4b0, 0x0b27a, 0x06a50, 0x06d40, 0x0af46, 0x0ab60, 0x09570,
+            0x04af5, 0x04970, 0x064b0, 0x074a3, 0x0ea50, 0x06b58, 0x055c0, 0x0ab60, 0x096d5, 0x092e0,
+            0x0c960, 0x0d954, 0x0d4a0, 0x0da50, 0x07552, 0x056a0, 0x0abb7, 0x025d0, 0x092d0, 0x0cab5,
+            0x0a950, 0x0b4a0, 0x0baa4, 0x0ad50, 0x055d9, 0x04ba0, 0x0a5b0, 0x15176, 0x052b0, 0x0a930,
+            0x07954, 0x06aa0, 0x0ad50, 0x05b52, 0x04b60, 0x0a6e6, 0x0a4e0, 0x0d260, 0x0ea65, 0x0d530,
+            0x05aa0, 0x076a3, 0x096d0, 0x04bd7, 0x04ad0, 0x0a4d0, 0x1d0b6, 0x0d250, 0x0d520, 0x0dd45,
+            0x0b5a0, 0x056d0, 0x055b2, 0x049b0, 0x0a577, 0x0a4b0, 0x0aa50, 0x1b255, 0x06d20, 0x0ada0
+        ];
+
+        // ========== Lunar.js - 节气信息 ==========
+        class Lunar {
+            static solarTermInfo = [
+                0, 21208, 42467, 63836, 85337, 107014, 128867, 150921,
+                173149, 195551, 218072, 240693, 263343, 285989, 308563, 331033,
+                353350, 375494, 397447, 419210, 440795, 462224, 483532, 504758
+            ];
+
+            // 获取节气的完整时间（Date对象）
+            static getSolarTermTime(solarYear, index) {
+                const baseDate = new Date(1900, 0, 6, 2, 5, 0);
+                const time = baseDate.getTime() + 31556925974.7 * (solarYear - 1900) + Lunar.solarTermInfo[index] * 60000;
+                return new Date(time);
+            }
+
+            // 获取节气的日期（仅用于兼容）
+            static getSolarTermDay(solarYear, index) {
+                return Lunar.getSolarTermTime(solarYear, index).getDate();
+            }
+        }
+
+        class BaZi {
+            constructor(cal) {
+                this.cal = cal;
+                this.baseDate = new Date(1900, 0, 31);
+                this.init();
+            }
+
+            init() {
+                let offset = Math.floor((this.cal - this.baseDate) / 86400000);
+                let dayCyl = offset + 40;
+                let monCyl = 14;
+
+                let iYear, daysOfYear = 0;
+                for (iYear = 1900; iYear < 2050 && offset > 0; iYear++) {
+                    daysOfYear = this.yearDays(iYear);
+                    offset -= daysOfYear;
+                    monCyl += 12;
+                }
+                if (offset < 0) {
+                    offset += daysOfYear;
+                    iYear--;
+                    monCyl -= 12;
+                }
+
+                this.year = iYear;
+                let yearCyl = iYear - 1864;
+                let leapMonth = this.leapMonth(iYear);
+                this.leap = false;
+
+                let iMonth, daysOfMonth = 0;
+                for (iMonth = 1; iMonth < 13 && offset > 0; iMonth++) {
+                    if (leapMonth > 0 && iMonth == (leapMonth + 1) && !this.leap) {
+                        --iMonth;
+                        this.leap = true;
+                        daysOfMonth = this.leapDays(this.year);
+                    } else {
+                        daysOfMonth = this.monthDays(this.year, iMonth);
+                    }
+                    offset -= daysOfMonth;
+                    if (this.leap && iMonth == (leapMonth + 1)) {
+                        this.leap = false;
+                    }
+                    if (!this.leap) {
+                        monCyl++;
+                    }
+                }
+
+                if (offset == 0 && leapMonth > 0 && iMonth == leapMonth + 1) {
+                    if (this.leap) {
+                        this.leap = false;
+                    } else {
+                        this.leap = true;
+                        --iMonth;
+                        --monCyl;
+                    }
+                }
+
+                if (offset < 0) {
+                    offset += daysOfMonth;
+                    --iMonth;
+                    --monCyl;
+                }
+
+                this.month = iMonth;
+                this.day = offset + 1;
+            }
+
+            yearDays(year) {
+                let sum = 348;
+                for (let i = 0x8000; i > 0x8; i >>= 1) {
+                    if ((lunarInfo[year - 1900] & i) !== 0) sum += 1;
+                }
+                return sum + this.leapDays(year);
+            }
+
+            leapDays(year) {
+                if (this.leapMonth(year) !== 0) {
+                    if ((lunarInfo[year - 1900] & 0x10000) !== 0) {
+                        return 30;
+                    } else {
+                        return 29;
+                    }
+                } else {
+                    return 0;
+                }
+            }
+
+            leapMonth(year) {
+                return lunarInfo[year - 1900] & 0xf;
+            }
+
+            monthDays(year, month) {
+                if ((lunarInfo[year - 1900] & (0x10000 >> month)) === 0) {
+                    return 29;
+                } else {
+                    return 30;
+                }
+            }
+
+            // 旧方法：使用农历月份（错误）
+            getYearGanZhi_OLD(hour) {
+                let idx = (this.year - 1864) % 60;
+                const y = BaZi.jiazhi[idx];
+
+                idx = idx % 5;
+                const idxm = (idx + 1) * 2 % 10;
+                const m = Gan[(idxm + this.month - 1) % 10] + Zhi[(this.month + 2 - 1) % 12];
+
+                const offset = (Math.floor((this.cal - this.baseDate) / 86400000) + 40) % 60;
+                const d = BaZi.jiazhi[offset];
+
+                const h = Gan[(offset % 5 * 2 + hour) % 10] + Zhi[hour % 12];
+                return `${y},${m},${d},${h}`;
+            }
+
+            // 新方法：使用公历和精确的节气时间（正确）
+            getYearGanZhi(hour) {
+                const solarYear = this.cal.getFullYear();
+                const solarMonth = this.cal.getMonth(); // 0-11
+                const solarDay = this.cal.getDate();
+                const solarHour = this.cal.getHours();
+                const solarMinute = this.cal.getMinutes();
+                
+                // 年柱：根据立春（solar term 2）的精确时间判断
+                const term2Time = Lunar.getSolarTermTime(solarYear, 2); // 立春时间
+                console.log("DEBUG: 立春时间:", term2Time.toLocaleString('zh-CN'));
+                console.log("DEBUG: 当前时间:", this.cal.toLocaleString('zh-CN'));
+                console.log("DEBUG: 当前时间是否早于立春:", this.cal < term2Time);
+                
+                let baziYear = solarYear;
+                if (this.cal < term2Time) {
+                    // 如果当前时间早于立春，用上一年的年柱
+                    baziYear = solarYear - 1;
+                    console.log("DEBUG: 使用上一年的年柱，年份:", baziYear);
+                } else {
+                    console.log("DEBUG: 使用当前年份的年柱，年份:", baziYear);
+                }
+                let idx = (baziYear - 1864) % 60;
+                const y = BaZi.jiazhi[idx];
+                console.log("DEBUG: 年柱索引:", idx, "年柱:", y);
+
+                // 月柱：根据节气判断
+                // 八字月支对应关系（以节气为界）：
+                // 正月(寅月): 立春(2) -> 惊蛰(4)之前
+                // 二月(卯月): 惊蛰(4) -> 清明(6)之前
+                // 三月(辰月): 清明(6) -> 立夏(8)之前
+                // 四月(巳月): 立夏(8) -> 芒种(10)之前
+                // 五月(午月): 芒种(10) -> 小暑(12)之前
+                // 六月(未月): 小暑(12) -> 立秋(14)之前
+                // 七月(申月): 立秋(14) -> 白露(16)之前
+                // 八月(酉月): 白露(16) -> 寒露(18)之前
+                // 九月(戌月): 寒露(18) -> 立冬(20)之前
+                // 十月(亥月): 立冬(20) -> 大雪(22)之前
+                // 十一月(子月): 大雪(22) -> 小寒(0)之前（跨年）
+                // 十二月(丑月): 小寒(0) -> 立春(2)之前
+                
+                // 确定当前时间在哪个节气区间
+                let monthZhiIndex = -1;
+                
+                // 节气索引到月支的映射
+                // 节气索引: 0(小寒)->丑(1), 2(立春)->寅(2), 4(惊蛰)->卯(3), 6(清明)->辰(4), 
+                // 8(立夏)->巳(5), 10(芒种)->午(6), 12(小暑)->未(7), 14(立秋)->申(8), 
+                // 16(白露)->酉(9), 18(寒露)->戌(10), 20(立冬)->亥(11), 22(大雪)->子(0)
+                const termToZhi = {
+                    0: 1,   // 小寒 -> 丑月
+                    2: 2,   // 立春 -> 寅月
+                    4: 3,   // 惊蛰 -> 卯月
+                    6: 4,   // 清明 -> 辰月
+                    8: 5,   // 立夏 -> 巳月
+                    10: 6,  // 芒种 -> 午月
+                    12: 7,  // 小暑 -> 未月
+                    14: 8,  // 立秋 -> 申月
+                    16: 9,  // 白露 -> 酉月
+                    18: 10, // 寒露 -> 戌月
+                    20: 11, // 立冬 -> 亥月
+                    22: 0   // 大雪 -> 子月
+                };
+                
+                // 检查所有节气区间
+                const termKeys = [0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22];
+                for (let i = 0; i < termKeys.length; i++) {
+                    const currentTerm = termKeys[i];
+                    const nextTerm = i < termKeys.length - 1 ? termKeys[i + 1] : 0; // 最后一个节气后是小寒（跨年）
+                    
+                    const termTime = Lunar.getSolarTermTime(solarYear, currentTerm);
+                    let nextTermTime;
+                    if (nextTerm === 0 && currentTerm !== 0) {
+                        // 跨年情况：大雪(22)之后是小寒(0)，需要下一年的小寒
+                        nextTermTime = Lunar.getSolarTermTime(solarYear + 1, 0);
+                    } else {
+                        nextTermTime = Lunar.getSolarTermTime(solarYear, nextTerm);
+                    }
+                    
+                    if (this.cal >= termTime && this.cal < nextTermTime) {
+                        monthZhiIndex = termToZhi[currentTerm];
+                        console.log("DEBUG: 找到节气区间 - 节气索引:", currentTerm, "月支索引:", monthZhiIndex, "月支:", Zhi[monthZhiIndex]);
+                        break;
+                    }
+                }
+                
+                // 如果还没找到，检查跨年的情况（大雪到小寒之间）
+                if (monthZhiIndex === -1) {
+                    const term22 = Lunar.getSolarTermTime(solarYear, 22); // 大雪
+                    const nextYearTerm0 = Lunar.getSolarTermTime(solarYear + 1, 0); // 下一年的小寒
+                    if (this.cal >= term22 && this.cal < nextYearTerm0) {
+                        monthZhiIndex = 0; // 子月
+                        console.log("DEBUG: 跨年情况 - 大雪到小寒之间，子月");
+                    }
+                }
+                
+                // 如果仍然没找到，使用默认值（不应该发生）
+                if (monthZhiIndex === -1) {
+                    console.error("DEBUG: 无法确定月支，使用默认值");
+                    monthZhiIndex = 0;
+                }
+                
+                console.log("DEBUG: 最终确定的月支索引:", monthZhiIndex, "月支:", Zhi[monthZhiIndex]);
+                
+                // 月干：根据年干推算（五虎遁）
+                // 五虎遁口诀：甲己之年丙作首，乙庚之年戊为头，丙辛之年寻庚起，丁壬壬寅顺水流，若问戊癸何处起，甲寅之上好追求
+                // 即：年干为甲或己，正月从丙开始；年干为乙或庚，正月从戊开始；等等
+                idx = idx % 5; // 年干在十天干中的位置（0-4）
+                const idxm = (idx + 1) * 2 % 10; // 五虎遁的起始天干索引
+                // 五虎遁是从寅月开始计算的，所以需要将月支转换为从寅月开始的索引
+                // 月支索引：子(0), 丑(1), 寅(2), 卯(3), 辰(4), 巳(5), 午(6), 未(7), 申(8), 酉(9), 戌(10), 亥(11)
+                // 转换为从寅月开始：寅(2)->0, 卯(3)->1, 辰(4)->2, ..., 子(0)->10, 丑(1)->11
+                const monthIndexForGan = (monthZhiIndex + 10) % 12; // 将月支转换为从寅月开始的索引（寅=0, 卯=1, ...）
+                const monthGanIndex = (idxm + monthIndexForGan) % 10;
+                const m = Gan[monthGanIndex] + Zhi[monthZhiIndex];
+                
+                console.log("DEBUG: 月柱计算 - 年干索引:", idx, "五虎遁起始:", idxm, "月支索引:", monthZhiIndex, "月支索引(五虎遁):", monthIndexForGan, "月干索引:", monthGanIndex);
+                console.log("DEBUG: 月柱:", m);
+
+                // 日柱：根据日期计算
+                const offset = (Math.floor((this.cal - this.baseDate) / 86400000) + 40) % 60;
+                const d = BaZi.jiazhi[offset];
+                console.log("DEBUG: 日柱偏移:", offset, "日柱:", d);
+
+                // 时柱：根据日干和时辰计算（五鼠遁）
+                const dayGanIndex = offset % 10;
+                const hourGanIndex = (dayGanIndex % 5 * 2 + hour) % 10;
+                const h = Gan[hourGanIndex] + Zhi[hour % 12];
+                console.log("DEBUG: 时柱计算 - 日干索引:", dayGanIndex, "时干索引:", hourGanIndex, "时支索引:", hour % 12, "时柱:", h);
+                
+                const result = `${y},${m},${d},${h}`;
+                console.log("DEBUG: 完整八字结果:", result);
+                return result;
+            }
+
+            animalsYear() {
+                const Animals = ["鼠", "牛", "虎", "兔", "龙", "蛇", "马", "羊", "猴", "鸡", "狗", "猪"];
+                return Animals[(this.year - 4) % 12];
+            }
+        }
+
+        BaZi.jiazhi = [
+            "甲子", "乙丑", "丙寅", "丁卯", "戊辰", "己巳", "庚午", "辛未", "壬申", "癸酉",
+            "甲戌", "乙亥", "丙子", "丁丑", "戊寅", "己卯", "庚辰", "辛巳", "壬午", "癸未",
+            "甲申", "乙酉", "丙戌", "丁亥", "戊子", "己丑", "庚寅", "辛卯", "壬辰", "癸巳",
+            "甲午", "乙未", "丙申", "丁酉", "戊戌", "己亥", "庚子", "辛丑", "壬寅", "癸卯",
+            "甲辰", "乙巳", "丙午", "丁未", "戊申", "己酉", "庚戌", "辛亥", "壬子", "癸丑",
+            "甲寅", "乙卯", "丙辰", "丁巳", "戊午", "己未", "庚申", "辛酉", "壬戌", "癸亥"
+        ];
+
+        // ========== PaiPanFinal.js ==========
+        class PaiPanFinal {
+            constructor() {
+            }
+
+            getBazi(cal, isman, useOldMethod = false) {
+                let lunar = new BaZi(cal);
+                let result = Array(10).fill("");
+                let time = Math.floor(cal.getHours() / 2);
+
+                // 获取生肖
+                let GanZhi;
+                if (useOldMethod) {
+                    GanZhi = lunar.getYearGanZhi_OLD(time);
+                } else {
+                    GanZhi = lunar.getYearGanZhi(time);
+                }
+                console.log("ganzhi:", GanZhi);
+                let tempchar = GanZhi.split(",");
+                let ganziyear = tempchar[0]; // 年柱
+                let ganzimonth = tempchar[1]; // 月柱
+                let ganziday = tempchar[2]; // 日柱
+                let ganzitime = tempchar[3]; // 时柱
+
+                const chineseInput = lunar.animalsYear();
+                const englishOutput = translateZodiac(chineseInput);
+                result[0] = englishOutput;
+                result[1] = ganziyear.charAt(0); // 年干
+                result[2] = ganziyear.charAt(1); // 年支
+                result[3] = ganzimonth.charAt(0); // 月干
+                result[4] = ganzimonth.charAt(1); // 月支
+                result[5] = ganziday.charAt(0); // 日干
+                result[6] = ganziday.charAt(1); // 日支
+                result[7] = ganzitime.charAt(0); // 时干
+                result[8] = ganzitime.charAt(1); // 时支
+
+                return result;
+            }
+        }
+
+        function translateZodiac(chineseZodiac) {
+            const zodiacMap = {
+                "鼠": "Rat", "牛": "Ox", "虎": "Tiger", "兔": "Rabbit",
+                "龙": "Dragon", "蛇": "Snake", "马": "Horse", "羊": "Goat",
+                "猴": "Monkey", "鸡": "Rooster", "狗": "Dog", "猪": "Pig"
+            };
+            return zodiacMap[chineseZodiac] || "Unknown zodiac";
+        }
+
+        function adjustTime(inputDate) {
+            const inputTime = new Date(inputDate);
+            const currentDate = new Date(inputTime.getFullYear(), inputTime.getMonth(), inputTime.getDate());
+            const cutoffTime = new Date(currentDate);
+            cutoffTime.setHours(22, 59, 0, 0);
+
+            if (inputTime > cutoffTime) {
+                const nextDay = new Date(currentDate);
+                nextDay.setDate(nextDay.getDate() + 1);
+                nextDay.setHours(0, 30, 0, 0);
+                return nextDay;
+            }
+            return inputTime;
+        }
+
+        function formatResult(result, methodName, className, debugInfo = '') {
+            return `
+                <div class="method-box ${className}">
+                    <div class="method-title">${methodName}</div>
+                    <div class="bazi-item">
+                        <span class="label">年柱：</span>${result.yearGan}${result.yearZhi}
+                    </div>
+                    <div class="bazi-item">
+                        <span class="label">月柱：</span>${result.monthGan}${result.monthZhi}
+                    </div>
+                    <div class="bazi-item">
+                        <span class="label">日柱：</span>${result.dayGan}${result.dayZhi}
+                    </div>
+                    <div class="bazi-item">
+                        <span class="label">时柱：</span>${result.hourGan}${result.hourZhi}
+                    </div>
+                    <div class="bazi-item" style="margin-top: 15px; padding: 15px; background: #3d3d3d;">
+                        <span class="label">完整八字：</span><br>
+                        <div class="bazi-string">${result.baziFormatted}</div>
+                    </div>
+                    ${debugInfo ? `<div class="debug-info">${debugInfo}</div>` : ''}
+                </div>
+            `;
+        }
+
+        function calculateBazi() {
+            const testDate = new Date(1999, 3, 13, 22, 0, 0); // 1999年4月13日22:00（月份从0开始，3表示4月）
+            const adjustedDate = adjustTime(testDate);
+            
+            console.log("测试日期:", testDate.toLocaleString('zh-CN'));
+            console.log("调整后日期:", adjustedDate.toLocaleString('zh-CN'));
+            
+            // 计算立春时间用于调试
+            const term2Time = Lunar.getSolarTermTime(1999, 2);
+            console.log("1999年立春时间:", term2Time.toLocaleString('zh-CN'));
+            console.log("当前时间是否早于立春:", adjustedDate < term2Time);
+            
+            const mypaipan = new PaiPanFinal();
+            
+            // 旧方法
+            const resultOld = mypaipan.getBazi(adjustedDate, true, true);
+            const resultOldFormatted = {
+                yearGan: resultOld[1],
+                yearZhi: resultOld[2],
+                monthGan: resultOld[3],
+                monthZhi: resultOld[4],
+                dayGan: resultOld[5],
+                dayZhi: resultOld[6],
+                hourGan: resultOld[7],
+                hourZhi: resultOld[8],
+                baziFormatted: `${resultOld[1]}${resultOld[2]} ${resultOld[3]}${resultOld[4]} ${resultOld[5]}${resultOld[6]} ${resultOld[7]}${resultOld[8]}`
+            };
+            
+            // 新方法
+            const resultNew = mypaipan.getBazi(adjustedDate, true, false);
+            const resultNewFormatted = {
+                yearGan: resultNew[1],
+                yearZhi: resultNew[2],
+                monthGan: resultNew[3],
+                monthZhi: resultNew[4],
+                dayGan: resultNew[5],
+                dayZhi: resultNew[6],
+                hourGan: resultNew[7],
+                hourZhi: resultNew[8],
+                baziFormatted: `${resultNew[1]}${resultNew[2]} ${resultNew[3]}${resultNew[4]} ${resultNew[5]}${resultNew[6]} ${resultNew[7]}${resultNew[8]}`
+            };
+            
+            // 使用之前已经计算的 term2Time
+            const debugInfo = `立春时间: ${term2Time.toLocaleString('zh-CN')}<br>当前时间: ${adjustedDate.toLocaleString('zh-CN')}<br>是否早于立春: ${adjustedDate < term2Time}`;
+            
+            const resultDiv = document.getElementById('result');
+            resultDiv.innerHTML = `
+                <div class="method-comparison">
+                    ${formatResult(resultOldFormatted, '旧方法（使用农历月份）', 'old')}
+                    ${formatResult(resultNewFormatted, '新方法（使用精确节气时间）', 'new', debugInfo)}
+                </div>
+                <div class="error-analysis">
+                    <h3 style="color: #5a9; margin-top: 0;">计算结果</h3>
+                    <div class="bazi-item">
+                        <strong>旧方法结果：</strong> ${resultOldFormatted.baziFormatted}<br>
+                        <strong>新方法结果：</strong> ${resultNewFormatted.baziFormatted}<br>
+                        <strong>说明：</strong> 新方法使用节气计算月柱，旧方法使用农历月份计算月柱
+                    </div>
+                </div>
+            `;
+            
+            console.log("旧方法结果:", resultOldFormatted.baziFormatted);
+            console.log("新方法结果:", resultNewFormatted.baziFormatted);
+            console.log("期望结果:", expected);
+        }
+
+        window.onload = function() {
+            calculateBazi();
+        };
+    </script>
+</body>
+</html>
