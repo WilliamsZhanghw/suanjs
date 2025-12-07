@@ -25,6 +25,8 @@ All notable changes to this project will be documented in this file.
   - Added word limit for DeepSeek responses: Limited DeepSeek AI responses to maximum 120 English words
   - Updated `bazi.js`: Modified `getYearGanZhi()` method to use precise solar term calculations
   - Updated `Luna.js`: Added `getSolarTermTime()` method for precise solar term time calculation
+- **Updated script.js for Wix integration**:
+  - Configured `DEEPSEEK_API_PROXY` to use Wix HTTP Function endpoint (`https://www.fatefinder.org/_functions/deepseek-chat`)
 
 ### Fixed
 - Fixed Bazi calculation accuracy in `index.html` to match `index1.html` implementation
