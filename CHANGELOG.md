@@ -2,6 +2,39 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V19] - 2025-12-07
+
+### Added
+- **FateFinder Chart Calculator WordPress Plugin**:
+  - Free astrology chart calculator for calculating Big Three (Sun, Moon, Ascendant)
+  - Integrated Nominatim API for automatic geocoding (city/country to coordinates)
+  - Integrated Gemini/OpenAI API for AI-powered personalized insights
+  - Dark tech theme UI matching FateFinder brand (light blue #C1D5FF, cream #FFFCCB)
+  - WordPress shortcode support: `[fatefinder_chart_form]`
+  - Admin settings page for API key configuration
+  - Responsive design with smooth animations
+  - Multiple Gemini model fallback support (gemini-2.0-flash, gemini-1.5-flash, etc.)
+
+- **FateFinder Daily Luck WordPress Plugin**:
+  - Daily fortune divination feature
+  - GamiPress points system integration (default: 1 point per divination)
+  - Complete 64 hexagram data from I Ching
+  - Dark tech neon-styled interface with cyan glow effects
+  - WordPress shortcode support: `[daily_luck]`
+  - Admin settings page for configuration
+
+- **WordPress Plugin Assets**:
+  - `chart-style.css` and `chart-script.js` for chart calculator
+  - `style.css` and `script.js` for daily luck plugin
+  - `gua-data.php` with complete 64 hexagram interpretations
+  - Comprehensive documentation (CHART_CALCULATOR_README.md, README.md)
+
+### Technical Details
+- Chart Calculator uses simplified astrology calculations (can be upgraded with Swiss Ephemeris)
+- Automatic model fallback for Gemini API compatibility
+- Error handling and logging for debugging
+- Plugin action links and menu items for easy settings access
+
 ## [V18] - 2025-12-07
 
 ### Removed
