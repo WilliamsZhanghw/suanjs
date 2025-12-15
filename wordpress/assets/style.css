@@ -1,0 +1,279 @@
+/* FateFinder Daily Luck - Dark Tech Neon Style */
+
+.fatefinder-daily-luck-container {
+    position: relative;
+    min-height: 400px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 100%);
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(90, 153, 153, 0.3);
+    margin: 20px 0;
+}
+
+/* Neon Button Styles */
+.fatefinder-luck-button-wrapper {
+    position: relative;
+    margin: 30px 0;
+}
+
+.fatefinder-neon-button {
+    position: relative;
+    padding: 20px 60px;
+    font-size: 24px;
+    font-weight: bold;
+    color: #00ffff;
+    background: transparent;
+    border: 3px solid #00ffff;
+    border-radius: 10px;
+    cursor: pointer;
+    text-transform: uppercase;
+    letter-spacing: 3px;
+    overflow: hidden;
+    transition: all 0.3s ease;
+    box-shadow: 
+        0 0 10px rgba(0, 255, 255, 0.5),
+        0 0 20px rgba(0, 255, 255, 0.3),
+        0 0 30px rgba(0, 255, 255, 0.2),
+        inset 0 0 10px rgba(0, 255, 255, 0.1);
+    z-index: 1;
+}
+
+.fatefinder-neon-button::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent, rgba(0, 255, 255, 0.3), transparent);
+    transform: rotate(45deg);
+    transition: all 0.5s;
+    z-index: -1;
+}
+
+.fatefinder-neon-button:hover::before {
+    animation: neon-sweep 1.5s infinite;
+}
+
+.fatefinder-neon-button:hover {
+    color: #ffffff;
+    border-color: #00ffff;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 255, 0.8),
+        0 0 40px rgba(0, 255, 255, 0.6),
+        0 0 60px rgba(0, 255, 255, 0.4),
+        inset 0 0 20px rgba(0, 255, 255, 0.2);
+    transform: translateY(-2px);
+}
+
+.fatefinder-neon-button:active {
+    transform: translateY(0);
+    box-shadow: 
+        0 0 10px rgba(0, 255, 255, 0.5),
+        inset 0 0 10px rgba(0, 255, 255, 0.3);
+}
+
+.fatefinder-neon-button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+.button-glow {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 0;
+    height: 0;
+    border-radius: 50%;
+    background: rgba(0, 255, 255, 0.5);
+    transform: translate(-50%, -50%);
+    transition: width 0.6s, height 0.6s;
+    z-index: -1;
+}
+
+.fatefinder-neon-button.active .button-glow {
+    width: 300px;
+    height: 300px;
+    animation: pulse-glow 1s infinite;
+}
+
+@keyframes neon-sweep {
+    0% {
+        transform: translateX(-100%) translateY(-100%) rotate(45deg);
+    }
+    100% {
+        transform: translateX(100%) translateY(100%) rotate(45deg);
+    }
+}
+
+@keyframes pulse-glow {
+    0%, 100% {
+        opacity: 0.5;
+        transform: translate(-50%, -50%) scale(1);
+    }
+    50% {
+        opacity: 0.8;
+        transform: translate(-50%, -50%) scale(1.1);
+    }
+}
+
+/* Loading Animation */
+.fatefinder-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    animation: fadeIn 0.5s ease-in;
+}
+
+.fatefinder-loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(0, 255, 255, 0.2);
+    border-top: 4px solid #00ffff;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(0, 255, 255, 0.5);
+}
+
+.fatefinder-loading-text {
+    color: #00ffff;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(0, 255, 255, 0.8);
+    letter-spacing: 2px;
+    animation: pulse-text 1.5s ease-in-out infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-text {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+/* Result Container */
+.fatefinder-result-container {
+    margin-top: 30px;
+    padding: 30px;
+    background: rgba(10, 10, 10, 0.8);
+    border: 2px solid #00ffff;
+    border-radius: 15px;
+    box-shadow: 
+        0 0 20px rgba(0, 255, 255, 0.4),
+        inset 0 0 20px rgba(0, 255, 255, 0.1);
+    animation: resultAppear 0.8s ease-out;
+    max-width: 800px;
+    width: 100%;
+}
+
+@keyframes resultAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.fatefinder-result-content {
+    position: relative;
+}
+
+.fatefinder-result-text {
+    color: #e0e0e0;
+    font-size: 18px;
+    line-height: 1.8;
+    text-align: center;
+    padding: 20px;
+    min-height: 100px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.fatefinder-result-text::before {
+    content: '✨';
+    position: absolute;
+    top: -10px;
+    left: -10px;
+    font-size: 30px;
+    animation: sparkle 2s ease-in-out infinite;
+}
+
+.fatefinder-result-text::after {
+    content: '✨';
+    position: absolute;
+    bottom: -10px;
+    right: -10px;
+    font-size: 30px;
+    animation: sparkle 2s ease-in-out infinite 1s;
+}
+
+@keyframes sparkle {
+    0%, 100% {
+        opacity: 0.3;
+        transform: scale(0.8);
+    }
+    50% {
+        opacity: 1;
+        transform: scale(1.2);
+    }
+}
+
+/* Error Messages */
+.fatefinder-error {
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+    border: 2px solid #ff6b6b;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: center;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+    }
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .fatefinder-neon-button {
+        padding: 15px 40px;
+        font-size: 18px;
+    }
+    
+    .fatefinder-result-text {
+        font-size: 16px;
+    }
+    
+    .fatefinder-daily-luck-container {
+        padding: 20px 15px;
+    }
+}
+
+

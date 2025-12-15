@@ -1,0 +1,328 @@
+/* FateFinder Chart Calculator - Dark Theme with Light Blue & Cream Accents */
+
+.fatefinder-chart-container {
+    position: relative;
+    min-height: 500px;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(193, 213, 255, 0.2);
+    margin: 30px 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.fatefinder-chart-form-wrapper {
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+.fatefinder-chart-title {
+    color: #C1D5FF;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(193, 213, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+.fatefinder-chart-subtitle {
+    color: #FFFCCB;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 40px;
+    opacity: 0.9;
+}
+
+/* Form Styles */
+.fatefinder-chart-form {
+    background: rgba(10, 10, 10, 0.6);
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid rgba(193, 213, 255, 0.3);
+    box-shadow: 0 0 30px rgba(193, 213, 255, 0.1);
+}
+
+.fatefinder-form-group {
+    margin-bottom: 25px;
+}
+
+.fatefinder-form-group label {
+    display: block;
+    color: #C1D5FF;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.fatefinder-form-group input[type="date"],
+.fatefinder-form-group input[type="time"],
+.fatefinder-form-group input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(193, 213, 255, 0.1);
+    border: 2px solid rgba(193, 213, 255, 0.3);
+    border-radius: 8px;
+    color: #FFFCCB;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.fatefinder-form-group input:focus {
+    outline: none;
+    border-color: #C1D5FF;
+    background: rgba(193, 213, 255, 0.15);
+    box-shadow: 0 0 15px rgba(193, 213, 255, 0.3);
+}
+
+.fatefinder-form-group input::placeholder {
+    color: rgba(255, 252, 203, 0.5);
+}
+
+.fatefinder-help-text {
+    display: block;
+    color: rgba(255, 252, 203, 0.7);
+    font-size: 12px;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+/* Button Styles */
+.fatefinder-chart-button {
+    width: 100%;
+    padding: 15px 30px;
+    background: linear-gradient(135deg, rgba(193, 213, 255, 0.2) 0%, rgba(255, 252, 203, 0.2) 100%);
+    border: 2px solid #C1D5FF;
+    border-radius: 10px;
+    color: #C1D5FF;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 0 20px rgba(193, 213, 255, 0.3);
+    margin-top: 10px;
+}
+
+.fatefinder-chart-button:hover {
+    background: linear-gradient(135deg, rgba(193, 213, 255, 0.3) 0%, rgba(255, 252, 203, 0.3) 100%);
+    border-color: #FFFCCB;
+    color: #FFFCCB;
+    box-shadow: 0 0 30px rgba(193, 213, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.fatefinder-chart-button:active {
+    transform: translateY(0);
+}
+
+.fatefinder-chart-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Loading Animation */
+.fatefinder-chart-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    animation: fadeIn 0.5s ease-in;
+}
+
+.fatefinder-loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(193, 213, 255, 0.2);
+    border-top: 4px solid #C1D5FF;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(193, 213, 255, 0.5);
+}
+
+.fatefinder-loading-text {
+    color: #FFFCCB;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 252, 203, 0.8);
+    letter-spacing: 1px;
+    animation: pulse-text 1.5s ease-in-out infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-text {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Result Display */
+.fatefinder-chart-result {
+    margin-top: 30px;
+    padding: 30px;
+    background: rgba(10, 10, 10, 0.8);
+    border: 2px solid rgba(193, 213, 255, 0.4);
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(193, 213, 255, 0.2);
+    animation: resultAppear 0.8s ease-out;
+}
+
+@keyframes resultAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.fatefinder-big-three-display {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+    gap: 20px;
+    margin-bottom: 30px;
+}
+
+.fatefinder-sign-card {
+    background: rgba(193, 213, 255, 0.1);
+    border: 2px solid rgba(193, 213, 255, 0.3);
+    border-radius: 10px;
+    padding: 20px;
+    text-align: center;
+    transition: all 0.3s ease;
+}
+
+.fatefinder-sign-card:hover {
+    background: rgba(193, 213, 255, 0.2);
+    border-color: #C1D5FF;
+    box-shadow: 0 0 20px rgba(193, 213, 255, 0.3);
+    transform: translateY(-5px);
+}
+
+.fatefinder-sign-label {
+    color: #FFFCCB;
+    font-size: 14px;
+    font-weight: 600;
+    margin-bottom: 10px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.fatefinder-sign-name {
+    color: #C1D5FF;
+    font-size: 24px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(193, 213, 255, 0.5);
+}
+
+.fatefinder-ai-snapshot {
+    background: rgba(255, 252, 203, 0.1);
+    border-left: 4px solid #FFFCCB;
+    padding: 25px;
+    border-radius: 10px;
+    margin-bottom: 30px;
+}
+
+.fatefinder-ai-snapshot-title {
+    color: #FFFCCB;
+    font-size: 20px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(255, 252, 203, 0.5);
+}
+
+.fatefinder-ai-snapshot-text {
+    color: #C1D5FF;
+    font-size: 16px;
+    line-height: 1.8;
+    text-align: justify;
+}
+
+/* CTA Button */
+.fatefinder-cta-button {
+    display: block;
+    width: 100%;
+    padding: 18px 30px;
+    background: linear-gradient(135deg, #C1D5FF 0%, #FFFCCB 100%);
+    border: none;
+    border-radius: 10px;
+    color: #0a0a0a;
+    font-size: 18px;
+    font-weight: bold;
+    text-align: center;
+    text-decoration: none;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 0 30px rgba(193, 213, 255, 0.4);
+    margin-top: 20px;
+}
+
+.fatefinder-cta-button:hover {
+    background: linear-gradient(135deg, #FFFCCB 0%, #C1D5FF 100%);
+    box-shadow: 0 0 40px rgba(193, 213, 255, 0.6);
+    transform: translateY(-3px);
+}
+
+.fatefinder-cta-button:active {
+    transform: translateY(-1px);
+}
+
+/* Error Messages */
+.fatefinder-error {
+    background: rgba(255, 107, 107, 0.1);
+    border: 2px solid #ff6b6b;
+    color: #ff6b6b;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: center;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .fatefinder-chart-container {
+        padding: 20px 15px;
+    }
+    
+    .fatefinder-chart-title {
+        font-size: 24px;
+    }
+    
+    .fatefinder-chart-subtitle {
+        font-size: 16px;
+    }
+    
+    .fatefinder-chart-form {
+        padding: 20px;
+    }
+    
+    .fatefinder-big-three-display {
+        grid-template-columns: 1fr;
+    }
+}
+
