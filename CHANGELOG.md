@@ -2,6 +2,41 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V20] - 2025-12-07
+
+### Added
+- **FateFinder Synastry Calculator WordPress Plugin**:
+  - Relationship compatibility calculator for analyzing energy interactions between two people
+  - Dual person input form (Person A and Person B) with birth date, time, and location
+  - Integrated Nominatim API for automatic geocoding (city/country to coordinates)
+  - Synastry aspect calculation between two charts:
+    - Conjunction (☌), Opposition (☍), Square (□), Trine (△), Sextile (⚹)
+    - Analyzes 5 major planets: Sun, Moon, Mercury, Venus, Mars
+    - Color-coded aspect cards (green=harmonious, red=challenging)
+  - AI-powered "Energy Interaction Analysis" using Gemini/OpenAI API:
+    - Identifies harmonious areas (trine/sextile) with encouraging language
+    - Points out conflict areas (square/opposition) with gentle but firm language
+    - Uses specific phrasing like: "In communication, you are highly compatible (Mercury Harmony), but in emotional needs, conflict may arise (Moon Square)."
+    - Focuses on energy interactions, not compatibility scores
+    - Maximum 300 words
+  - Dual CTA buttons for conversion:
+    - "Purchase Energy Harmonizing Crystal" (links to shop)
+    - "Book Live Consultation for Conflict Resolution" (links to consultation service)
+  - Dark tech theme UI matching FateFinder brand (light blue #C1D5FF, cream #FFFCCB)
+  - WordPress shortcode support: `[fatefinder_synastry_form]`
+  - Admin settings page for API key and CTA URL configuration
+
+- **WordPress Plugin Assets**:
+  - `synastry-style.css` and `synastry-script.js` for synastry calculator
+  - `SYNASTRY_README.md` with comprehensive documentation
+
+### Technical Details
+- Aspect calculation with 8-degree orb tolerance
+- Simplified planetary position calculations (can be upgraded with Swiss Ephemeris)
+- Automatic model fallback for Gemini API compatibility
+- Error handling and logging for debugging
+- Plugin action links and menu items for easy settings access
+
 ## [V19] - 2025-12-07
 
 ### Added
