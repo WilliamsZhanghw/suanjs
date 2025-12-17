@@ -2,6 +2,30 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V21] - 2025-12-07
+
+### Changed
+- **FateFinder Daily Luck Plugin Updates**:
+  - **Removed points system**: Plugin is now completely free for all users, no login or points required
+  - **Removed GamiPress integration**: No longer checks user points or deducts points
+  - **Added English guidance text**: 
+    - Title: "Daily Luck Divination"
+    - Subtitle: "Free Reading - Discover Your Fortune Today"
+    - Detailed usage instructions in English
+  - **Button text updated**: Changed to "Free Divination"
+  - **Unified color scheme**: Matched with other plugins for consistency
+    - Primary color: Light blue #C1D5FF (replaced cyan #00ffff)
+    - Accent color: Cream yellow #FFFCCB
+    - Dark background gradient: #0a0a0a to #1a1a2e
+  - **Improved file path handling**: Better compatibility with different WordPress setups
+  - **Added file existence checks**: Prevents activation failures
+  - **Enhanced UI**: Added header section with title, subtitle, and description
+
+### Fixed
+- Fixed plugin activation issues by improving file path resolution
+- Fixed resource file loading by using `plugins_url()` instead of `plugin_dir_url()`
+- Added fallback function for hexagram data if file doesn't exist
+
 ## [V20] - 2025-12-07
 
 ### Added
