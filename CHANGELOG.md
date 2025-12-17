@@ -2,6 +2,38 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V23] - 2025-12-07
+
+### Added
+- **FateFinder Name Fortune WordPress Plugin**:
+  - Name fortune calculator based on numerology principles
+  - Supports both English and Chinese name input
+  - Automatic Chinese to Pinyin conversion using pinyin-pro library (via CDN)
+  - Dual calculation methods:
+    - With spaces (includes spaces in calculation)
+    - Without spaces (removes spaces before calculation)
+  - ASCII sum calculation and Mod 81 operation
+  - Fortune interpretation based on Mod 81 results (9 predefined fortune messages)
+  - Dark tech theme UI matching other plugins:
+    - Primary color: Light blue #C1D5FF
+    - Accent color: Cream yellow #FFFCCB
+    - Dark background gradient: #0a0a0a to #1a1a2e
+  - WordPress shortcode support: `[fatefinder_name_fortune]`
+  - Completely free, no login or points required
+  - Frontend calculation (no backend processing needed)
+  - Responsive design for mobile devices
+  - Smooth animations and user-friendly error handling
+
+- **WordPress Plugin Assets**:
+  - `name-fortune-style.css` for styling
+  - `name-fortune-script.js` for calculation logic
+
+### Technical Details
+- Uses pinyin-pro library from CDN for Chinese name conversion
+- Client-side calculation for instant results
+- Graceful fallback if pinyin library fails to load
+- Error handling and input validation
+
 ## [V21] - 2025-12-07
 
 ### Changed
