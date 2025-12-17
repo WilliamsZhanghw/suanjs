@@ -2,6 +2,25 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V24] - 2025-12-07
+
+### Changed
+- **FateFinder Name Fortune Plugin - Complete 81 Fortune Interpretations**:
+  - Updated `getFortuneMessage()` function to include all 81 fortune interpretations (previously only 9)
+  - Replaced simple object lookup with comprehensive switch statement covering all 81 Mod 81 results
+  - Updated mod 81 calculation to match domainTest implementation: `sum % 81 === 0 ? 81 : sum % 81`
+  - All fortune messages now include detailed divination interpretations:
+    - Great (Great): 25 results (e.g., Rising sun, Both fame and fortune, Double blessings)
+    - Unfavorable (Unfavorable): 30 results (e.g., Branches grow disorderly, Destruction and disintegration)
+    - Fair (Fair): 26 results (e.g., Firmness and self-restraint, Fluctuating fortunes)
+  - Each result includes full divination meaning, characteristics, and guidance
+  - Reference: Based on complete 81 fortune interpretations from `domainTest/script.js`
+
+### Technical Details
+- Maintained backward compatibility with existing calculation logic
+- Enhanced fortune interpretation accuracy and completeness
+- Consistent with domainTest number fortune calculation system
+
 ## [V23] - 2025-12-07
 
 ### Added
