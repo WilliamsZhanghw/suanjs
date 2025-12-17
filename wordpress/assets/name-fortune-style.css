@@ -1,0 +1,291 @@
+/* FateFinder Name Fortune - Dark Theme with Light Blue & Cream Accents */
+
+.fatefinder-name-fortune-container {
+    position: relative;
+    min-height: 500px;
+    padding: 40px 20px;
+    background: linear-gradient(135deg, #0a0a0a 0%, #1a1a2e 50%, #0a0a0a 100%);
+    border-radius: 20px;
+    box-shadow: 0 0 50px rgba(193, 213, 255, 0.2);
+    margin: 30px 0;
+    font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, sans-serif;
+}
+
+.fatefinder-name-fortune-form-wrapper {
+    max-width: 700px;
+    margin: 0 auto;
+}
+
+.fatefinder-name-fortune-title {
+    color: #C1D5FF;
+    font-size: 32px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 10px;
+    text-shadow: 0 0 20px rgba(193, 213, 255, 0.5);
+    letter-spacing: 1px;
+}
+
+.fatefinder-name-fortune-subtitle {
+    color: #FFFCCB;
+    font-size: 18px;
+    text-align: center;
+    margin-bottom: 20px;
+    opacity: 0.9;
+}
+
+.fatefinder-name-fortune-description {
+    color: #e0e0e0;
+    font-size: 16px;
+    line-height: 1.8;
+    text-align: center;
+    margin: 0 auto 30px;
+    padding: 20px;
+    background: rgba(193, 213, 255, 0.05);
+    border: 1px solid rgba(193, 213, 255, 0.2);
+    border-radius: 10px;
+    max-width: 600px;
+}
+
+/* Form Styles */
+.fatefinder-name-fortune-form {
+    background: rgba(10, 10, 10, 0.6);
+    padding: 30px;
+    border-radius: 15px;
+    border: 2px solid rgba(193, 213, 255, 0.3);
+    box-shadow: 0 0 30px rgba(193, 213, 255, 0.1);
+}
+
+.fatefinder-form-group {
+    margin-bottom: 25px;
+}
+
+.fatefinder-form-group label {
+    display: block;
+    color: #C1D5FF;
+    font-size: 16px;
+    font-weight: 600;
+    margin-bottom: 8px;
+    letter-spacing: 0.5px;
+}
+
+.fatefinder-form-group input[type="text"] {
+    width: 100%;
+    padding: 12px 15px;
+    background: rgba(193, 213, 255, 0.1);
+    border: 2px solid rgba(193, 213, 255, 0.3);
+    border-radius: 8px;
+    color: #FFFCCB;
+    font-size: 16px;
+    transition: all 0.3s ease;
+    box-sizing: border-box;
+}
+
+.fatefinder-form-group input:focus {
+    outline: none;
+    border-color: #C1D5FF;
+    background: rgba(193, 213, 255, 0.15);
+    box-shadow: 0 0 15px rgba(193, 213, 255, 0.3);
+}
+
+.fatefinder-form-group input::placeholder {
+    color: rgba(255, 252, 203, 0.5);
+}
+
+/* Button Styles */
+.fatefinder-name-fortune-button {
+    width: 100%;
+    padding: 18px 30px;
+    background: linear-gradient(135deg, rgba(193, 213, 255, 0.2) 0%, rgba(255, 252, 203, 0.2) 100%);
+    border: 2px solid #C1D5FF;
+    border-radius: 10px;
+    color: #C1D5FF;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    box-shadow: 0 0 20px rgba(193, 213, 255, 0.3);
+    margin-top: 10px;
+}
+
+.fatefinder-name-fortune-button:hover {
+    background: linear-gradient(135deg, rgba(193, 213, 255, 0.3) 0%, rgba(255, 252, 203, 0.3) 100%);
+    border-color: #FFFCCB;
+    color: #FFFCCB;
+    box-shadow: 0 0 30px rgba(193, 213, 255, 0.5);
+    transform: translateY(-2px);
+}
+
+.fatefinder-name-fortune-button:active {
+    transform: translateY(0);
+}
+
+.fatefinder-name-fortune-button:disabled {
+    opacity: 0.6;
+    cursor: not-allowed;
+    pointer-events: none;
+}
+
+/* Loading Animation */
+.fatefinder-name-fortune-loading {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 40px;
+    animation: fadeIn 0.5s ease-in;
+}
+
+.fatefinder-loading-spinner {
+    width: 60px;
+    height: 60px;
+    border: 4px solid rgba(193, 213, 255, 0.2);
+    border-top: 4px solid #C1D5FF;
+    border-radius: 50%;
+    animation: spin 1s linear infinite;
+    margin-bottom: 20px;
+    box-shadow: 0 0 20px rgba(193, 213, 255, 0.5);
+}
+
+.fatefinder-loading-text {
+    color: #FFFCCB;
+    font-size: 18px;
+    font-weight: bold;
+    text-shadow: 0 0 10px rgba(255, 252, 203, 0.8);
+    letter-spacing: 1px;
+    animation: pulse-text 1.5s ease-in-out infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+@keyframes pulse-text {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.6; }
+}
+
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+/* Result Display */
+.fatefinder-name-fortune-result {
+    margin-top: 30px;
+    padding: 30px;
+    background: rgba(10, 10, 10, 0.8);
+    border: 2px solid rgba(193, 213, 255, 0.4);
+    border-radius: 15px;
+    box-shadow: 0 0 30px rgba(193, 213, 255, 0.2);
+    animation: resultAppear 0.8s ease-out;
+}
+
+@keyframes resultAppear {
+    0% {
+        opacity: 0;
+        transform: translateY(20px) scale(0.95);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0) scale(1);
+    }
+}
+
+.fatefinder-result-name {
+    color: #C1D5FF;
+    font-size: 24px;
+    font-weight: bold;
+    text-align: center;
+    margin-bottom: 25px;
+    text-shadow: 0 0 10px rgba(193, 213, 255, 0.5);
+}
+
+.fatefinder-result-section {
+    margin-bottom: 25px;
+    padding: 20px;
+    background: rgba(193, 213, 255, 0.05);
+    border: 1px solid rgba(193, 213, 255, 0.2);
+    border-radius: 10px;
+}
+
+.fatefinder-result-section-title {
+    color: #FFFCCB;
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 15px;
+    text-shadow: 0 0 10px rgba(255, 252, 203, 0.5);
+}
+
+.fatefinder-result-details {
+    color: #e0e0e0;
+    font-size: 14px;
+    line-height: 1.8;
+    margin-bottom: 10px;
+}
+
+.fatefinder-result-details strong {
+    color: #C1D5FF;
+}
+
+.fatefinder-result-fortune {
+    color: #FFFCCB;
+    font-size: 16px;
+    line-height: 1.8;
+    font-style: italic;
+    margin-top: 15px;
+    padding-top: 15px;
+    border-top: 1px solid rgba(193, 213, 255, 0.2);
+}
+
+.fatefinder-result-divider {
+    height: 1px;
+    background: rgba(193, 213, 255, 0.3);
+    margin: 25px 0;
+}
+
+/* Error Messages */
+.fatefinder-error {
+    background: rgba(255, 107, 107, 0.1);
+    border: 2px solid #ff6b6b;
+    color: #ff6b6b;
+    padding: 15px 20px;
+    border-radius: 10px;
+    margin-top: 20px;
+    text-align: center;
+    animation: shake 0.5s ease-in-out;
+}
+
+@keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-10px); }
+    75% { transform: translateX(10px); }
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .fatefinder-name-fortune-container {
+        padding: 20px 15px;
+    }
+    
+    .fatefinder-name-fortune-title {
+        font-size: 24px;
+    }
+    
+    .fatefinder-name-fortune-subtitle {
+        font-size: 16px;
+    }
+    
+    .fatefinder-name-fortune-description {
+        font-size: 14px;
+        padding: 15px;
+    }
+    
+    .fatefinder-name-fortune-form {
+        padding: 20px;
+    }
+}
+
