@@ -2,6 +2,44 @@
 
 All notable changes to this project will be documented in this file.
 
+## [V25] - 2025-12-07
+
+### Added
+- **FateFinder Domain Fortune WordPress Plugin**:
+  - Domain name and number fortune calculator based on numerology principles
+  - Dual functionality:
+    - **Domain Name Fortune**: Analyzes domain names using weighted frequency method
+    - **Any Number Fortune**: Analyzes any number using digit sum calculation
+  - Complete 81 fortune interpretations (same as domainTest implementation)
+  - Weighted frequency calculation for domain names:
+    - Uppercase letters: E=1, T=2, A=3, ... Z=26
+    - Lowercase letters: e=2, t=3, a=4, ... z=27
+    - Numbers: Keep original value
+    - Special characters: Count as 1
+  - Number calculation: Sum of all digits, then Mod 81
+  - Dark tech theme UI matching other plugins:
+    - Primary color: Light blue #C1D5FF
+    - Accent color: Cream yellow #FFFCCB
+    - Dark background gradient: #0a0a0a to #1a1a2e
+  - WordPress shortcode support: `[fatefinder_domain_fortune]`
+  - Completely free, no login or points required
+  - Frontend calculation (no backend processing needed)
+  - Responsive design for mobile devices
+  - Smooth animations and user-friendly error handling
+  - Loading indicators and animated result display
+
+- **WordPress Plugin Assets**:
+  - `domain-fortune-style.css` for styling
+  - `domain-fortune-script.js` for calculation logic
+
+### Technical Details
+- Uses weighted frequency method for domain name analysis
+- Mod 81 calculation: `sum % 81 === 0 ? 81 : sum % 81`
+- Complete 81 fortune interpretations with detailed divination meanings
+- Consistent styling and guidance text with other FateFinder plugins
+- Client-side calculation for instant results
+- Error handling and input validation
+
 ## [V24] - 2025-12-07
 
 ### Changed
